@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+
+# THIS project
+raw_dataset/*
+train_set/*
+test_set/*
+val_set/*
+debug/*

@@ -1,0 +1,76 @@
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------------------------
+
+// HWDB1.1 (Hugging Face)
+
+Page:
+https://huggingface.co/datasets/OrkaZeta/HWDB1/tree/main
+
+download in shell:
+
+New-Item -ItemType Directory -Force D:\Main\DS_data\HWDB1.1 | Out-Null
+cd D:\Main\DS_data\HWDB1.1
+echo download
+curl.exe -L --retry 5 -C - -O https://huggingface.co/datasets/OrkaZeta/HWDB1/resolve/main/Gnt1.1Test.zip
+curl.exe -L --retry 5 -C - -O https://huggingface.co/datasets/OrkaZeta/HWDB1/resolve/main/Gnt1.1TrainPart1.zip
+curl.exe -L --retry 5 -C - -O https://huggingface.co/datasets/OrkaZeta/HWDB1/resolve/main/Gnt1.1TrainPart2.zip
+echo checksum
+Get-FileHash Gnt1.1Test.zip,Gnt1.1TrainPart1.zip,Gnt1.1TrainPart2.zip -Algorithm SHA256 | Format-Table Hash,Path -AutoSize
+Expand-Archive .\Gnt1.1Test.zip -DestinationPath .\HWDB1.1tst_gnt -Force
+Expand-Archive .\Gnt1.1TrainPart1.zip -DestinationPath .\HWDB1.1trn_gnt -Force
+Expand-Archive .\Gnt1.1TrainPart2.zip -DestinationPath .\HWDB1.1trn_gnt -Force
+
+
+checksum:
+	Test   a845b31cb90939c235396ef16fe19d9dbb3cafc9de0c7c0cb6cf6137a085b35e
+	Part1  f5183891cedc0a47611089453d5cd47128c7a0e873452bf82af9612bfeaf2d91
+	Part2  afd66a128b581ce3649f367a3ea8259d2de604529090d107d897eaadcef64b27
+
+
+
+
+// -----------------------------------------------------------------------------------------
+
+// HWDB1.1 (official)
+
+(1) download (parallel, it's SLOW!)
+
+cd D:\Main\DS_data\HWDB1.1
+curl.exe -L --retry 5 -C - -O https://nlpr.ia.ac.cn/databases/Download/Offline/CharData/Gnt1.1TrainPart1.zip
+
+cd D:\Main\DS_data\HWDB1.1
+curl.exe -L --retry 5 -C - -O https://nlpr.ia.ac.cn/databases/Download/Offline/CharData/Gnt1.1TrainPart2.zip
+
+cd D:\Main\DS_data\HWDB1.1
+curl.exe -L --retry 5 -C - -O https://nlpr.ia.ac.cn/databases/Download/Offline/CharData/Gnt1.1Test.zip
+
+
+(2) unzip
+
+tar -xf Gnt1.1TrainPart1.zip -C HWDB1.1trn_gnt
+tar -xf Gnt1.1TrainPart2.zip -C HWDB1.1trn_gnt
+tar -xf Gnt1.1Test.zip -C HWDB1.1tst_gnt
+
+(3) check count
+
+(Get-ChildItem HWDB1.1trn_gnt\*.gnt).Count
+(Get-ChildItem HWDB1.1tst_gnt\*.gnt).Count
+
+
+
+cd D:\Main\DS_data\HWDB1.1
+curl.exe -L --retry 5 -C - -O https://nlpr.ia.ac.cn/databases/Download/Offline/CharData/Gnt1.1TrainPart2.zip
+
+
+
+
