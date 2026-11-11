@@ -1,9 +1,9 @@
-# DS9000_project
+# DS9000 Project
 
 
 ## Download Dataset
 
-Down HWDB1.1 these from [Hugging Face](https://huggingface.co/datasets/OrkaZeta/HWDB1/tree/main)
+HWDB1.1 from [Hugging Face](https://huggingface.co/datasets/OrkaZeta/HWDB1/tree/main)
 - [TrainPart1.zip]( https://huggingface.co/datasets/OrkaZeta/HWDB1/resolve/main/Gnt1.1TrainPart1.zip)
 - [TrainPart2.zip]( https://huggingface.co/datasets/OrkaZeta/HWDB1/resolve/main/Gnt1.1TrainPart2.zip)
 - [Test.zip]( https://huggingface.co/datasets/OrkaZeta/HWDB1/resolve/main/Gnt1.1Test.zip)
@@ -29,13 +29,15 @@ DS9000_project/
 
 ## Prepare Data
 
-You need to run `a1_prepare_data.py` to prepare data
+Run `a1_prepare_data.py`
 
  - Raw data is packed tightly in `.gnt`, so we pad them back to 256x256, then downscale etc
 
  - Prepared Data is packed into individual "shard" in `/test_set` `/train_set` `/val_set`
 
- - Check this glorious error: numpy._core._exceptions._ArrayMemoryError: Unable to allocate 57.3 GiB for an array with shape (938679, 256, 256) and data type uint8
+ - `val_set` is picked by Writer (not by examples). Since if the model is to generalize, it needs to read handwriting from someone new.
+
+ - TIME TO CLOSE CHROME ... numpy._core._exceptions._ArrayMemoryError: Unable to allocate 57.3 GiB for an array with shape (938679, 256, 256) and data type uint8
 
 Optionally, run `a2_check_shard.py` to eyeball one shard:
  - eg set ```writer = "1001-f"``` to see first guy's hand writing
