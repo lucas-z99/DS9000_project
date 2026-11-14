@@ -19,6 +19,7 @@ RAW_TEST_DIR = RAW_DATA_DIR / "HWDB1.1tst_gnt"
 
 
 # prepared data
+CLASS_DICT = Path("label_to_class.txt")
 TRAIN_SET_DIR = "train_set"
 VAL_SET_DIR = "val_set"
 TEST_SET_DIR = "test_set"
@@ -33,7 +34,40 @@ H_RESIZE = 128
 # ---------------------------------   unpack data   ---------------------------------
 
 
-def unpack_gnt(path, label_only=False):
+def process_gnt_file(gnt_DIR, class_dict, save_DIR):
+    """
+    Process a single .gnt file
+    """
+
+    x = []  # images
+    labels = []  # charactors
+    writer = gnt_DIR.stem
+
+    print(f"Processing: {gnt_DIR.name}")
+
+    for label, unpad_image in _unpack_gnt(gnt_DIR):
+
+        image = image_padding(unpad_image, W_PADDING, H_PADDING)
+        small_image = np.array(
+            Image.fromarray(image).resize((W_RESIZE, H_RESIZE), Image.BOX)
+        )
+
+        x.append(small_image)
+        labels.append(label)
+
+    x = np.array(x)
+    y = np.array([class_dict.get(l, -1) for l in labels])
+    w = np.full(len(x), writer)  # who wrote this
+
+    np.save(f"{save_DIR}/x_{writer}.npy", x)
+    np.save(f"{save_DIR}/y_{writer}.npy", y)
+    np.save(f"{save_DIR}/w_{writer}.npy", w)
+
+
+def _unpack_gnt(path, label_only=False):
+    """
+    Handle the bits
+    """
     with open(path, "rb") as file:
         while True:
             header = file.read(10)
@@ -53,39 +87,12 @@ def unpack_gnt(path, label_only=False):
                 yield label, image
 
 
-def process_data_set(gnt_DIR, class_dict, save_DIR):
-
-    x = []  # images
-    labels = []  # charactors
-    writer = gnt_DIR.stem
-
-    print(f"WIP: {writer}")
-
-    for label, unpad_image in unpack_gnt(gnt_DIR):
-
-        image = image_padding(unpad_image, W_PADDING, H_PADDING)
-        small_image = np.array(
-            Image.fromarray(image).resize((W_RESIZE, H_RESIZE), Image.BOX)
-        )
-
-        x.append(small_image)
-        labels.append(label)
-
-    x = np.array(x)
-    y = np.array([class_dict.get(l, -1) for l in labels])
-    w = np.full(len(x), writer)  # who wrote this
-
-    np.save(f"{save_DIR}/x_{writer}.npy", x)
-    np.save(f"{save_DIR}/y_{writer}.npy", y)
-    np.save(f"{save_DIR}/w_{writer}.npy", w)
-
-
 # ---------------------------------   image padding   ---------------------------------
 
 
 def image_padding(image, width, height):
     """
-    add padding around image
+    Add padding around image
     """
 
     h, w = image.shape
@@ -105,7 +112,7 @@ def image_padding(image, width, height):
     return padded
 
 
-def padding_test():
+def image_padding_test():
     print(">> image padding test")
 
     arr = np.random.randint(0, 255, size=(500, 41), dtype=np.uint8)
@@ -134,12 +141,31 @@ def safe_file_name(label):
 
 
 def build_class_dict():
+    """
+    label -> class index
+
+    Load dict if it exists
+    Otherwise scan all gnt, create and return the new dict
+    """
+
+    if CLASS_DICT.is_file():
+        labels = CLASS_DICT.read_text(encoding="utf-8").splitlines()
+        if labels:
+            print(f">> Class dict loaded")
+            return {label: i for i, label in enumerate(labels)}
+
+    print("[Notice] Class dict missing, rebuilding... ")
+
     labels = set()
     for folder in (RAW_TRAIN_DIR, RAW_TEST_DIR):
         for gnt in sorted(f for f in folder.iterdir() if f.is_file()):
-            for label, _ in unpack_gnt(gnt, label_only=True):
+            for label, _ in _unpack_gnt(gnt, label_only=True):
                 labels.add(label)
-    return {l: i for i, l in enumerate(sorted(labels))}
+    class_dict = {l: i for i, l in enumerate(sorted(labels))}
+    CLASS_DICT.write_text("\n".join(class_dict), encoding="utf-8")
+
+    print(f"[Notice] Class dict ({len(class_dict)}) saved to {CLASS_DICT} ")
+    return class_dict
 
 
 def main():
@@ -151,54 +177,27 @@ def main():
     # ----------   collect labels, generate class   ----------
 
     class_dict = build_class_dict()
-    Path("label_to_class.txt").write_text("\n".join(class_dict), encoding="utf-8")
-    print(f"class = {len(class_dict)}, should be ~3922")
 
     # ----------   split train / val from RAW_TRAIN_SET   ----------
 
     random.seed(42)
     _writers = [f.stem for f in RAW_TRAIN_DIR.iterdir() if f.is_file()]
-    val_writers = random.sample(sorted(set(_writers)), 20)
-    print(">> Validation = ", val_writers)
-    Path("val_writers.txt").write_text("\n".join(val_writers), encoding="utf-8")
+    val_set = random.sample(sorted(set(_writers)), 20)
+    print(">> val_set chosen: ", val_set)
+    Path("val_set.txt").write_text("\n".join(val_set), encoding="utf-8")
 
     # ----------   prepare data   ----------
 
     for gnt in [f for f in Path(RAW_TRAIN_DIR).iterdir() if f.is_file()]:
-        if gnt.stem in val_writers:
-            process_data_set(gnt, class_dict, VAL_SET_DIR)
+        if gnt.stem in val_set:
+            process_gnt_file(gnt, class_dict, VAL_SET_DIR)
         else:
-            process_data_set(gnt, class_dict, TRAIN_SET_DIR)
+            process_gnt_file(gnt, class_dict, TRAIN_SET_DIR)
 
     for gnt in [f for f in Path(RAW_TEST_DIR).iterdir() if f.is_file()]:
-        process_data_set(gnt, class_dict, TEST_SET_DIR)
-
-    # ----------   prepare data [SMALL TEST]   ----------
-
-    # files = sorted(f for f in RAW_TRAIN_SET_DIR.iterdir() if f.is_file())
-    # test_files = [f for f in files if f.stem not in val_writers][:2] + [
-    #     f for f in files if f.stem in val_writers
-    # ][:1]
-    # for gnt in test_files:
-    #     if gnt.stem in val_writers:
-    #         process_data_set(gnt, class_dict, VAL_SET_DIR)
-    #     else:
-    #         process_data_set(gnt, class_dict, TRAIN_SET_DIR)
+        process_gnt_file(gnt, class_dict, TEST_SET_DIR)
 
     print("\nDONE!")
-    # print(f"train set       = {len(x_train)}")
-    # print(f"val set         = {len(x_val)}")
-    # print(f"test set        = {len(x_test)}")
-    # print(f"unique char     = {len(class_dict)}")
-
-    # print("\nmissing char in each set:")
-    # print(f"train: {int((y_train == -1).sum())} char are never learned")
-    # print(f"val:   {int((y_val == -1).sum())}")
-    # print(f"test:  {int((y_test == -1).sum())} char are never tested")
-
-    # assert len(x_train) == len(y_train) == len(y_writer)
-    # assert len(x_val) == len(y_val) == len(y_writer_val)
-    # assert len(x_test) == len(y_test) == len(y_writers_test)
 
 
 if __name__ == "__main__":

@@ -226,3 +226,5 @@ train_set/*
 test_set/*
 val_set/*
 debug/*
+label_to_class.txt
+train_log.csv
