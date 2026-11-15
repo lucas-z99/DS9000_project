@@ -1,18 +1,29 @@
 import numpy as np
 from pathlib import Path
 from PIL import Image
-from a1_prepare_data import safe_file_name, build_class_dict
+from a1_prepare_data import (
+    safe_file_name,
+    build_class_dict,
+    split_path,
+    prepare_data,
+    IMG_RESIZE,
+)
 
 # ------------------------ check one shard ------------------------
 
+image_size = 128
 writer = "1052-f"
+if image_size not in IMG_RESIZE:
+    raise ValueError(f"{image_size} is not in IMG_RESIZE {IMG_RESIZE}")
+prepare_data()
+root = split_path(image_size, "train")
 
 
 # ------------------------ business ------------------------
 
-x = np.load(f"train_set/x_{writer}.npy")
-y = np.load(f"train_set/y_{writer}.npy")
-w = np.load(f"train_set/w_{writer}.npy")
+x = np.load(f"{root}/x_{writer}.npy")
+y = np.load(f"{root}/y_{writer}.npy")
+w = np.load(f"{root}/w_{writer}.npy")
 classes = list(build_class_dict())
 
 print(x.shape, x.dtype)  # ~3900, 128x128, uint8

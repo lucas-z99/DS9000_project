@@ -18,50 +18,79 @@ RAW_TRAIN_DIR = RAW_DATA_DIR / "HWDB1.1trn_gnt"
 RAW_TEST_DIR = RAW_DATA_DIR / "HWDB1.1tst_gnt"
 
 
-# prepared data
-CLASS_DICT = Path("label_to_class.txt")
-TRAIN_SET_DIR = "train_set"
-VAL_SET_DIR = "val_set"
-TEST_SET_DIR = "test_set"
-
 # image
-W_PADDING = 256  # padding (before resize)
-H_PADDING = 256
-W_RESIZE = 128  # resize
-H_RESIZE = 128
+PADDING = 256  # padding the original images (before resize)
+IMG_RESIZE = [128, 96, 64, 48, 32, 24]  # [128, 96, 64, 48, 32, 24]
+
+# ---------------------------------   config   ---------------------------------
+
+# others
+CLASS_DICT_DIR = Path("label_to_class.txt")
+VAL_LIST_DIR = Path("val_set.txt")
 
 
 # ---------------------------------   unpack data   ---------------------------------
 
 
-def process_gnt_file(gnt_DIR, class_dict, save_DIR):
+def split_path(size, split):
     """
-    Process a single .gnt file
+    prepared/<size>/<split>
     """
 
-    x = []  # images
-    labels = []  # charactors
+    if split not in ("train", "val", "test"):
+        raise ValueError(f"split must be train, val, or test, got {split}")
+    return (Path("prepared") / str(size) / split).as_posix()
+
+
+def resize_image(image, size):
+    """
+    Resize from the padded image. BOX keeps the area average.
+    """
+
+    if image.shape == (size, size):
+        return image
+    resized = Image.fromarray(image).resize((size, size), Image.BOX)
+    return np.array(resized, dtype=np.uint8)
+
+
+def process_gnt_file(gnt_DIR, class_dict, outputs):
+    """
+    Process a single .gnt file.
+
+    outputs: list of (image_size, save_dir).
+    Pad each character to 256 once, then resize to every size.
+    Skip a size whose x_ file is already saved.
+    """
+
     writer = gnt_DIR.stem
+    pending = []
+    for size, save_dir in outputs:
+        save_dir = Path(save_dir)
+        save_dir.mkdir(parents=True, exist_ok=True)
+        if (save_dir / f"x_{writer}.npy").is_file():
+            continue
+        pending.append((size, save_dir))
+    if not pending:
+        return
 
-    print(f"Processing: {gnt_DIR.name}")
+    print(f"Processing: {gnt_DIR.name} -> {[size for size, _ in pending]}")
+
+    buckets = {size: [] for size, _ in pending}
+    labels = []
 
     for label, unpad_image in _unpack_gnt(gnt_DIR):
-
-        image = image_padding(unpad_image, W_PADDING, H_PADDING)
-        small_image = np.array(
-            Image.fromarray(image).resize((W_RESIZE, H_RESIZE), Image.BOX)
-        )
-
-        x.append(small_image)
+        image = image_padding(unpad_image, PADDING, PADDING)
         labels.append(label)
+        for size, _ in pending:
+            buckets[size].append(resize_image(image, size))
 
-    x = np.array(x)
     y = np.array([class_dict.get(l, -1) for l in labels])
-    w = np.full(len(x), writer)  # who wrote this
+    w = np.full(len(labels), writer)  # who wrote this
 
-    np.save(f"{save_DIR}/x_{writer}.npy", x)
-    np.save(f"{save_DIR}/y_{writer}.npy", y)
-    np.save(f"{save_DIR}/w_{writer}.npy", w)
+    for size, save_dir in pending:
+        np.save(save_dir / f"x_{writer}.npy", np.array(buckets[size]))
+        np.save(save_dir / f"y_{writer}.npy", y)
+        np.save(save_dir / f"w_{writer}.npy", w)
 
 
 def _unpack_gnt(path, label_only=False):
@@ -87,7 +116,7 @@ def _unpack_gnt(path, label_only=False):
                 yield label, image
 
 
-# ---------------------------------   image padding   ---------------------------------
+# ---------------------------------   image   ---------------------------------
 
 
 def image_padding(image, width, height):
@@ -124,7 +153,7 @@ def image_padding_test():
     Image.fromarray(result).save("image_padding_test1.png")
 
 
-# ---------------------------------   only used occationally   ---------------------------------
+# ---------------------------------   others   ---------------------------------
 
 
 def safe_file_name(label):
@@ -148,8 +177,8 @@ def build_class_dict():
     Otherwise scan all gnt, create and return the new dict
     """
 
-    if CLASS_DICT.is_file():
-        labels = CLASS_DICT.read_text(encoding="utf-8").splitlines()
+    if CLASS_DICT_DIR.is_file():
+        labels = CLASS_DICT_DIR.read_text(encoding="utf-8").splitlines()
         if labels:
             print(f">> Class dict loaded")
             return {label: i for i, label in enumerate(labels)}
@@ -162,43 +191,92 @@ def build_class_dict():
             for label, _ in _unpack_gnt(gnt, label_only=True):
                 labels.add(label)
     class_dict = {l: i for i, l in enumerate(sorted(labels))}
-    CLASS_DICT.write_text("\n".join(class_dict), encoding="utf-8")
+    CLASS_DICT_DIR.write_text("\n".join(class_dict), encoding="utf-8")
 
-    print(f"[Notice] Class dict ({len(class_dict)}) saved to {CLASS_DICT} ")
+    print(f"[Notice] Class dict ({len(class_dict)}) saved to {CLASS_DICT_DIR} ")
     return class_dict
 
 
-def main():
+def _gnt_stems(folder):
+    if not folder.is_dir():
+        raise FileNotFoundError(f"raw data not found: {folder}")
+    stems = {f.stem for f in folder.iterdir() if f.is_file()}
+    if not stems:
+        raise FileNotFoundError(f"no .gnt files in {folder}")
+    return stems
 
-    Path(TRAIN_SET_DIR).mkdir(parents=True, exist_ok=True)
-    Path(VAL_SET_DIR).mkdir(parents=True, exist_ok=True)
-    Path(TEST_SET_DIR).mkdir(parents=True, exist_ok=True)
 
-    # ----------   collect labels, generate class   ----------
+def val_writers():
+    """
+    Pick 20 writers as val_set (from HWDB1.1trn_gnt)
+    Use a fixed seed
+    """
 
+    if not VAL_LIST_DIR.is_file():
+        random.seed(42)
+        chosen = random.sample(sorted(_gnt_stems(RAW_TRAIN_DIR)), 20)
+        VAL_LIST_DIR.write_text("\n".join(chosen), encoding="utf-8")
+        print(">> val_set chosen:", chosen)
+
+    return {
+        line.strip()
+        for line in VAL_LIST_DIR.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    }
+
+
+def writers_by_split():
+    val = val_writers()
+    train = _gnt_stems(RAW_TRAIN_DIR)
+    missing = val - train
+    if missing:
+        raise ValueError(f"val_set.txt has writers not in raw train: {sorted(missing)}")
+    return {"train": train - val, "val": val, "test": _gnt_stems(RAW_TEST_DIR)}
+
+
+def _saved_writers(size, split):
+    folder = Path(split_path(size, split))
+    return {path.stem.removeprefix("x_") for path in folder.glob("x_*.npy")}
+
+
+def size_ready(size, groups=None):
+    if groups is None:
+        groups = writers_by_split()
+    return all(groups[split] <= _saved_writers(size, split) for split in groups)
+
+
+def prepare_data():
+    """
+    Prepare image for requested sizes
+    Saved in: prepared/<size>/{train, val, test}
+    Skip if already there
+
+    Load one gnt -> unpack images/label -> pad to 256x256 -> resizes
+    """
+
+    groups = writers_by_split()
+    have = [size for size in IMG_RESIZE if size_ready(size, groups)]
+    need = [size for size in IMG_RESIZE if size not in have]
+    # if have:
+    #     print(f">> already on disk: {have}")
+    if not need:
+        return
+
+    print(f">> preparing: {need}")
     class_dict = build_class_dict()
 
-    # ----------   split train / val from RAW_TRAIN_SET   ----------
+    def outputs_for(split):
+        return [(size, split_path(size, split)) for size in need]
 
-    random.seed(42)
-    _writers = [f.stem for f in RAW_TRAIN_DIR.iterdir() if f.is_file()]
-    val_set = random.sample(sorted(set(_writers)), 20)
-    print(">> val_set chosen: ", val_set)
-    Path("val_set.txt").write_text("\n".join(val_set), encoding="utf-8")
+    for gnt in sorted(f for f in RAW_TRAIN_DIR.iterdir() if f.is_file()):
+        split = "val" if gnt.stem in groups["val"] else "train"
+        process_gnt_file(gnt, class_dict, outputs_for(split))
 
-    # ----------   prepare data   ----------
-
-    for gnt in [f for f in Path(RAW_TRAIN_DIR).iterdir() if f.is_file()]:
-        if gnt.stem in val_set:
-            process_gnt_file(gnt, class_dict, VAL_SET_DIR)
-        else:
-            process_gnt_file(gnt, class_dict, TRAIN_SET_DIR)
-
-    for gnt in [f for f in Path(RAW_TEST_DIR).iterdir() if f.is_file()]:
-        process_gnt_file(gnt, class_dict, TEST_SET_DIR)
+    for gnt in sorted(f for f in RAW_TEST_DIR.iterdir() if f.is_file()):
+        process_gnt_file(gnt, class_dict, outputs_for("test"))
 
     print("\nDONE!")
 
 
 if __name__ == "__main__":
-    main()
+    prepare_data()

@@ -19,11 +19,13 @@ DS9000_project/
 
 ## About this dataset
 
-938679 Examples
+Training set:
 
-3922 Unique charactors
+ - 938679 Examples, by 240 Writers
 
-`a0_eyeball_image_dim.py`:
+ - 3922 Unique charactors
+
+ - Image dim (max = ~256x256)
 
 <img src="./others/image-dim-plot.png" alt="Description" width="500" height="450">
 
@@ -31,28 +33,52 @@ DS9000_project/
 
 Run `a1_prepare_data.py`
 
- - Raw data is packed tightly in `.gnt`, so we pad them back to 256x256, then downscale etc
+ - Prepared data is packed into shards under `prepared/<size>/train`, `/val`, `/test`
 
- - Prepared Data is packed into individual "shard" in `/test_set` `/train_set` `/val_set`
+ - `val_set` is randomly picked by Writer (not by examples). Since if the model is to generalize, it needs to read handwriting from someone new.
 
- - `val_set` is picked by Writer (not by examples). Since if the model is to generalize, it needs to read handwriting from someone new.
 
- - TIME TO CLOSE CHROME ... numpy._core._exceptions._ArrayMemoryError: Unable to allocate 57.3 GiB for an array with shape (938679, 256, 256) and data type uint8
+## Eyeball the Data
 
-Optionally, run `a2_check_shard.py` to eyeball one shard:
+Run `a2_check_shard.py` to unpack one shard in `/debug`:
  - eg set ```writer = "1001-f"``` to see first guy's hand writing
  - eg set ```writer = "1052-f"```
 
- - etc
 
 
 
 
 
 
-## Training
-WIP, Coming soon
+## Models
 
+### The Classifier
+Standard Fully connected network. See `NN_Clasifier.py`
+
+ - Test run #1: loss=3.5, accuracy=24.3% (ReLU / 2500 loops / n_x = 128x128 / n_y = 3900). Stopped due to taking too long! Will resize image and try a longer training session.
+
+### The CNN
+Standard CNN. All hail the matrix machine god.
+
+(WIP)
+
+### The Verifier
+Is Siamese NN a good fit?
+
+(WIP)
+
+
+## TensorBoard
+
+To use the Dashboard, run in console:
+
+    tensorboard --logdir runs
+
+Then open in browser:
+
+    http://localhost:6006/    
+
+<img src="./others/tensorboard.png" alt="Description">
 
 
 ## Random Idea

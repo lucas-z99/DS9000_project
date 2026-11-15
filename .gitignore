@@ -225,6 +225,7 @@ raw_dataset/*
 train_set/*
 test_set/*
 val_set/*
+prepared/
 debug/*
 label_to_class.txt
-train_log.csv
+runs/

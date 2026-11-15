@@ -4,6 +4,7 @@ import torch
 from pathlib import Path
 from torch.utils.data import DataLoader
 import time
+from a1_prepare_data import split_path, prepare_data, IMG_RESIZE
 
 
 class ShardDataset:
@@ -11,14 +12,20 @@ class ShardDataset:
     Provides file look up
     """
 
-    def __init__(self, data_DIR, cap_y=None):
+    def __init__(self, split, image_size=128, cap_y=None):
         """
         scan all data files and map { index -> files }
         so others can __getitem__(i)
 
+        split = "train", "val", or "test"
+        image_size picks prepared/<size>/<split>.
         cap_y = load a smaller set by capping the class y
         """
 
+        if image_size not in IMG_RESIZE:
+            raise ValueError(f"{image_size} is not in IMG_RESIZE {IMG_RESIZE}")
+        prepare_data()
+        data_DIR = split_path(image_size, split)
         x_DIRs = sorted(Path(data_DIR).glob("x_*.npy"))
         self.XX = []
         self.YY = []
@@ -67,7 +74,7 @@ def load_test():
     print("load_test()")
 
     # load shards
-    dataset = ShardDataset("train_set")
+    dataset = ShardDataset("train")
     print(len(dataset))  # should be ~860000
 
     # PyTorch loader (random pick)
