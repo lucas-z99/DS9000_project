@@ -81,6 +81,28 @@ Then open in browser:
 <img src="./others/tensorboard.png" alt="Description">
 
 
+## STOP training midway
+
+To stop a training session, create a file named "STOP" in the model folder (eg `\runs\24_1000-1200_20261115_074744`), the code will exit after finishing the current epoch.
+
+Just ctrl+c to exit is usually safe too (If you are very+very+very unlucky this can currput log/model file)
+
+
+## Image Size Study
+
+
+ - Big image size = overfitting early
+ - This is an unintentional effect of larger input. A red model (128) has 4x more weight in layer_1 than purple model (64), but the charactors only provides about the same patterns to learn, so the model has a lot more room to memorize.
+ - This implies there is a race between "memorization"(M) and "generalization"(G).
+ - A model is always simultaneously memorizing and generalizing. And if M peaks earlier, then the result plateau is lower (eg. all purple plateau is higher than any red). 
+ - So we should deny M, to allow G to reach full saturation, then stop training immediately. 
+ - This explains why various techniques all sum-up to "add noise / randomness / chaos" to the sauce. Chaos is asymmetric. You can't memorize chaos (by def), but you might learn how to mitigate it, or even in this case, utilize it.
+
+
+<img src="./others/size-study-y200.png" alt="Description">
+
+
+
 ## Random Idea
  - Normalize color? if some dark, some brighter
  - Rid of RBG? Since it's basically grayscale

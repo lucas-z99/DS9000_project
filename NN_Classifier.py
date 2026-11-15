@@ -1,8 +1,18 @@
+import ctypes
 import json
+import sys
+from contextlib import contextmanager
+from ctypes import wintypes
 from datetime import datetime
 from pathlib import Path
 import torch.nn as nn
-from dataloader import ShardDataset
+from dataloader import (
+    ShardDataset,
+    classes_note,
+    n_labels,
+    resolve_classes,
+    run_tag,
+)
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 import torch
@@ -139,31 +149,113 @@ def eval_and_log(step, epoch, loss_value, train_acc, t):
     return now
 
 
+class _ReasonDetail(ctypes.Structure):
+    _fields_ = [
+        ("LocalizedReasonModule", wintypes.HMODULE),
+        ("LocalizedReasonId", wintypes.ULONG),
+        ("ReasonStringCount", wintypes.ULONG),
+        ("ReasonStrings", ctypes.POINTER(wintypes.LPWSTR)),
+    ]
+
+
+class _Reason(ctypes.Union):
+    _fields_ = [
+        ("Detailed", _ReasonDetail),
+        ("SimpleReasonString", wintypes.LPWSTR),
+    ]
+
+
+class _ReasonContext(ctypes.Structure):
+    _fields_ = [
+        ("Version", wintypes.ULONG),
+        ("Flags", wintypes.DWORD),
+        ("Reason", _Reason),
+    ]
+
+
+_SYSTEM_REQUIRED = 1
+_EXECUTION_REQUIRED = 3
+
+
+@contextmanager
+def stay_awake():
+    """
+    Keep this process running through Modern Standby until the run ends.
+    The screen can still turn off.
+    """
+
+    if sys.platform != "win32":
+        yield
+        return
+
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel32.PowerCreateRequest.argtypes = [ctypes.POINTER(_ReasonContext)]
+    kernel32.PowerCreateRequest.restype = wintypes.HANDLE
+    kernel32.PowerSetRequest.argtypes = [wintypes.HANDLE, ctypes.c_int]
+    kernel32.PowerSetRequest.restype = wintypes.BOOL
+    kernel32.PowerClearRequest.argtypes = [wintypes.HANDLE, ctypes.c_int]
+    kernel32.PowerClearRequest.restype = wintypes.BOOL
+    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel32.CloseHandle.restype = wintypes.BOOL
+
+    context = _ReasonContext()
+    context.Version = 0
+    context.Flags = 0x1
+    context.Reason.SimpleReasonString = "DS9000 training"
+    handle = kernel32.PowerCreateRequest(ctypes.byref(context))
+    if not handle:
+        print(f">> stay awake failed: {ctypes.WinError(ctypes.get_last_error())}")
+        yield
+        return
+
+    held = []
+    try:
+        for kind in (_SYSTEM_REQUIRED, _EXECUTION_REQUIRED):
+            if kernel32.PowerSetRequest(handle, kind):
+                held.append(kind)
+            else:
+                print(
+                    f">> stay awake failed: {ctypes.WinError(ctypes.get_last_error())}"
+                )
+        if held:
+            print(">> Stay awake until this run ends")
+        yield
+    finally:
+        for kind in held:
+            kernel32.PowerClearRequest(handle, kind)
+        kernel32.CloseHandle(handle)
+
+
 if __name__ == "__main__":
 
     # -----------------------   config   -----------------------
 
-    n_class = 3922
-    epochs = 2
+    # classes = range(1000, 1200)                  # contiguous, ids 1000..1199
+    # classes = list(range(0, 200)) + [205, 210]   # mixed
+    # classes = None                               # every label in label_to_class.txt
+    classes = None
+
+    epochs = 3
     eval_per = 100  # evaluate() and log every X batches
-    image_size = 64  # [128, 96, 64, 48, 32, 24]
+    image_size = 48  # [128, 96, 64, 48, 32, 24]
+    lr = 1e-3  # -3 -4 -5
+
     n1 = 512
     n2 = 256
     batch_size = 256
     batch_size_val = 1024
-    lr = 1e-3
 
     # -----------------------   RESUME training   -----------------------
     """
     RESUME = None                   // train a new model
     RESUME = "runs/<run>/model.pt"  // continue training
+
+    eg
+    RESUME = "runs/123_456_789/model.pt"
     """
 
-    RESUME = "runs/64_3922_20261114_191011/model.pt"
-
-    """
-    "runs/64_3922_20261114_191011/model.pt"
-    """
+    RESUME = "runs/48_3922_20261115_092637/model.pt"
+    # RESUME = "runs/48_1000-1200_20261115_074811/model.pt"
 
     # -----------------------   Tensorboard   -----------------------
 
@@ -175,9 +267,13 @@ if __name__ == "__main__":
 
     # ----------------------------------------------------------
 
+    label_n = n_labels()
     if RESUME is None:
+        class_ids = resolve_classes(classes, label_n)
+        n_class = label_n if class_ids is None else len(class_ids)
         run_dir = Path(
-            f"runs/{image_size}_{n_class}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            f"runs/{image_size}_{run_tag(class_ids, label_n)}_"
+            f"{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         )
         run_dir.mkdir(parents=True, exist_ok=True)
         model_path = run_dir / "model.pt"
@@ -199,7 +295,16 @@ if __name__ == "__main__":
         image_size = saved_config["image_size"]
         n1 = saved_config["n1"]
         n2 = saved_config["n2"]
-        lr = saved_config["lr"]
+        if "classes" in saved_config:
+            saved_classes = saved_config["classes"]
+        else:
+            saved_classes = range(0, n_class)
+        class_ids = resolve_classes(saved_classes, label_n)
+        got = label_n if class_ids is None else len(class_ids)
+        if got != n_class:
+            raise ValueError(
+                f"checkpoint n_class={n_class} does not match classes ({got})"
+            )
         next_epoch = saved["epoch"]
         step = saved["step"]
         model = NN_Classifier(
@@ -211,13 +316,17 @@ if __name__ == "__main__":
         model.load_state_dict(saved["model"])
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
         optimizer.load_state_dict(saved["optimizer"])
+        for group in optimizer.param_groups:
+            group["lr"] = lr
         print(f">> resume: {model_path}")
 
     loss_fn = nn.CrossEntropyLoss()
     print(f"Model:\n{model}")
 
+    note = classes_note(class_ids)
+
     # train set
-    dataset = ShardDataset("train", image_size=image_size, cap_y=n_class)
+    dataset = ShardDataset("train", image_size=image_size, classes=class_ids)
     loader = DataLoader(
         dataset,
         batch_size=batch_size,  # traning batch size. small = less noise = better training?
@@ -225,12 +334,14 @@ if __name__ == "__main__":
     )
 
     # val set
-    val_set = ShardDataset("val", image_size=image_size, cap_y=n_class)
+    val_set = ShardDataset("val", image_size=image_size, classes=class_ids)
     val_loader = DataLoader(val_set, batch_size=batch_size_val, shuffle=False)
 
     # logs
     config = {
         "n_class": n_class,
+        "classes": class_ids,
+        "classes_note": note,
         "epochs": epochs,
         "eval_per": eval_per,
         "image_size": image_size,
@@ -239,10 +350,9 @@ if __name__ == "__main__":
         "n2": n2,
         "batch_size": batch_size,
         "val_batch_size": batch_size_val,
-        "lr": lr,
         "optimizer": "Adam",
     }
-    print(f">> Config: {n_class=}, {image_size=}, {epochs=}, {RESUME=}")
+    print(f">> Config: {n_class=}, classes={note}, {image_size=}, {epochs=}, {RESUME=}")
     print(f">> TensorBoard: {run_dir}")
 
     t0 = t = time.time()
@@ -252,6 +362,7 @@ if __name__ == "__main__":
         "\n".join(
             [
                 f"n_class: {n_class}",
+                f"classes: {note}",
                 f"epochs: {epochs}",
                 f"eval_per: {eval_per}",
                 f"image_size: {image_size}",
@@ -259,7 +370,6 @@ if __name__ == "__main__":
                 f"n2: {n2}",
                 f"batch_size: {batch_size}",
                 f"val_batch_size: {batch_size_val}",
-                f"lr: {lr}",
                 "optimizer: Adam",
             ]
         ),
@@ -272,85 +382,92 @@ if __name__ == "__main__":
 
     # training loop
     print(">> Training start:")
-    print(f">> Total Batch: {step} -> {step + 938679/batch_size * epochs:.0f}")
+    print(f">> To stop after this epoch: create {run_dir / 'STOP'}")
 
-    try:
-        save_run(
-            run_dir,
-            model_path,
-            model,
-            optimizer,
-            config,
-            step,
-            next_epoch,
-            last_loss,
-            last_val_acc,
-            last_val_loss,
-            last_top5,
-            finished=False,
-            write_model=False,
-        )
-        for epoch in range(next_epoch, next_epoch + epochs):
-            last_logged = None
-            for x, y in loader:
-                optimizer.zero_grad()  # clear gradiants
-
-                y_hat = model(x)
-                loss = loss_fn(y_hat, y)
-                loss.backward()
-                optimizer.step()
-
-                loss_value = loss.item()
-                train_acc = (y_hat.argmax(dim=1) == y).float().mean().item()
-                tb.add_scalar("loss/train", loss_value, step)
-                tb.add_scalar("acc/train", train_acc, step)
-                if step % eval_per == 0:
-                    t = eval_and_log(step, epoch, loss_value, train_acc, t)
-                    last_logged = step
-                step += 1
-
-            if last_logged != step - 1:
-                t = eval_and_log(step - 1, epoch, loss_value, train_acc, t)
-            next_epoch = epoch + 1
-
-        if last_val_acc is not None:
-            tb.add_hparams(
-                {
-                    "n_class": n_class,
-                    "epochs": epochs,
-                    "eval_per": eval_per,
-                    "image_size": image_size,
-                    "n1": n1,
-                    "n2": n2,
-                    "batch_size": batch_size,
-                    "val_batch_size": batch_size_val,
-                    "lr": lr,
-                    "optimizer": "Adam",
-                },
-                {
-                    "acc/val": last_val_acc,
-                    "acc/val_top5": last_top5,
-                    "loss/train": last_loss,
-                    "loss/val": last_val_loss,
-                },
+    with stay_awake():
+        try:
+            save_run(
+                run_dir,
+                model_path,
+                model,
+                optimizer,
+                config,
+                step,
+                next_epoch,
+                last_loss,
+                last_val_acc,
+                last_val_loss,
+                last_top5,
+                finished=False,
+                write_model=False,
             )
-        finished = True
-    finally:
-        save_run(
-            run_dir,
-            model_path,
-            model,
-            optimizer,
-            config,
-            step,
-            next_epoch,
-            last_loss,
-            last_val_acc,
-            last_val_loss,
-            last_top5,
-            finished,
-            write_model=True,
-        )
-        tb.close()
+            for epoch in range(next_epoch, next_epoch + epochs):
+                last_logged = None
+                for x, y in loader:
+                    optimizer.zero_grad()  # clear gradiants
+
+                    y_hat = model(x)
+                    loss = loss_fn(y_hat, y)
+                    loss.backward()
+                    optimizer.step()
+
+                    loss_value = loss.item()
+                    train_acc = (y_hat.argmax(dim=1) == y).float().mean().item()
+                    tb.add_scalar("loss/train", loss_value, step)
+                    tb.add_scalar("acc/train", train_acc, step)
+                    tb.add_scalar("lr", lr, step)
+                    if step % eval_per == 0:
+                        t = eval_and_log(step, epoch, loss_value, train_acc, t)
+                        last_logged = step
+                    step += 1
+
+                if last_logged != step - 1:
+                    t = eval_and_log(step - 1, epoch, loss_value, train_acc, t)
+                next_epoch = epoch + 1
+                stop_file = run_dir / "STOP"
+                if stop_file.is_file():
+                    stop_file.unlink()
+                    print(f">> STOP found, ending after epoch {epoch}")
+                    break
+
+            if last_val_acc is not None:
+                tb.add_hparams(
+                    {
+                        "n_class": n_class,
+                        "classes": note,
+                        "epochs": epochs,
+                        "eval_per": eval_per,
+                        "image_size": image_size,
+                        "n1": n1,
+                        "n2": n2,
+                        "batch_size": batch_size,
+                        "val_batch_size": batch_size_val,
+                        "optimizer": "Adam",
+                    },
+                    {
+                        "acc/val": last_val_acc,
+                        "acc/val_top5": last_top5,
+                        "loss/train": last_loss,
+                        "loss/val": last_val_loss,
+                    },
+                )
+            finished = True
+        finally:
+            save_run(
+                run_dir,
+                model_path,
+                model,
+                optimizer,
+                config,
+                step,
+                next_epoch,
+                last_loss,
+                last_val_acc,
+                last_val_loss,
+                last_top5,
+                finished,
+                write_model=True,
+            )
+            tb.close()
 
     print(f"total t={(time.time() - t0)/60:.1f} min")

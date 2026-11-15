@@ -11,7 +11,7 @@ from a1_prepare_data import (
 
 # ------------------------ check one shard ------------------------
 
-image_size = 128
+image_size = 64
 writer = "1052-f"
 if image_size not in IMG_RESIZE:
     raise ValueError(f"{image_size} is not in IMG_RESIZE {IMG_RESIZE}")
@@ -33,8 +33,8 @@ print(f"writer = {w[:3]}")
 Path("debug").mkdir(parents=True, exist_ok=True)
 DIR = "debug"
 
-for i in range(0, 2000, 50):
+for i in range(0, 3900, 1):
     label = classes[y[i]]
-    Image.fromarray(x[i]).save(f"{DIR}/{safe_file_name(label)}_{y[i]}.png")
+    Image.fromarray(x[i]).save(f"{DIR}/{y[i]}_{safe_file_name(label)}.png")
 
 print(f">> images saved to {DIR}")
