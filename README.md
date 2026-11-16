@@ -88,18 +88,33 @@ To stop a training session, create a file named "STOP" in the model folder (eg `
 Just ctrl+c to exit is usually safe too (If you are very+very+very unlucky this can currput log/model file)
 
 
-## Image Size Study
+## Image Size and its unintentional effect.
 
 
- - Big image size = overfitting early
- - This is an unintentional effect of larger input. A red model (128) has 4x more weight in layer_1 than purple model (64), but the charactors only provides about the same patterns to learn, so the model has a lot more room to memorize.
- - This implies there is a race between "memorization"(M) and "generalization"(G).
- - A model is always simultaneously memorizing and generalizing. And if M peaks earlier, then the result plateau is lower (eg. all purple plateau is higher than any red). 
- - So we should deny M, to allow G to reach full saturation, then stop training immediately. 
- - This explains why various techniques all sum-up to "add noise / randomness / chaos" to the sauce. Chaos is asymmetric. You can't memorize chaos (by def), but you might learn how to mitigate it, or even in this case, utilize it.
+Big image = overfitting earlier
 
+ - This is due to large input -> large input layer. A red model (128) has 4x more weight in layer 0 than purple model (64), but the charactors only provides the same patterns to learn, so the model has a lot more room to memorize.
+ - Here is the mental picture: inside a modal there's a race between memorizing (M) and generalizing (G)
 
+ - To tell M/G apart: M memorize existing data, but fail when given never-seen new data. G assume something beyond existing data, and later makes educated guesses (though wrong from time to time)
+ 
+ - A model is always M and G simultaneously. So the ideal strategy is  deny M, speed-up G, and stop training when G peaks.
+
+ - For the 128 model, M is encouraged. 64 avoid it mostly (but start to fail after exessive epoch), 48 avoid it entirely. STOP the training when G peak.
+
+ 
 <img src="./others/size-study-y200.png" alt="Description">
+
+
+ - It also seems if M peaks earlier, the result plateau will be lower (ie dumber). This principle appears in 2 places already (in NN_Classifier): 
+        
+        1) In 128 test, Purple plateaued higher than Red
+
+        2) A new model with dropout() plateau higher. If apply dropout() to an existing model, it seems to stuck at lower plateau
+
+ - So once build-up, M is hard to rid of.
+
+ - This also explains why various techniques all sum-up to "add noise / add chaos". Chaos is asymmetric to M and G. You can't memorize it (by def), but a generalized model can mitigate it.
 
 
 
