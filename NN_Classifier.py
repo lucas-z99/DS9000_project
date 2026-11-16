@@ -6,6 +6,7 @@ from ctypes import wintypes
 from datetime import datetime
 from pathlib import Path
 import torch.nn as nn
+import torch.nn.functional as F
 from dataloader import (
     ShardDataset,
     classes_note,
@@ -21,9 +22,11 @@ import time
 
 class NN_Classifier(nn.Module):
 
-    def __init__(self, n_class, n_input, n1, n2):
+    def __init__(self, n_class, n_input, n1, n2, dropout=False, dropout_p=0.5):
 
         super().__init__()
+        self.dropout = dropout
+        self.dropout_p = dropout_p
 
         self.model = nn.Sequential(
             nn.Linear(n_input, n1),  # W1 b1
@@ -34,7 +37,15 @@ class NN_Classifier(nn.Module):
         )
 
     def forward(self, x):
-        return self.model(x)
+        if not self.dropout:
+            return self.model(x)
+        x = self.model[0](x)
+        x = self.model[1](x)
+        x = F.dropout(x, p=self.dropout_p, training=self.training)
+        x = self.model[2](x)
+        x = self.model[3](x)
+        x = F.dropout(x, p=self.dropout_p, training=self.training)
+        return self.model[4](x)
 
 
 def resume_file(resume):
@@ -217,8 +228,8 @@ def stay_awake():
                 print(
                     f">> stay awake failed: {ctypes.WinError(ctypes.get_last_error())}"
                 )
-        if held:
-            print(">> Stay awake until this run ends")
+        # if held:
+        #     print(">> Stay awake until this run ends")
         yield
     finally:
         for kind in held:
@@ -228,44 +239,49 @@ def stay_awake():
 
 if __name__ == "__main__":
 
-    # -----------------------   config   -----------------------
+    # ---------------------------    RESUME training    ---------------------------
 
-    # classes = range(1000, 1200)                  # contiguous, ids 1000..1199
-    # classes = list(range(0, 200)) + [205, 210]   # mixed
-    # classes = None                               # every label in label_to_class.txt
-    classes = None
+    """
+    RESUME = None                           // create a new model
+    RESUME = "runs/12345/model.pt"          // load a model and continue training
+    """
+    RESUME = "runs/48_3922_20261115_145210/model.pt"
+
+    # ---------------------------    Dynamic Config    ---------------------------
 
     epochs = 3
-    eval_per = 100  # evaluate() and log every X batches
-    image_size = 48  # [128, 96, 64, 48, 32, 24]
     lr = 1e-3  # -3 -4 -5
 
-    n1 = 512
-    n2 = 256
     batch_size = 256
     batch_size_val = 1024
+    eval_per = 100  # evaluate() every X batches
 
-    # -----------------------   RESUME training   -----------------------
-    """
-    RESUME = None                   // train a new model
-    RESUME = "runs/<run>/model.pt"  // continue training
+    # ---------------------------    Fixed Config    ---------------------------
+    # Fixed when a model is created (existing models always ignore these)
 
-    eg
-    RESUME = "runs/123_456_789/model.pt"
-    """
+    image_size = 48  # [128, 96, 64, 48, 32, 24]
+    n1 = 512  # layer size
+    n2 = 256
 
-    RESUME = "runs/48_3922_20261115_092637/model.pt"
-    # RESUME = "runs/48_1000-1200_20261115_074811/model.pt"
-
-    # -----------------------   Tensorboard   -----------------------
+    dropout = True
+    dropout_p = 0.2
 
     """
-    Run local server:
-    tensorboard --logdir runs
-    http://localhost:6006/    
-    """
+    classes = None                               // train on every class
+    classes = range(1000, 1200)                  // only train on class 1000..1199, small size = quick test
+    classes = list(range(0, 200)) + [205, 210]
 
-    # ----------------------------------------------------------
+    Use a smaller set for quick test
+    """
+    classes = None
+
+    # ---------------------------    Cheatsheet    ---------------------------
+
+    # Tensorboard:
+    #       tensorboard --logdir runs
+    #       http://localhost:6006/
+
+    # ------------------------------------------------------------------------
 
     label_n = n_labels()
     if RESUME is None:
@@ -284,8 +300,12 @@ if __name__ == "__main__":
             n_input=image_size * image_size,
             n1=n1,
             n2=n2,
+            dropout=dropout,
+            dropout_p=dropout_p,
         )
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+        print(f"------------------   NEW MODEL   ------------------")
+        print(f"{model_path}")
     else:
         model_path = resume_file(RESUME)
         run_dir = model_path.parent
@@ -305,6 +325,9 @@ if __name__ == "__main__":
             raise ValueError(
                 f"checkpoint n_class={n_class} does not match classes ({got})"
             )
+        if "dropout" in saved_config:
+            dropout = saved_config["dropout"]
+            dropout_p = saved_config.get("dropout_p", dropout_p)
         next_epoch = saved["epoch"]
         step = saved["step"]
         model = NN_Classifier(
@@ -312,16 +335,19 @@ if __name__ == "__main__":
             n_input=saved_config["n_input"],
             n1=n1,
             n2=n2,
+            dropout=dropout,
+            dropout_p=dropout_p,
         )
         model.load_state_dict(saved["model"])
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
         optimizer.load_state_dict(saved["optimizer"])
         for group in optimizer.param_groups:
             group["lr"] = lr
-        print(f">> resume: {model_path}")
+        print(f"------------------   RESUME   ------------------")
+        print(f"{model_path}")
 
     loss_fn = nn.CrossEntropyLoss()
-    print(f"Model:\n{model}")
+    print(f"Model structure =\n{model}")
 
     note = classes_note(class_ids)
 
@@ -350,10 +376,14 @@ if __name__ == "__main__":
         "n2": n2,
         "batch_size": batch_size,
         "val_batch_size": batch_size_val,
+        "dropout": dropout,
+        "dropout_p": dropout_p,
         "optimizer": "Adam",
     }
-    print(f">> Config: {n_class=}, classes={note}, {image_size=}, {epochs=}, {RESUME=}")
-    print(f">> TensorBoard: {run_dir}")
+    print(
+        f">> Config: {n_class=}, classes={note}, {image_size=}, {epochs=}, "
+        f"{dropout=}, {dropout_p=}"
+    )
 
     t0 = t = time.time()
     tb = SummaryWriter(run_dir)
@@ -370,6 +400,8 @@ if __name__ == "__main__":
                 f"n2: {n2}",
                 f"batch_size: {batch_size}",
                 f"val_batch_size: {batch_size_val}",
+                f"dropout: {dropout}",
+                f"dropout_p: {dropout_p}",
                 "optimizer: Adam",
             ]
         ),
@@ -382,7 +414,7 @@ if __name__ == "__main__":
 
     # training loop
     print(">> Training start:")
-    print(f">> To stop after this epoch: create {run_dir / 'STOP'}")
+    print(f'(to stop after this epoch, create a "STOP" file here: {run_dir})')
 
     with stay_awake():
         try:
