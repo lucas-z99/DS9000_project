@@ -249,7 +249,7 @@ if __name__ == "__main__":
 
     # ---------------------------    Dynamic Config    ---------------------------
 
-    epochs = 3
+    epochs = 2
     lr = 1e-3  # -3 -4 -5
 
     batch_size = 256
@@ -462,27 +462,6 @@ if __name__ == "__main__":
                     print(f">> STOP found, ending after epoch {epoch}")
                     break
 
-            if last_val_acc is not None:
-                tb.add_hparams(
-                    {
-                        "n_class": n_class,
-                        "classes": note,
-                        "epochs": epochs,
-                        "eval_per": eval_per,
-                        "image_size": image_size,
-                        "n1": n1,
-                        "n2": n2,
-                        "batch_size": batch_size,
-                        "val_batch_size": batch_size_val,
-                        "optimizer": "Adam",
-                    },
-                    {
-                        "acc/val": last_val_acc,
-                        "acc/val_top5": last_top5,
-                        "loss/train": last_loss,
-                        "loss/val": last_val_loss,
-                    },
-                )
             finished = True
         finally:
             save_run(

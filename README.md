@@ -87,6 +87,13 @@ To stop a training session, create a file named "STOP" in the model folder (eg `
 
 Just ctrl+c to exit is usually safe too (If you are very+very+very unlucky this can currput log/model file)
 
+## Evaluation
+
+Open `evaluate.py`, name the model in `RESUME`, and run 
+
+This will generate a `eval_result_Classifier` csv. Will add other models later.
+
+
 
 ## Image Size and its unintentional effect.
 
