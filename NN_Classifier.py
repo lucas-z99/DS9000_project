@@ -1,31 +1,31 @@
-import ctypes
 import json
-import sys
-from contextlib import contextmanager
-from ctypes import wintypes
+import time
 from datetime import datetime
 from pathlib import Path
+
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from dataloader import (
-    ShardDataset,
-    classes_note,
-    n_labels,
-    resolve_classes,
-    run_tag,
-)
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
-import torch
-import time
+
+from dataloader import (
+    ShardDataset,
+    class_set_note,
+    n_labels,
+    resolve_class_set,
+    run_tag,
+)
+from util import stay_awake
 
 
 class NN_Classifier(nn.Module):
 
-    def __init__(self, n_class, n_input, n1, n2, dropout=False, dropout_p=0.5):
+    def __init__(self, n_class, n_input, n1, n2, dropout_p=0):
 
         super().__init__()
-        self.dropout = dropout
+        if not 0 <= dropout_p <= 1:
+            raise ValueError(f"dropout_p must be from 0 to 1, got {dropout_p}")
         self.dropout_p = dropout_p
 
         self.model = nn.Sequential(
@@ -37,7 +37,7 @@ class NN_Classifier(nn.Module):
         )
 
     def forward(self, x):
-        if not self.dropout:
+        if self.dropout_p == 0:
             return self.model(x)
         x = self.model[0](x)
         x = self.model[1](x)
@@ -61,70 +61,78 @@ def resume_file(resume):
     return path
 
 
-def save_run(
-    run_dir,
-    model_path,
+def model_checkpoint(
     model,
     optimizer,
-    config,
+    n_class,
+    class_set,
+    image_size,
+    n_input,
+    n1,
+    n2,
+    batch_size,
+    val_batch_size,
+    dropout_p,
     step,
     epoch,
-    last_loss,
-    last_val_acc,
-    last_val_loss,
-    last_top5,
+    train_loss,
+    val_acc,
+    val_loss,
+    val_top5,
+    patience,
+    patience_max,
+    best_val_loss,
     finished,
-    write_model,
 ):
-    """
-    config.json describes the folder.
-    model.pt is the weights and the Adam state.
-    """
-
-    note = {
-        "note": (
-            "This folder is one training run. "
-            "model.pt is the checkpoint. "
-            "TensorBoard events are the curves."
-        ),
-        "finished": finished,
-        "model_file": Path(model_path).name,
+    return {
+        "n_class": n_class,
+        "class_set": class_set,
+        "image_size": image_size,
+        "n_input": n_input,
+        "n1": n1,
+        "n2": n2,
+        "dropout_p": dropout_p,
+        "batch_size": batch_size,
+        "val_batch_size": val_batch_size,
         "step": step,
         "epoch": epoch,
-        "last_loss": last_loss,
-        "last_val_acc": last_val_acc,
-        "last_val_loss": last_val_loss,
-        "last_top5": last_top5,
-        **config,
+        "train_loss": train_loss,
+        "val_acc": val_acc,
+        "val_loss": val_loss,
+        "val_top5": val_top5,
+        "patience": patience,
+        "patience_max": patience_max,
+        "best_val_loss": best_val_loss,
+        "finished": finished,
+        "model": model.state_dict(),
+        "optimizer": optimizer.state_dict(),
     }
-    Path(run_dir, "config.json").write_text(
-        json.dumps(note, indent=2),
+
+
+def save_run(run_dir, model_path, checkpoint, write_model):
+    preview = {
+        key: value
+        for key, value in checkpoint.items()
+        if key not in ("model", "optimizer")
+    }
+    Path(run_dir, "config_preview.json").write_text(
+        json.dumps(preview, indent=2),
         encoding="utf-8",
     )
     if write_model:
-        torch.save(
-            {
-                "model": model.state_dict(),
-                "optimizer": optimizer.state_dict(),
-                "config": config,
-                "step": step,
-                "epoch": epoch,
-                "last_loss": last_loss,
-                "last_val_acc": last_val_acc,
-                "last_val_loss": last_val_loss,
-                "last_top5": last_top5,
-            },
-            model_path,
-        )
+        torch.save(checkpoint, model_path)
 
 
-def evaluate(model, loader):
+def eval_and_log(step, epoch, loss_value, train_acc):
+    """
+    evaluate and log for dashboard
+    """
+    global t
     model.eval()  # eval mode (matters later for dropout etc.)
     correct, top5, total = 0, 0, 0
     loss_sum = 0.0
-
     with torch.no_grad():  # no graph, no grads: faster, less memory
-        for x, y in loader:  # walk the whole val set once
+        for x, y in val_loader:  # walk the whole val set once
             logits = model(x)
             loss_sum += loss_fn(logits, y).item() * len(y)
             correct += (logits.argmax(dim=1) == y).sum().item()
@@ -132,17 +140,11 @@ def evaluate(model, loader):
             top = logits.topk(k, dim=1).indices
             top5 += (top == y.unsqueeze(1)).any(dim=1).sum().item()
             total += len(y)
-
     model.train()  # back to training mode
-    return correct / total, loss_sum / total, top5 / total
+    val_acc = correct / total
+    val_loss = loss_sum / total
+    val_top5 = top5 / total
 
-
-def eval_and_log(step, epoch, loss_value, train_acc, t):
-    """
-    run a evaluation() and log the curves
-    """
-    global last_loss, last_val_acc, last_val_loss, last_top5
-    val_acc, val_loss, val_top5 = evaluate(model, val_loader)
     now = time.time()
     sec = now - t
     print(
@@ -153,88 +155,9 @@ def eval_and_log(step, epoch, loss_value, train_acc, t):
     tb.add_scalar("acc/val", val_acc, step)
     tb.add_scalar("acc/val_top5", val_top5, step)
     tb.flush()
-    last_loss = loss_value
-    last_val_acc = val_acc
-    last_val_loss = val_loss
-    last_top5 = val_top5
-    return now
+    t = now
 
-
-class _ReasonDetail(ctypes.Structure):
-    _fields_ = [
-        ("LocalizedReasonModule", wintypes.HMODULE),
-        ("LocalizedReasonId", wintypes.ULONG),
-        ("ReasonStringCount", wintypes.ULONG),
-        ("ReasonStrings", ctypes.POINTER(wintypes.LPWSTR)),
-    ]
-
-
-class _Reason(ctypes.Union):
-    _fields_ = [
-        ("Detailed", _ReasonDetail),
-        ("SimpleReasonString", wintypes.LPWSTR),
-    ]
-
-
-class _ReasonContext(ctypes.Structure):
-    _fields_ = [
-        ("Version", wintypes.ULONG),
-        ("Flags", wintypes.DWORD),
-        ("Reason", _Reason),
-    ]
-
-
-_SYSTEM_REQUIRED = 1
-_EXECUTION_REQUIRED = 3
-
-
-@contextmanager
-def stay_awake():
-    """
-    Keep this process running through Modern Standby until the run ends.
-    The screen can still turn off.
-    """
-
-    if sys.platform != "win32":
-        yield
-        return
-
-    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
-    kernel32.PowerCreateRequest.argtypes = [ctypes.POINTER(_ReasonContext)]
-    kernel32.PowerCreateRequest.restype = wintypes.HANDLE
-    kernel32.PowerSetRequest.argtypes = [wintypes.HANDLE, ctypes.c_int]
-    kernel32.PowerSetRequest.restype = wintypes.BOOL
-    kernel32.PowerClearRequest.argtypes = [wintypes.HANDLE, ctypes.c_int]
-    kernel32.PowerClearRequest.restype = wintypes.BOOL
-    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
-    kernel32.CloseHandle.restype = wintypes.BOOL
-
-    context = _ReasonContext()
-    context.Version = 0
-    context.Flags = 0x1
-    context.Reason.SimpleReasonString = "DS9000 training"
-    handle = kernel32.PowerCreateRequest(ctypes.byref(context))
-    if not handle:
-        print(f">> stay awake failed: {ctypes.WinError(ctypes.get_last_error())}")
-        yield
-        return
-
-    held = []
-    try:
-        for kind in (_SYSTEM_REQUIRED, _EXECUTION_REQUIRED):
-            if kernel32.PowerSetRequest(handle, kind):
-                held.append(kind)
-            else:
-                print(
-                    f">> stay awake failed: {ctypes.WinError(ctypes.get_last_error())}"
-                )
-        # if held:
-        #     print(">> Stay awake until this run ends")
-        yield
-    finally:
-        for kind in held:
-            kernel32.PowerClearRequest(handle, kind)
-        kernel32.CloseHandle(handle)
+    return loss_value, val_acc, val_loss, val_top5
 
 
 if __name__ == "__main__":
@@ -250,11 +173,12 @@ if __name__ == "__main__":
     # ---------------------------    Dynamic Config    ---------------------------
 
     epochs = 2
-    lr = 1e-3  # -3 -4 -5
+    lr = 1e-3  # -3 ~ -5
+    patience_max = 10  # 3-10
 
     batch_size = 256
     batch_size_val = 1024
-    eval_per = 100  # evaluate() every X batches
+    eval_per = 100  # eval_and_log() every X batches
 
     # ---------------------------    Fixed Config    ---------------------------
     # Fixed when a model is created (existing models always ignore these)
@@ -263,29 +187,25 @@ if __name__ == "__main__":
     n1 = 512  # layer size
     n2 = 256
 
-    dropout = True
-    dropout_p = 0.2
+    dropout_p = 0.2  # 0 = off
 
+    use_class_set = None  # use a smaller set for quick test
     """
-    classes = None                               // train on every class
-    classes = range(1000, 1200)                  // only train on class 1000..1199, small size = quick test
-    classes = list(range(0, 200)) + [205, 210]
-
-    Use a smaller set for quick test
+    class_set = None                               // (default) train on every class
+    class_set = range(1000, 1200)                  // only train on class 1000..1199
+    class_set = list(range(0, 200)) + [205, 210]
     """
-    classes = None
 
-    # ---------------------------    Cheatsheet    ---------------------------
+    # ---------------------------    Tensorboard    ---------------------------
+    # tensorboard --logdir runs
+    # http://localhost:6006/
 
-    # Tensorboard:
-    #       tensorboard --logdir runs
-    #       http://localhost:6006/
+    # ---------------------------    load model    ---------------------------
 
-    # ------------------------------------------------------------------------
-
+    t0 = t = time.time()
     label_n = n_labels()
     if RESUME is None:
-        class_ids = resolve_classes(classes, label_n)
+        class_ids = resolve_class_set(use_class_set, label_n)
         n_class = label_n if class_ids is None else len(class_ids)
         run_dir = Path(
             f"runs/{image_size}_{run_tag(class_ids, label_n)}_"
@@ -295,47 +215,45 @@ if __name__ == "__main__":
         model_path = run_dir / "model.pt"
         next_epoch = 0
         step = 0
+        best_val_loss = None
+        n_input = image_size * image_size
         model = NN_Classifier(
             n_class=n_class,
-            n_input=image_size * image_size,
+            n_input=n_input,
             n1=n1,
             n2=n2,
-            dropout=dropout,
             dropout_p=dropout_p,
         )
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-        print(f"------------------   NEW MODEL   ------------------")
-        print(f"{model_path}")
+        patience = patience_max
+        print("\n------------------   NEW MODEL   ------------------")
     else:
         model_path = resume_file(RESUME)
         run_dir = model_path.parent
         saved = torch.load(model_path, weights_only=False)
-        saved_config = saved["config"]
-        n_class = saved_config["n_class"]
-        image_size = saved_config["image_size"]
-        n1 = saved_config["n1"]
-        n2 = saved_config["n2"]
-        if "classes" in saved_config:
-            saved_classes = saved_config["classes"]
-        else:
-            saved_classes = range(0, n_class)
-        class_ids = resolve_classes(saved_classes, label_n)
+        n_class = saved["n_class"]
+        image_size = saved["image_size"]
+        n1 = saved["n1"]
+        n2 = saved["n2"]
+        n_input = saved["n_input"]
+        saved_class_set = saved.get("class_set", range(0, n_class))
+        class_ids = resolve_class_set(saved_class_set, label_n)
         got = label_n if class_ids is None else len(class_ids)
         if got != n_class:
             raise ValueError(
-                f"checkpoint n_class={n_class} does not match classes ({got})"
+                f"checkpoint n_class={n_class} does not match class_set ({got})"
             )
-        if "dropout" in saved_config:
-            dropout = saved_config["dropout"]
-            dropout_p = saved_config.get("dropout_p", dropout_p)
+        dropout_p = saved.get("dropout_p", dropout_p)
         next_epoch = saved["epoch"]
         step = saved["step"]
+        patience = saved.get("patience", patience_max)
+        patience_max = saved.get("patience_max", patience_max)
+        best_val_loss = saved.get("best_val_loss", None)
         model = NN_Classifier(
             n_class=n_class,
-            n_input=saved_config["n_input"],
+            n_input=n_input,
             n1=n1,
             n2=n2,
-            dropout=dropout,
             dropout_p=dropout_p,
         )
         model.load_state_dict(saved["model"])
@@ -343,16 +261,18 @@ if __name__ == "__main__":
         optimizer.load_state_dict(saved["optimizer"])
         for group in optimizer.param_groups:
             group["lr"] = lr
-        print(f"------------------   RESUME   ------------------")
-        print(f"{model_path}")
+        print("\n------------------   RESUME   ------------------")
 
     loss_fn = nn.CrossEntropyLoss()
-    print(f"Model structure =\n{model}")
+    class_set = class_set_note(class_ids)
 
-    note = classes_note(class_ids)
+    print(f">> Path:    {model_path}")
+    print(f">> Config:  {n_class=}, {dropout_p=}")
+    print(f">> Model:\n{model}\n")
 
+    # ---------------------------    load dataset    ---------------------------
     # train set
-    dataset = ShardDataset("train", image_size=image_size, classes=class_ids)
+    dataset = ShardDataset("train", image_size=image_size, class_set=class_ids)
     loader = DataLoader(
         dataset,
         batch_size=batch_size,  # traning batch size. small = less noise = better training?
@@ -360,79 +280,53 @@ if __name__ == "__main__":
     )
 
     # val set
-    val_set = ShardDataset("val", image_size=image_size, classes=class_ids)
+    val_set = ShardDataset("val", image_size=image_size, class_set=class_ids)
     val_loader = DataLoader(val_set, batch_size=batch_size_val, shuffle=False)
 
-    # logs
-    config = {
-        "n_class": n_class,
-        "classes": class_ids,
-        "classes_note": note,
-        "epochs": epochs,
-        "eval_per": eval_per,
-        "image_size": image_size,
-        "n_input": image_size * image_size,
-        "n1": n1,
-        "n2": n2,
-        "batch_size": batch_size,
-        "val_batch_size": batch_size_val,
-        "dropout": dropout,
-        "dropout_p": dropout_p,
-        "optimizer": "Adam",
-    }
-    print(
-        f">> Config: {n_class=}, classes={note}, {image_size=}, {epochs=}, "
-        f"{dropout=}, {dropout_p=}"
-    )
+    # ---------------------------    others    ---------------------------
 
-    t0 = t = time.time()
     tb = SummaryWriter(run_dir)
-    tb.add_text(
-        "config",
-        "\n".join(
-            [
-                f"n_class: {n_class}",
-                f"classes: {note}",
-                f"epochs: {epochs}",
-                f"eval_per: {eval_per}",
-                f"image_size: {image_size}",
-                f"n1: {n1}",
-                f"n2: {n2}",
-                f"batch_size: {batch_size}",
-                f"val_batch_size: {batch_size_val}",
-                f"dropout: {dropout}",
-                f"dropout_p: {dropout_p}",
-                "optimizer: Adam",
-            ]
-        ),
-    )
-    last_loss = None
-    last_val_acc = None
-    last_val_loss = None
-    last_top5 = None
+    train_loss = None
+    val_acc = None
+    val_loss = None
+    val_top5 = None
     finished = False
 
-    # training loop
-    print(">> Training start:")
-    print(f'(to stop after this epoch, create a "STOP" file here: {run_dir})')
+    # ---------------------------    training loop    ---------------------------
+    print(f">> Training start:")
+    print(f'(to stop after this epoch, create a "STOP" file in: {run_dir})\n')
+
+    def checkpoint_args():
+        return model_checkpoint(
+            model,
+            optimizer,
+            n_class,
+            class_ids,
+            image_size,
+            n_input,
+            n1,
+            n2,
+            batch_size,
+            batch_size_val,
+            dropout_p,
+            step,
+            next_epoch,
+            train_loss,
+            val_acc,
+            val_loss,
+            val_top5,
+            patience,
+            patience_max,
+            best_val_loss,
+            finished,
+        )
+
+    def write_progress(write_model):
+        save_run(run_dir, model_path, checkpoint_args(), write_model)
 
     with stay_awake():
         try:
-            save_run(
-                run_dir,
-                model_path,
-                model,
-                optimizer,
-                config,
-                step,
-                next_epoch,
-                last_loss,
-                last_val_acc,
-                last_val_loss,
-                last_top5,
-                finished=False,
-                write_model=False,
-            )
+            write_progress(False)
             for epoch in range(next_epoch, next_epoch + epochs):
                 last_logged = None
                 for x, y in loader:
@@ -449,36 +343,44 @@ if __name__ == "__main__":
                     tb.add_scalar("acc/train", train_acc, step)
                     tb.add_scalar("lr", lr, step)
                     if step % eval_per == 0:
-                        t = eval_and_log(step, epoch, loss_value, train_acc, t)
+                        train_loss, val_acc, val_loss, val_top5 = eval_and_log(
+                            step, epoch, loss_value, train_acc
+                        )
                         last_logged = step
                     step += 1
 
                 if last_logged != step - 1:
-                    t = eval_and_log(step - 1, epoch, loss_value, train_acc, t)
+                    train_loss, val_acc, val_loss, val_top5 = eval_and_log(
+                        step - 1, epoch, loss_value, train_acc
+                    )
                 next_epoch = epoch + 1
+
+                # patience. one epoch, one count.
+                if val_loss is not None and (
+                    best_val_loss is None or val_loss < best_val_loss
+                ):
+                    best_val_loss = val_loss
+                    patience = patience_max
+                    torch.save(checkpoint_args(), run_dir / "best.pt")
+                    print(f">> Best val_loss={best_val_loss:.3f}, saved best.pt")
+                elif val_loss is not None:
+                    patience -= 1
+
+                write_progress(False)
+                if val_loss is not None and patience <= 0:
+                    print(f">> Patience {patience_max} reached, STOP training")
+                    break
+
+                # manual early STOP
                 stop_file = run_dir / "STOP"
                 if stop_file.is_file():
                     stop_file.unlink()
-                    print(f">> STOP found, ending after epoch {epoch}")
+                    print(f">> STOP found, ending...")
                     break
 
             finished = True
         finally:
-            save_run(
-                run_dir,
-                model_path,
-                model,
-                optimizer,
-                config,
-                step,
-                next_epoch,
-                last_loss,
-                last_val_acc,
-                last_val_loss,
-                last_top5,
-                finished,
-                write_model=True,
-            )
+            write_progress(True)
             tb.close()
 
-    print(f"total t={(time.time() - t0)/60:.1f} min")
+    print(f"Total t={(time.time() - t0)/60:.1f} min")

@@ -1,17 +1,11 @@
-from NN_Classifier import NN_Classifier, resume_file, resolve_classes
-import torch
-from pathlib import Path
-from torch.utils.data import DataLoader
-from dataloader import (
-    ShardDataset,
-    classes_note,
-    n_labels,
-    resolve_classes,
-    run_tag,
-)
-from a1_prepare_data import CLASS_DICT_DIR
-import csv
 from collections import Counter
+
+import torch
+from torch.utils.data import DataLoader
+
+from a1_prepare_data import CLASS_DICT_DIR
+from dataloader import ShardDataset
+from NN_Classifier import NN_Classifier, resume_file
 
 # ----------------    CONFIG    ----------------
 
@@ -47,64 +41,67 @@ def evaluate(model, loader, n_class):
     c_acc = c_correct / c_appear  # acc [class1, class2, class3 ..]
     c_dict = CLASS_DICT_DIR.read_text(encoding="utf-8").splitlines()  # {class:label}
 
-    # save a csv for eyeball
-    rows = [
-        (
-            i,
-            int(c_appear[i]),
-            int(c_correct[i]),
-            c_acc[i].item(),
-            c_dict[i],
-            "".join(c_dict[p] * n + " " for p, n in c_mistaken_as[i].most_common()),
-        )
-        for i in range(CN_begin, n_class)
-    ]
-    rows.sort(key=lambda r: r[4])  # worst accuracy first
-    with open("eval_result_Classifier.csv", "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.writer(f)
-        writer.writerow(["label", "n", "n_correct", "acc", "charactor", "mistaken as"])
-        writer.writerows(rows)
+    # # save a csv for eyeball
+    # rows = [
+    #     (
+    #         i,
+    #         int(c_appear[i]),
+    #         int(c_correct[i]),
+    #         c_acc[i].item(),
+    #         c_dict[i],
+    #         "".join(c_dict[p] * n + " " for p, n in c_mistaken_as[i].most_common()),
+    #     )
+    #     for i in range(CN_begin, n_class)
+    # ]
+    # rows.sort(key=lambda r: r[4])  # worst accuracy first
+    # with open("eval_result_Classifier.csv", "w", newline="", encoding="utf-8-sig") as f:
+    #     writer = csv.writer(f)
+    #     writer.writerow(["label", "n", "n_correct", "acc", "charactor", "mistaken as"])
+    #     writer.writerows(rows)
 
     print("DONE!")
+    return c_acc
 
 
-if __name__ == "__main__":
+def make_ablate_hook(unit):
+    def hook(module, input, output):
+        output = output.clone()
+        output[:, unit] = 0  # switch this unit off for every image in the batch
+        return output
 
-    # ----------------    load checkpoint & model    ----------------
-    saved = torch.load(resume_file(RESUME), map_location="cpu")
-    saved_config = saved["config"]
-    n_class = saved_config["n_class"]
-    n_input = saved_config["n_input"]
-    image_size = int(n_input**0.5)
-    n1 = saved_config["n1"]
-    n2 = saved_config["n2"]
+    return hook
 
-    print(f"{saved.keys()=}")
 
+def load_model(resume):
+    saved = torch.load(resume_file(resume), map_location="cpu")
     model = NN_Classifier(
-        n_class=n_class,
-        n_input=n_input,
-        n1=n1,
-        n2=n2,
-        dropout=False,  # turn off
+        n_class=saved["n_class"],
+        n_input=saved["n_input"],
+        n1=saved["n1"],
+        n2=saved["n2"],
         dropout_p=0,
     )
     model.load_state_dict(saved["model"])
     model.eval()
-    print(f"{model=}")
+    return model, saved
 
-    # ----------------    test data    ----------------
-    dataset = ShardDataset(
-        testset_name,
-        image_size=image_size,
-    )
-    loader = DataLoader(
-        dataset,
-        batch_size=256,
-        shuffle=False,
-    )
-    print(f"{len(dataset)=}")
 
-    # ----------------    evaluate    ----------------
+def load_loader(split, image_size, batch_size=256):
+    dataset = ShardDataset(split, image_size=image_size)
+    return DataLoader(dataset, batch_size=batch_size, shuffle=False)
 
-    evaluate(model, loader, n_class)
+
+def count_correct(model, loader, n_class):
+    c_correct = torch.zeros(n_class, dtype=torch.long)
+    with torch.no_grad():
+        for x, y in loader:
+            predict = model(x).argmax(dim=1)
+            c_correct += torch.bincount(y[predict == y], minlength=n_class)
+    return c_correct
+
+
+if __name__ == "__main__":
+
+    model, saved = load_model(RESUME)
+    loader = load_loader(testset_name, int(saved["n_input"] ** 0.5))
+    evaluate(model, loader, saved["n_class"])

@@ -1,7 +1,6 @@
 import numpy as np
 from pathlib import Path
 import torch
-from pathlib import Path
 from torch.utils.data import DataLoader
 import time
 from a1_prepare_data import (
@@ -25,22 +24,22 @@ def n_labels():
     return len(build_class_dict())
 
 
-def resolve_classes(classes, label_n):
+def resolve_class_set(class_set, label_n):
     """
     None means every class. Anything else becomes sorted unique ids.
     """
 
-    if classes is None:
+    if class_set is None:
         return None
-    ids = sorted({int(i) for i in classes})
+    ids = sorted({int(i) for i in class_set})
     if not ids:
-        raise ValueError("classes is empty")
+        raise ValueError("class_set is empty")
     if ids[0] < 0 or ids[-1] >= label_n:
         raise ValueError(f"class id outside 0..{label_n - 1}: {ids[0]}..{ids[-1]}")
     return ids
 
 
-def classes_note(class_ids):
+def class_set_note(class_ids):
     """
     Readable inclusive spans. range(1000, 1200) becomes "1000-1199".
     """
@@ -88,14 +87,14 @@ class ShardDataset:
     Provides file look up
     """
 
-    def __init__(self, split, image_size=128, classes=None):
+    def __init__(self, split, image_size=128, class_set=None):
         """
         scan all data files and map { index -> files }
         so others can __getitem__(i)
 
         split = "train", "val", or "test"
         image_size picks prepared/<size>/<split>.
-        classes = None (every class), a range, or a list of class ids.
+        class_set = None (every class), a range, or a list of class ids.
         Returned labels are remapped to 0 .. n-1.
         """
 
@@ -130,14 +129,16 @@ class ShardDataset:
         self.index = np.concatenate(cur_index)
 
         label_n = n_labels()
-        class_ids = resolve_classes(classes, label_n)
+        class_ids = resolve_class_set(class_set, label_n)
         self.remap = None
         if class_ids is not None:
             self.remap = class_remap(class_ids, label_n)
             ids = np.array([self.YY[file][row] for file, row in self.index])
             self.index = self.index[self.remap[ids] >= 0]
             if len(self.index) == 0:
-                raise ValueError(f"no {split} samples in classes {classes_note(class_ids)}")
+                raise ValueError(
+                    f"no {split} samples in class_set {class_set_note(class_ids)}"
+                )
 
     def __getitem__(self, i):
         file_i, row = self.index[i]
