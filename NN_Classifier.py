@@ -10,13 +10,14 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
 from dataloader import (
+    DeviceLoader,
     ShardDataset,
     class_set_note,
     n_labels,
     resolve_class_set,
     run_tag,
 )
-from util import stay_awake
+from util import get_device, stay_awake
 
 
 class NN_Classifier(nn.Module):
@@ -133,6 +134,7 @@ def eval_and_log(step, epoch, loss_value, train_acc):
     loss_sum = 0.0
     with torch.no_grad():  # no graph, no grads: faster, less memory
         for x, y in val_loader:  # walk the whole val set once
+            x, y = x.to(device), y.to(device)
             logits = model(x)
             loss_sum += loss_fn(logits, y).item() * len(y)
             correct += (logits.argmax(dim=1) == y).sum().item()
@@ -168,17 +170,17 @@ if __name__ == "__main__":
     RESUME = None                           // create a new model
     RESUME = "runs/12345/model.pt"          // load a model and continue training
     """
-    RESUME = "runs/48_3922_20261115_145210/model.pt"
+    RESUME = None
 
     # ---------------------------    Dynamic Config    ---------------------------
 
-    epochs = 2
+    epochs = 100
     lr = 1e-3  # -3 ~ -5
     patience_max = 10  # 3-10
 
-    batch_size = 256
+    batch_size = 1024
     batch_size_val = 1024
-    eval_per = 100  # eval_and_log() every X batches
+    eval_per = 500  # eval_and_log() every X batches
 
     # ---------------------------    Fixed Config    ---------------------------
     # Fixed when a model is created (existing models always ignore these)
@@ -203,6 +205,8 @@ if __name__ == "__main__":
     # ---------------------------    load model    ---------------------------
 
     t0 = t = time.time()
+    device = get_device()
+    print(f">> Device:  {device}")
     label_n = n_labels()
     if RESUME is None:
         class_ids = resolve_class_set(use_class_set, label_n)
@@ -223,14 +227,14 @@ if __name__ == "__main__":
             n1=n1,
             n2=n2,
             dropout_p=dropout_p,
-        )
+        ).to(device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
         patience = patience_max
         print("\n------------------   NEW MODEL   ------------------")
     else:
         model_path = resume_file(RESUME)
         run_dir = model_path.parent
-        saved = torch.load(model_path, weights_only=False)
+        saved = torch.load(model_path, map_location="cpu", weights_only=False)
         n_class = saved["n_class"]
         image_size = saved["image_size"]
         n1 = saved["n1"]
@@ -257,6 +261,7 @@ if __name__ == "__main__":
             dropout_p=dropout_p,
         )
         model.load_state_dict(saved["model"])
+        model.to(device)  # before the optimizer, so its state follows the weights
         optimizer = torch.optim.Adam(model.parameters(), lr=lr)
         optimizer.load_state_dict(saved["optimizer"])
         for group in optimizer.param_groups:
@@ -273,15 +278,12 @@ if __name__ == "__main__":
     # ---------------------------    load dataset    ---------------------------
     # train set
     dataset = ShardDataset("train", image_size=image_size, class_set=class_ids)
-    loader = DataLoader(
-        dataset,
-        batch_size=batch_size,  # traning batch size. small = less noise = better training?
-        shuffle=True,
-    )
+    # whole set is kept on the GPU, batches are cut there (much faster than DataLoader)
+    loader = DeviceLoader(dataset, batch_size, shuffle=True, device=device)
 
     # val set
     val_set = ShardDataset("val", image_size=image_size, class_set=class_ids)
-    val_loader = DataLoader(val_set, batch_size=batch_size_val, shuffle=False)
+    val_loader = DeviceLoader(val_set, batch_size_val, shuffle=False, device=device)
 
     # ---------------------------    others    ---------------------------
 
@@ -330,6 +332,7 @@ if __name__ == "__main__":
             for epoch in range(next_epoch, next_epoch + epochs):
                 last_logged = None
                 for x, y in loader:
+                    x, y = x.to(device), y.to(device)
                     optimizer.zero_grad()  # clear gradiants
 
                     y_hat = model(x)

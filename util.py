@@ -28,6 +28,20 @@ class _ReasonContext(ctypes.Structure):
     ]
 
 
+def get_device():
+    """
+    Pick the fastest available device: CUDA (NVIDIA) > MPS (Apple Silicon) > CPU.
+    """
+
+    import torch
+
+    if torch.cuda.is_available():
+        return torch.device("cuda")
+    if torch.backends.mps.is_available():
+        return torch.device("mps")
+    return torch.device("cpu")
+
+
 _SYSTEM_REQUIRED = 1
 _EXECUTION_REQUIRED = 3
 

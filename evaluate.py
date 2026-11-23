@@ -1,11 +1,13 @@
 from collections import Counter
 
 import torch
-from torch.utils.data import DataLoader
 
 from a1_prepare_data import CLASS_DICT_DIR
-from dataloader import ShardDataset
+from dataloader import DeviceLoader, ShardDataset
 from NN_Classifier import NN_Classifier, resume_file
+from util import get_device
+
+DEVICE = get_device()
 
 # ----------------    CONFIG    ----------------
 
@@ -24,8 +26,10 @@ def evaluate(model, loader, n_class):
 
     with torch.no_grad():
         for x, y in loader:
+            x, y = x.to(DEVICE), y.to(DEVICE)
             logits = model(x)
-            predict = logits.argmax(dim=1)  # index of max element
+            predict = logits.argmax(dim=1).cpu()  # index of max element
+            y = y.cpu()  # counting below happens on CPU
             bool_mask = predict == y  # [T, T, T, F...]
 
             c_correct += torch.bincount(y[bool_mask], minlength=n_class)
@@ -82,21 +86,24 @@ def load_model(resume):
         dropout_p=0,
     )
     model.load_state_dict(saved["model"])
+    model.to(DEVICE)
     model.eval()
     return model, saved
 
 
-def load_loader(split, image_size, batch_size=256):
+def load_loader(split, image_size, batch_size=1024):
     dataset = ShardDataset(split, image_size=image_size)
-    return DataLoader(dataset, batch_size=batch_size, shuffle=False)
+    # whole split kept on the GPU (ablate.py walks it 512 times)
+    return DeviceLoader(dataset, batch_size, shuffle=False, device=DEVICE)
 
 
 def count_correct(model, loader, n_class):
     c_correct = torch.zeros(n_class, dtype=torch.long)
     with torch.no_grad():
         for x, y in loader:
+            x, y = x.to(DEVICE), y.to(DEVICE)
             predict = model(x).argmax(dim=1)
-            c_correct += torch.bincount(y[predict == y], minlength=n_class)
+            c_correct += torch.bincount(y[predict == y], minlength=n_class).cpu()
     return c_correct
 
 

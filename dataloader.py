@@ -154,6 +154,54 @@ class ShardDataset:
         return len(self.index)
 
 
+class DeviceLoader:
+    """
+    Fast replacement for DataLoader(ShardDataset(...)).
+
+    Loads every image of the dataset once into one uint8 tensor that lives on the
+    device (GPU). Each batch is then a single indexing op on the GPU, instead of
+    hundreds of small python __getitem__ calls on the CPU.
+
+    Memory: 48x48 train set is about 2 GB as uint8.
+    Yields the same (x, y) as before: x = 1 - pixel/255, flattened; y = class.
+    """
+
+    def __init__(self, dataset, batch_size, shuffle, device, flatten=True):
+        self.batch_size = batch_size
+        self.shuffle = shuffle
+        self.device = device
+        self.flatten = flatten
+
+        index = dataset.index
+        xs, ys = [], []
+        for file_i in np.unique(index[:, 0]):
+            rows = index[index[:, 0] == file_i, 1]
+            xs.append(np.asarray(dataset.XX[file_i][rows]))  # read this shard once
+            ys.append(np.asarray(dataset.YY[file_i][rows]))
+        y = np.concatenate(ys).astype(np.int64)
+        if dataset.remap is not None:
+            y = dataset.remap[y]
+
+        self.X = torch.from_numpy(np.concatenate(xs)).to(device)  # (N, H, W) uint8
+        self.Y = torch.from_numpy(y).to(device)
+
+    def __len__(self):
+        return (len(self.Y) + self.batch_size - 1) // self.batch_size
+
+    def __iter__(self):
+        n = len(self.Y)
+        if self.shuffle:
+            order = torch.randperm(n, device=self.device)
+        else:
+            order = torch.arange(n, device=self.device)
+        for start in range(0, n, self.batch_size):
+            idx = order[start : start + self.batch_size]
+            x = 1 - self.X[idx].float() / 255
+            if self.flatten:
+                x = x.flatten(1)
+            yield x, self.Y[idx]
+
+
 def load_test():
 
     print("load_test()")
