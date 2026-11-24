@@ -229,3 +229,6 @@ prepared/
 debug/*
 label_to_class.txt
 runs/
+cnn/runs/
+downloads/
+.uv-cache/

@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 
 from a1_prepare_data import CLASS_DICT_DIR
 from dataloader import ShardDataset
-from NN_Classifier import NN_Classifier, resume_file
+from NN_Classifier import build_model, resume_file
 
 # ----------------    CONFIG    ----------------
 
@@ -59,6 +59,7 @@ def evaluate(model, loader, n_class):
     #     writer.writerow(["label", "n", "n_correct", "acc", "charactor", "mistaken as"])
     #     writer.writerows(rows)
 
+    print(f"Accuracy: {c_correct.sum().item() / c_appear.sum().item():.4%}")
     print("DONE!")
     return c_acc
 
@@ -74,7 +75,8 @@ def make_ablate_hook(unit):
 
 def load_model(resume):
     saved = torch.load(resume_file(resume), map_location="cpu")
-    model = NN_Classifier(
+    model = build_model(
+        model_type=saved.get("model_type", "mlp"),
         n_class=saved["n_class"],
         n_input=saved["n_input"],
         n1=saved["n1"],
@@ -86,8 +88,8 @@ def load_model(resume):
     return model, saved
 
 
-def load_loader(split, image_size, batch_size=256):
-    dataset = ShardDataset(split, image_size=image_size)
+def load_loader(split, image_size, batch_size=256, class_set=None):
+    dataset = ShardDataset(split, image_size=image_size, class_set=class_set)
     return DataLoader(dataset, batch_size=batch_size, shuffle=False)
 
 
@@ -103,5 +105,6 @@ def count_correct(model, loader, n_class):
 if __name__ == "__main__":
 
     model, saved = load_model(RESUME)
-    loader = load_loader(testset_name, int(saved["n_input"] ** 0.5))
+    loader = load_loader(testset_name, int(saved["n_input"] ** 0.5),
+                         class_set=saved.get("class_set", range(saved["n_class"])))
     evaluate(model, loader, saved["n_class"])

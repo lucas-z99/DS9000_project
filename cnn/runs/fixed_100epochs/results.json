@@ -1,0 +1,18 @@
+{
+  "mlp": {
+    "epochs": 100,
+    "final_val_acc": 0.688715953307393,
+    "final_test_acc": 0.6236145977423707,
+    "best_epoch": 100,
+    "best_val_acc": 0.688715953307393,
+    "best_test_acc": 0.6236145977423707
+  },
+  "cnn": {
+    "epochs": 100,
+    "final_val_acc": 0.8525240630759778,
+    "final_test_acc": 0.8025470908687262,
+    "best_epoch": 36,
+    "best_val_acc": 0.8601525701413065,
+    "best_test_acc": 0.810291681609372
+  }
+}

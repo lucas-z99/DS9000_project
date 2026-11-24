@@ -58,9 +58,23 @@ Standard Fully connected network. See `NN_Clasifier.py`
  - Test run #1: loss=3.5, accuracy=24.3% (ReLU / 2500 loops / n_x = 128x128 / n_y = 3900). Stopped due to taking too long! Will resize image and try a longer training session.
 
 ### The CNN
-Standard CNN. All hail the matrix machine god.
+Implemented in `cnn/CNN_Classifier.py`: three convolution/ReLU/pooling blocks
+(32, 64, 128 channels), adaptive 3x3 pooling, and a dropout classification head.
+It accepts the existing normalized, flattened grayscale batches.
 
-(WIP)
+Run `NN_Classifier.py` with `RESUME = None` and `model_type = "cnn_v2"` (defaults).
+Use `model_type = "mlp"` for the baseline. Resume with the run's `model.pt`;
+architecture is loaded from the checkpoint. Old checkpoints default to MLP.
+CNN weights must be trained from scratch.
+
+Set `evaluate.py`'s `RESUME` to the new run's `best.pt`. Compare accuracy using
+the same validation split and class subset; reserve test data for final evaluation.
+Improvement is not guaranteed. Two epochs are only an initial trial.
+Training uses CPU; reduce batch sizes if memory is limited.
+
+Requires PyTorch, TensorBoard, NumPy, Pillow and prepared data. Run
+`python -m cnn.verify_cnn` for synthetic forward/backward and checkpoint compatibility checks.
+The existing `ablate.py` remains specific to MLP hidden units.
 
 ### The Verifier
 Is Siamese NN a good fit?
@@ -69,6 +83,12 @@ Is Siamese NN a good fit?
 
 
 ## TensorBoard
+
+## 100-epoch comparison
+
+All scripts, model checkpoints, training histories and figures for this experiment are in the [cnn folder](cnn/README.md).
+
+## TensorBoard usage
 
 To use the Dashboard, run in console:
 

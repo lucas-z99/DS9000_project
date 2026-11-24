@@ -17,6 +17,7 @@ from dataloader import (
     run_tag,
 )
 from util import stay_awake
+from cnn.CNN_Classifier import CNN_Classifier
 
 
 class NN_Classifier(nn.Module):
@@ -47,6 +48,17 @@ class NN_Classifier(nn.Module):
         x = F.dropout(x, p=self.dropout_p, training=self.training)
         return self.model[4](x)
 
+
+
+def build_model(model_type, n_class, n_input, n1, n2, dropout_p=0):
+    if model_type in ("cnn", "cnn_v2"):
+        size = int(n_input ** 0.5)
+        if size * size != n_input:
+            raise ValueError("CNN input must be a square image")
+        return CNN_Classifier(n_class, size, dropout_p, leaky=model_type == 'cnn_v2')
+    if model_type == "mlp":
+        return NN_Classifier(n_class, n_input, n1, n2, dropout_p)
+    raise ValueError(f"Unknown model_type: {model_type}")
 
 def resume_file(resume):
     """
@@ -85,6 +97,7 @@ def model_checkpoint(
     finished,
 ):
     return {
+        "model_type": model.model_type if isinstance(model, CNN_Classifier) else "mlp",
         "n_class": n_class,
         "class_set": class_set,
         "image_size": image_size,
@@ -168,7 +181,8 @@ if __name__ == "__main__":
     RESUME = None                           // create a new model
     RESUME = "runs/12345/model.pt"          // load a model and continue training
     """
-    RESUME = "runs/48_3922_20261115_145210/model.pt"
+    RESUME = None
+    model_type = "cnn_v2"  # "cnn_v2", "cnn" or "mlp"; resume uses checkpoint architecture
 
     # ---------------------------    Dynamic Config    ---------------------------
 
@@ -208,7 +222,7 @@ if __name__ == "__main__":
         class_ids = resolve_class_set(use_class_set, label_n)
         n_class = label_n if class_ids is None else len(class_ids)
         run_dir = Path(
-            f"runs/{image_size}_{run_tag(class_ids, label_n)}_"
+            f"runs/{model_type}_{image_size}_{run_tag(class_ids, label_n)}_"
             f"{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         )
         run_dir.mkdir(parents=True, exist_ok=True)
@@ -217,7 +231,8 @@ if __name__ == "__main__":
         step = 0
         best_val_loss = None
         n_input = image_size * image_size
-        model = NN_Classifier(
+        model = build_model(
+            model_type=model_type,
             n_class=n_class,
             n_input=n_input,
             n1=n1,
@@ -231,6 +246,7 @@ if __name__ == "__main__":
         model_path = resume_file(RESUME)
         run_dir = model_path.parent
         saved = torch.load(model_path, weights_only=False)
+        model_type = saved.get("model_type", "mlp")
         n_class = saved["n_class"]
         image_size = saved["image_size"]
         n1 = saved["n1"]
@@ -249,7 +265,8 @@ if __name__ == "__main__":
         patience = saved.get("patience", patience_max)
         patience_max = saved.get("patience_max", patience_max)
         best_val_loss = saved.get("best_val_loss", None)
-        model = NN_Classifier(
+        model = build_model(
+            model_type=model_type,
             n_class=n_class,
             n_input=n_input,
             n1=n1,
