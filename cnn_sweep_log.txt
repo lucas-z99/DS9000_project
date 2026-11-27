@@ -1,0 +1,2394 @@
+===== 2026-11-25 19:13:11 start 256-128 seed 1
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_256-128_s1_20261125_191312/model.pt
+>> Config:  n_class=3922, n1=256, n2=128, dropout_p=0.3, seed=1
+>> Params:  1,820,850
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=256, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=256, out_features=128, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_256-128_s1_20261125_191312)
+
+[0] epoch=0 loss=8.284, acc=0.000, val_loss=8.276, val_acc=0.000, val_top5=0.001, t=4.3
+[500] epoch=0 loss=3.497, acc=0.204, val_loss=2.520, val_acc=0.422, val_top5=0.747, t=41.3
+[840] epoch=0 loss=2.862, acc=0.330, val_loss=1.675, val_acc=0.578, val_top5=0.860, t=29.6
+>> Best val_loss=1.675, saved best.pt
+[1000] epoch=1 loss=2.392, acc=0.403, val_loss=1.545, val_acc=0.611, val_top5=0.878, t=15.1
+[1500] epoch=1 loss=2.092, acc=0.487, val_loss=1.148, val_acc=0.692, val_top5=0.916, t=42.9
+[1681] epoch=1 loss=1.813, acc=0.522, val_loss=1.042, val_acc=0.722, val_top5=0.931, t=16.7
+>> Best val_loss=1.042, saved best.pt
+[2000] epoch=2 loss=1.814, acc=0.538, val_loss=1.023, val_acc=0.736, val_top5=0.936, t=28.1
+[2500] epoch=2 loss=1.611, acc=0.562, val_loss=0.923, val_acc=0.753, val_top5=0.942, t=42.8
+[2522] epoch=2 loss=1.789, acc=0.532, val_loss=0.937, val_acc=0.757, val_top5=0.944, t=3.6
+>> Best val_loss=0.937, saved best.pt
+[3000] epoch=3 loss=1.641, acc=0.579, val_loss=0.848, val_acc=0.773, val_top5=0.949, t=40.9
+[3363] epoch=3 loss=1.576, acc=0.586, val_loss=0.844, val_acc=0.771, val_top5=0.949, t=31.4
+>> Best val_loss=0.844, saved best.pt
+[3500] epoch=4 loss=1.459, acc=0.599, val_loss=0.822, val_acc=0.773, val_top5=0.950, t=13.1
+[4000] epoch=4 loss=1.493, acc=0.607, val_loss=0.766, val_acc=0.794, val_top5=0.956, t=43.2
+[4204] epoch=4 loss=1.463, acc=0.581, val_loss=0.802, val_acc=0.790, val_top5=0.954, t=18.8
+>> Best val_loss=0.802, saved best.pt
+[4500] epoch=5 loss=1.446, acc=0.617, val_loss=0.744, val_acc=0.794, val_top5=0.956, t=26.5
+[5000] epoch=5 loss=1.421, acc=0.616, val_loss=0.750, val_acc=0.794, val_top5=0.957, t=43.7
+[5045] epoch=5 loss=1.518, acc=0.634, val_loss=0.804, val_acc=0.790, val_top5=0.955, t=5.6
+[5500] epoch=6 loss=1.366, acc=0.640, val_loss=0.734, val_acc=0.797, val_top5=0.958, t=39.9
+[5886] epoch=6 loss=1.271, acc=0.645, val_loss=0.701, val_acc=0.807, val_top5=0.961, t=34.1
+>> Best val_loss=0.701, saved best.pt
+[6000] epoch=7 loss=1.396, acc=0.619, val_loss=0.704, val_acc=0.805, val_top5=0.960, t=11.4
+[6500] epoch=7 loss=1.329, acc=0.651, val_loss=0.730, val_acc=0.799, val_top5=0.958, t=43.7
+[6727] epoch=7 loss=1.439, acc=0.642, val_loss=0.707, val_acc=0.808, val_top5=0.961, t=20.8
+[7000] epoch=8 loss=1.262, acc=0.667, val_loss=0.688, val_acc=0.814, val_top5=0.963, t=24.9
+[7500] epoch=8 loss=1.245, acc=0.657, val_loss=0.674, val_acc=0.817, val_top5=0.963, t=44.3
+[7568] epoch=8 loss=1.303, acc=0.619, val_loss=0.691, val_acc=0.813, val_top5=0.962, t=7.6
+>> Best val_loss=0.691, saved best.pt
+[8000] epoch=9 loss=1.212, acc=0.651, val_loss=0.681, val_acc=0.811, val_top5=0.962, t=38.5
+[8409] epoch=9 loss=1.336, acc=0.639, val_loss=0.663, val_acc=0.823, val_top5=0.965, t=36.5
+>> Best val_loss=0.663, saved best.pt
+[8500] epoch=10 loss=1.209, acc=0.667, val_loss=0.638, val_acc=0.822, val_top5=0.965, t=9.7
+[9000] epoch=10 loss=1.234, acc=0.652, val_loss=0.661, val_acc=0.815, val_top5=0.964, t=44.3
+[9250] epoch=10 loss=1.325, acc=0.645, val_loss=0.633, val_acc=0.824, val_top5=0.966, t=23.0
+>> Best val_loss=0.633, saved best.pt
+[9500] epoch=11 loss=1.200, acc=0.673, val_loss=0.659, val_acc=0.817, val_top5=0.964, t=23.1
+[10000] epoch=11 loss=1.242, acc=0.669, val_loss=0.638, val_acc=0.823, val_top5=0.965, t=44.1
+[10091] epoch=11 loss=1.295, acc=0.665, val_loss=0.643, val_acc=0.823, val_top5=0.965, t=9.6
+[10500] epoch=12 loss=1.301, acc=0.640, val_loss=0.647, val_acc=0.824, val_top5=0.966, t=36.4
+[10932] epoch=12 loss=1.203, acc=0.657, val_loss=0.627, val_acc=0.825, val_top5=0.967, t=38.2
+>> Best val_loss=0.627, saved best.pt
+[11000] epoch=13 loss=1.188, acc=0.684, val_loss=0.624, val_acc=0.824, val_top5=0.966, t=7.7
+[11500] epoch=13 loss=1.216, acc=0.658, val_loss=0.627, val_acc=0.827, val_top5=0.966, t=44.0
+[11773] epoch=13 loss=1.226, acc=0.634, val_loss=0.618, val_acc=0.827, val_top5=0.968, t=24.9
+>> Best val_loss=0.618, saved best.pt
+[12000] epoch=14 loss=1.165, acc=0.685, val_loss=0.628, val_acc=0.828, val_top5=0.967, t=21.1
+[12500] epoch=14 loss=1.158, acc=0.678, val_loss=0.613, val_acc=0.830, val_top5=0.967, t=43.9
+[12614] epoch=14 loss=1.235, acc=0.696, val_loss=0.614, val_acc=0.830, val_top5=0.968, t=11.5
+>> Best val_loss=0.614, saved best.pt
+[13000] epoch=15 loss=1.179, acc=0.660, val_loss=0.624, val_acc=0.826, val_top5=0.967, t=34.4
+[13455] epoch=15 loss=1.257, acc=0.678, val_loss=0.605, val_acc=0.834, val_top5=0.968, t=40.2
+>> Best val_loss=0.605, saved best.pt
+[13500] epoch=16 loss=1.124, acc=0.672, val_loss=0.613, val_acc=0.828, val_top5=0.967, t=5.8
+[14000] epoch=16 loss=1.242, acc=0.676, val_loss=0.598, val_acc=0.837, val_top5=0.968, t=43.4
+[14296] epoch=16 loss=1.193, acc=0.665, val_loss=0.600, val_acc=0.831, val_top5=0.969, t=26.3
+>> Best val_loss=0.600, saved best.pt
+[14500] epoch=17 loss=1.150, acc=0.684, val_loss=0.632, val_acc=0.824, val_top5=0.965, t=18.7
+[15000] epoch=17 loss=1.105, acc=0.693, val_loss=0.603, val_acc=0.831, val_top5=0.968, t=43.1
+[15137] epoch=17 loss=1.044, acc=0.711, val_loss=0.605, val_acc=0.835, val_top5=0.969, t=13.1
+[15500] epoch=18 loss=1.043, acc=0.711, val_loss=0.594, val_acc=0.835, val_top5=0.968, t=31.7
+[15978] epoch=18 loss=1.082, acc=0.719, val_loss=0.605, val_acc=0.834, val_top5=0.968, t=41.1
+[16000] epoch=19 loss=0.998, acc=0.721, val_loss=0.587, val_acc=0.837, val_top5=0.970, t=3.7
+[16500] epoch=19 loss=1.078, acc=0.700, val_loss=0.604, val_acc=0.834, val_top5=0.969, t=43.0
+[16819] epoch=19 loss=1.226, acc=0.685, val_loss=0.577, val_acc=0.839, val_top5=0.970, t=28.0
+>> Best val_loss=0.577, saved best.pt
+[17000] epoch=20 loss=1.087, acc=0.692, val_loss=0.585, val_acc=0.836, val_top5=0.969, t=16.7
+[17500] epoch=20 loss=1.152, acc=0.693, val_loss=0.618, val_acc=0.830, val_top5=0.967, t=42.9
+[17660] epoch=20 loss=1.160, acc=0.668, val_loss=0.569, val_acc=0.842, val_top5=0.970, t=15.0
+>> Best val_loss=0.569, saved best.pt
+[18000] epoch=21 loss=1.007, acc=0.730, val_loss=0.574, val_acc=0.840, val_top5=0.970, t=29.8
+[18500] epoch=21 loss=1.018, acc=0.718, val_loss=0.600, val_acc=0.835, val_top5=0.968, t=42.8
+[18501] epoch=21 loss=1.121, acc=0.685, val_loss=0.598, val_acc=0.836, val_top5=0.969, t=1.9
+[19000] epoch=22 loss=1.035, acc=0.706, val_loss=0.570, val_acc=0.843, val_top5=0.970, t=42.7
+[19342] epoch=22 loss=1.044, acc=0.708, val_loss=0.602, val_acc=0.834, val_top5=0.967, t=29.9
+[19500] epoch=23 loss=1.037, acc=0.705, val_loss=0.565, val_acc=0.842, val_top5=0.971, t=14.8
+[20000] epoch=23 loss=1.168, acc=0.673, val_loss=0.586, val_acc=0.839, val_top5=0.969, t=42.8
+[20183] epoch=23 loss=1.072, acc=0.701, val_loss=0.583, val_acc=0.838, val_top5=0.969, t=16.8
+[20500] epoch=24 loss=1.094, acc=0.696, val_loss=0.632, val_acc=0.827, val_top5=0.965, t=27.8
+[21000] epoch=24 loss=1.094, acc=0.690, val_loss=0.575, val_acc=0.840, val_top5=0.970, t=42.8
+[21024] epoch=24 loss=1.062, acc=0.742, val_loss=0.572, val_acc=0.840, val_top5=0.970, t=3.8
+[21500] epoch=25 loss=1.009, acc=0.735, val_loss=0.563, val_acc=0.844, val_top5=0.971, t=40.8
+[21865] epoch=25 loss=0.971, acc=0.726, val_loss=0.603, val_acc=0.833, val_top5=0.968, t=31.7
+>> Patience 5 reached, STOP training
+Total t=32.4 min
+===== 2026-11-25 19:45:38 end 256-128 seed 1 (exit 0)
+===== 2026-11-25 19:45:38 start 512-256 seed 1
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_512-256_s1_20261125_194539/model.pt
+>> Config:  n_class=3922, n1=512, n2=256, dropout_p=0.3, seed=1
+>> Params:  3,601,202
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=512, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=512, out_features=256, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=256, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_512-256_s1_20261125_194539)
+
+[0] epoch=0 loss=8.279, acc=0.000, val_loss=8.275, val_acc=0.000, val_top5=0.001, t=4.4
+[500] epoch=0 loss=2.558, acc=0.397, val_loss=1.864, val_acc=0.531, val_top5=0.824, t=44.0
+[840] epoch=0 loss=2.126, acc=0.504, val_loss=1.193, val_acc=0.679, val_top5=0.912, t=30.7
+>> Best val_loss=1.193, saved best.pt
+[1000] epoch=1 loss=1.657, acc=0.562, val_loss=1.086, val_acc=0.712, val_top5=0.926, t=15.5
+[1500] epoch=1 loss=1.459, acc=0.630, val_loss=0.870, val_acc=0.760, val_top5=0.945, t=44.2
+[1681] epoch=1 loss=1.288, acc=0.642, val_loss=0.837, val_acc=0.769, val_top5=0.949, t=17.3
+>> Best val_loss=0.837, saved best.pt
+[2000] epoch=2 loss=1.258, acc=0.671, val_loss=0.779, val_acc=0.782, val_top5=0.952, t=28.9
+[2500] epoch=2 loss=1.115, acc=0.692, val_loss=0.746, val_acc=0.798, val_top5=0.959, t=44.3
+[2522] epoch=2 loss=1.212, acc=0.645, val_loss=0.703, val_acc=0.807, val_top5=0.960, t=3.7
+>> Best val_loss=0.703, saved best.pt
+[3000] epoch=3 loss=1.147, acc=0.686, val_loss=0.713, val_acc=0.802, val_top5=0.958, t=42.5
+[3363] epoch=3 loss=1.103, acc=0.688, val_loss=0.646, val_acc=0.821, val_top5=0.965, t=32.6
+>> Best val_loss=0.646, saved best.pt
+[3500] epoch=4 loss=0.953, acc=0.756, val_loss=0.660, val_acc=0.816, val_top5=0.962, t=13.6
+[4000] epoch=4 loss=1.009, acc=0.729, val_loss=0.638, val_acc=0.826, val_top5=0.967, t=44.3
+[4204] epoch=4 loss=0.906, acc=0.737, val_loss=0.632, val_acc=0.824, val_top5=0.966, t=19.1
+>> Best val_loss=0.632, saved best.pt
+[4500] epoch=5 loss=0.966, acc=0.724, val_loss=0.595, val_acc=0.833, val_top5=0.968, t=27.0
+[5000] epoch=5 loss=0.970, acc=0.719, val_loss=0.586, val_acc=0.834, val_top5=0.970, t=44.3
+[5045] epoch=5 loss=1.102, acc=0.706, val_loss=0.607, val_acc=0.833, val_top5=0.969, t=5.7
+>> Best val_loss=0.607, saved best.pt
+[5500] epoch=6 loss=0.939, acc=0.732, val_loss=0.602, val_acc=0.831, val_top5=0.968, t=40.4
+[5886] epoch=6 loss=0.898, acc=0.772, val_loss=0.577, val_acc=0.837, val_top5=0.970, t=34.6
+>> Best val_loss=0.577, saved best.pt
+[6000] epoch=7 loss=0.879, acc=0.748, val_loss=0.572, val_acc=0.839, val_top5=0.970, t=11.7
+[6500] epoch=7 loss=0.978, acc=0.729, val_loss=0.576, val_acc=0.838, val_top5=0.969, t=44.2
+[6727] epoch=7 loss=1.004, acc=0.726, val_loss=0.563, val_acc=0.842, val_top5=0.970, t=21.1
+>> Best val_loss=0.563, saved best.pt
+[7000] epoch=8 loss=0.930, acc=0.749, val_loss=0.545, val_acc=0.847, val_top5=0.972, t=25.0
+[7500] epoch=8 loss=0.825, acc=0.771, val_loss=0.543, val_acc=0.846, val_top5=0.972, t=44.2
+[7568] epoch=8 loss=1.005, acc=0.701, val_loss=0.565, val_acc=0.842, val_top5=0.970, t=7.6
+[8000] epoch=9 loss=0.815, acc=0.762, val_loss=0.540, val_acc=0.848, val_top5=0.972, t=38.4
+[8409] epoch=9 loss=0.882, acc=0.737, val_loss=0.542, val_acc=0.848, val_top5=0.972, t=36.4
+>> Best val_loss=0.542, saved best.pt
+[8500] epoch=10 loss=0.726, acc=0.782, val_loss=0.543, val_acc=0.847, val_top5=0.972, t=9.7
+[9000] epoch=10 loss=0.821, acc=0.772, val_loss=0.542, val_acc=0.847, val_top5=0.972, t=44.2
+[9250] epoch=10 loss=0.948, acc=0.752, val_loss=0.532, val_acc=0.850, val_top5=0.974, t=23.0
+>> Best val_loss=0.532, saved best.pt
+[9500] epoch=11 loss=0.790, acc=0.786, val_loss=0.534, val_acc=0.849, val_top5=0.973, t=23.1
+[10000] epoch=11 loss=0.817, acc=0.763, val_loss=0.532, val_acc=0.849, val_top5=0.973, t=44.1
+[10091] epoch=11 loss=0.813, acc=0.798, val_loss=0.535, val_acc=0.851, val_top5=0.973, t=9.5
+[10500] epoch=12 loss=0.739, acc=0.792, val_loss=0.533, val_acc=0.850, val_top5=0.972, t=36.5
+[10932] epoch=12 loss=0.636, acc=0.808, val_loss=0.516, val_acc=0.854, val_top5=0.974, t=38.3
+>> Best val_loss=0.516, saved best.pt
+[11000] epoch=13 loss=0.679, acc=0.775, val_loss=0.512, val_acc=0.855, val_top5=0.974, t=7.7
+[11500] epoch=13 loss=0.794, acc=0.759, val_loss=0.506, val_acc=0.858, val_top5=0.975, t=44.0
+[11773] epoch=13 loss=0.722, acc=0.788, val_loss=0.498, val_acc=0.859, val_top5=0.976, t=24.9
+>> Best val_loss=0.498, saved best.pt
+[12000] epoch=14 loss=0.728, acc=0.790, val_loss=0.506, val_acc=0.857, val_top5=0.974, t=21.1
+[12500] epoch=14 loss=0.714, acc=0.801, val_loss=0.499, val_acc=0.860, val_top5=0.976, t=44.1
+[12614] epoch=14 loss=0.764, acc=0.803, val_loss=0.514, val_acc=0.855, val_top5=0.974, t=11.4
+[13000] epoch=15 loss=0.720, acc=0.794, val_loss=0.518, val_acc=0.854, val_top5=0.973, t=35.9
+[13455] epoch=15 loss=0.941, acc=0.721, val_loss=0.509, val_acc=0.856, val_top5=0.974, t=41.7
+[13500] epoch=16 loss=0.656, acc=0.798, val_loss=0.498, val_acc=0.860, val_top5=0.975, t=5.8
+[14000] epoch=16 loss=0.793, acc=0.765, val_loss=0.492, val_acc=0.861, val_top5=0.976, t=44.7
+[14296] epoch=16 loss=0.770, acc=0.762, val_loss=0.494, val_acc=0.861, val_top5=0.975, t=27.2
+>> Best val_loss=0.494, saved best.pt
+[14500] epoch=17 loss=0.763, acc=0.786, val_loss=0.506, val_acc=0.859, val_top5=0.974, t=19.4
+[15000] epoch=17 loss=0.669, acc=0.819, val_loss=0.488, val_acc=0.863, val_top5=0.976, t=45.0
+[15137] epoch=17 loss=0.610, acc=0.824, val_loss=0.511, val_acc=0.857, val_top5=0.974, t=13.9
+[15500] epoch=18 loss=0.661, acc=0.813, val_loss=0.525, val_acc=0.852, val_top5=0.973, t=33.6
+[15978] epoch=18 loss=0.713, acc=0.811, val_loss=0.489, val_acc=0.863, val_top5=0.976, t=44.1
+>> Best val_loss=0.489, saved best.pt
+[16000] epoch=19 loss=0.627, acc=0.810, val_loss=0.493, val_acc=0.861, val_top5=0.976, t=4.0
+[16500] epoch=19 loss=0.652, acc=0.794, val_loss=0.489, val_acc=0.862, val_top5=0.975, t=47.0
+[16819] epoch=19 loss=0.666, acc=0.801, val_loss=0.506, val_acc=0.858, val_top5=0.975, t=31.1
+[17000] epoch=20 loss=0.672, acc=0.802, val_loss=0.480, val_acc=0.866, val_top5=0.977, t=18.3
+[17500] epoch=20 loss=0.715, acc=0.796, val_loss=0.486, val_acc=0.862, val_top5=0.976, t=46.6
+[17660] epoch=20 loss=0.705, acc=0.801, val_loss=0.487, val_acc=0.863, val_top5=0.976, t=16.0
+>> Best val_loss=0.487, saved best.pt
+[18000] epoch=21 loss=0.588, acc=0.820, val_loss=0.504, val_acc=0.859, val_top5=0.975, t=32.1
+[18500] epoch=21 loss=0.579, acc=0.824, val_loss=0.489, val_acc=0.864, val_top5=0.976, t=46.1
+[18501] epoch=21 loss=0.689, acc=0.801, val_loss=0.491, val_acc=0.863, val_top5=0.976, t=2.0
+[19000] epoch=22 loss=0.608, acc=0.820, val_loss=0.507, val_acc=0.859, val_top5=0.975, t=45.8
+[19342] epoch=22 loss=0.561, acc=0.824, val_loss=0.490, val_acc=0.863, val_top5=0.977, t=32.2
+[19500] epoch=23 loss=0.566, acc=0.841, val_loss=0.489, val_acc=0.863, val_top5=0.975, t=15.7
+[20000] epoch=23 loss=0.694, acc=0.804, val_loss=0.482, val_acc=0.864, val_top5=0.976, t=45.5
+[20183] epoch=23 loss=0.721, acc=0.816, val_loss=0.476, val_acc=0.866, val_top5=0.977, t=17.7
+>> Best val_loss=0.476, saved best.pt
+[20500] epoch=24 loss=0.642, acc=0.809, val_loss=0.490, val_acc=0.863, val_top5=0.976, t=30.2
+[21000] epoch=24 loss=0.674, acc=0.808, val_loss=0.484, val_acc=0.865, val_top5=0.976, t=49.1
+[21024] epoch=24 loss=0.625, acc=0.806, val_loss=0.479, val_acc=0.868, val_top5=0.977, t=4.3
+[21500] epoch=25 loss=0.627, acc=0.812, val_loss=0.478, val_acc=0.868, val_top5=0.976, t=46.5
+[21865] epoch=25 loss=0.631, acc=0.829, val_loss=0.484, val_acc=0.865, val_top5=0.976, t=36.8
+[22000] epoch=26 loss=0.575, acc=0.844, val_loss=0.494, val_acc=0.865, val_top5=0.976, t=15.1
+[22500] epoch=26 loss=0.662, acc=0.804, val_loss=0.478, val_acc=0.867, val_top5=0.976, t=45.9
+[22706] epoch=26 loss=0.582, acc=0.813, val_loss=0.471, val_acc=0.868, val_top5=0.977, t=20.8
+>> Best val_loss=0.471, saved best.pt
+[23000] epoch=27 loss=0.600, acc=0.818, val_loss=0.482, val_acc=0.866, val_top5=0.976, t=29.4
+[23500] epoch=27 loss=0.656, acc=0.803, val_loss=0.490, val_acc=0.863, val_top5=0.976, t=47.4
+[23547] epoch=27 loss=0.655, acc=0.818, val_loss=0.505, val_acc=0.862, val_top5=0.975, t=6.4
+[24000] epoch=28 loss=0.505, acc=0.848, val_loss=0.478, val_acc=0.866, val_top5=0.977, t=43.4
+[24388] epoch=28 loss=0.674, acc=0.813, val_loss=0.476, val_acc=0.868, val_top5=0.976, t=37.4
+[24500] epoch=29 loss=0.562, acc=0.813, val_loss=0.489, val_acc=0.865, val_top5=0.975, t=12.3
+[25000] epoch=29 loss=0.615, acc=0.814, val_loss=0.480, val_acc=0.868, val_top5=0.977, t=48.3
+[25229] epoch=29 loss=0.700, acc=0.788, val_loss=0.499, val_acc=0.862, val_top5=0.975, t=22.9
+[25500] epoch=30 loss=0.567, acc=0.827, val_loss=0.489, val_acc=0.865, val_top5=0.976, t=26.7
+[26000] epoch=30 loss=0.584, acc=0.826, val_loss=0.470, val_acc=0.868, val_top5=0.977, t=47.4
+[26070] epoch=30 loss=0.601, acc=0.821, val_loss=0.489, val_acc=0.863, val_top5=0.976, t=8.4
+[26500] epoch=31 loss=0.599, acc=0.816, val_loss=0.486, val_acc=0.868, val_top5=0.976, t=41.1
+[26911] epoch=31 loss=0.521, acc=0.847, val_loss=0.473, val_acc=0.868, val_top5=0.977, t=39.3
+>> Patience 5 reached, STOP training
+Total t=42.0 min
+===== 2026-11-25 20:27:38 end 512-256 seed 1 (exit 0)
+===== 2026-11-25 20:27:38 start 1024-512 seed 1
+>> Device:  mps
+>> Input:   mean=0.0101, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_1024-512_s1_20261125_202739/model.pt
+>> Config:  n_class=3922, n1=1024, n2=512, dropout_p=0.3, seed=1
+>> Params:  7,358,514
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=1024, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=1024, out_features=512, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_1024-512_s1_20261125_202739)
+
+[0] epoch=0 loss=8.280, acc=0.000, val_loss=8.275, val_acc=0.000, val_top5=0.001, t=5.6
+[500] epoch=0 loss=2.094, acc=0.488, val_loss=1.489, val_acc=0.608, val_top5=0.875, t=50.7
+[840] epoch=0 loss=1.700, acc=0.593, val_loss=1.161, val_acc=0.694, val_top5=0.918, t=35.1
+>> Best val_loss=1.161, saved best.pt
+[1000] epoch=1 loss=1.425, acc=0.615, val_loss=1.063, val_acc=0.733, val_top5=0.934, t=18.0
+[1500] epoch=1 loss=1.279, acc=0.645, val_loss=0.815, val_acc=0.773, val_top5=0.949, t=50.6
+[1681] epoch=1 loss=1.132, acc=0.688, val_loss=0.844, val_acc=0.764, val_top5=0.946, t=19.7
+>> Best val_loss=0.844, saved best.pt
+[2000] epoch=2 loss=1.011, acc=0.705, val_loss=0.704, val_acc=0.803, val_top5=0.959, t=33.2
+[2500] epoch=2 loss=0.983, acc=0.748, val_loss=0.663, val_acc=0.814, val_top5=0.963, t=50.7
+[2522] epoch=2 loss=1.156, acc=0.685, val_loss=0.680, val_acc=0.817, val_top5=0.965, t=4.3
+>> Best val_loss=0.680, saved best.pt
+[3000] epoch=3 loss=0.904, acc=0.744, val_loss=0.677, val_acc=0.814, val_top5=0.963, t=48.7
+[3363] epoch=3 loss=0.852, acc=0.757, val_loss=0.606, val_acc=0.828, val_top5=0.968, t=37.3
+>> Best val_loss=0.606, saved best.pt
+[3500] epoch=4 loss=0.747, acc=0.783, val_loss=0.610, val_acc=0.832, val_top5=0.967, t=15.6
+[4000] epoch=4 loss=0.856, acc=0.762, val_loss=0.589, val_acc=0.835, val_top5=0.970, t=50.6
+[4204] epoch=4 loss=0.729, acc=0.793, val_loss=0.671, val_acc=0.825, val_top5=0.966, t=22.0
+[4500] epoch=5 loss=0.795, acc=0.777, val_loss=0.590, val_acc=0.835, val_top5=0.969, t=30.9
+[5000] epoch=5 loss=0.748, acc=0.788, val_loss=0.577, val_acc=0.840, val_top5=0.971, t=50.7
+[5045] epoch=5 loss=0.869, acc=0.801, val_loss=0.562, val_acc=0.840, val_top5=0.972, t=6.6
+>> Best val_loss=0.562, saved best.pt
+[5500] epoch=6 loss=0.749, acc=0.778, val_loss=0.549, val_acc=0.845, val_top5=0.972, t=46.5
+[5886] epoch=6 loss=0.642, acc=0.813, val_loss=0.561, val_acc=0.845, val_top5=0.973, t=39.7
+>> Best val_loss=0.561, saved best.pt
+[6000] epoch=7 loss=0.703, acc=0.796, val_loss=0.528, val_acc=0.849, val_top5=0.973, t=13.4
+[6500] epoch=7 loss=0.716, acc=0.804, val_loss=0.530, val_acc=0.850, val_top5=0.974, t=50.7
+[6727] epoch=7 loss=0.633, acc=0.806, val_loss=0.528, val_acc=0.852, val_top5=0.973, t=24.2
+>> Best val_loss=0.528, saved best.pt
+[7000] epoch=8 loss=0.724, acc=0.800, val_loss=0.522, val_acc=0.853, val_top5=0.974, t=29.0
+[7500] epoch=8 loss=0.697, acc=0.794, val_loss=0.525, val_acc=0.853, val_top5=0.974, t=50.4
+[7568] epoch=8 loss=0.733, acc=0.803, val_loss=0.510, val_acc=0.856, val_top5=0.976, t=8.7
+>> Best val_loss=0.510, saved best.pt
+[8000] epoch=9 loss=0.562, acc=0.827, val_loss=0.535, val_acc=0.852, val_top5=0.974, t=44.0
+[8409] epoch=9 loss=0.656, acc=0.798, val_loss=0.511, val_acc=0.857, val_top5=0.974, t=41.6
+[8500] epoch=10 loss=0.569, acc=0.826, val_loss=0.513, val_acc=0.855, val_top5=0.975, t=11.0
+[9000] epoch=10 loss=0.671, acc=0.798, val_loss=0.512, val_acc=0.855, val_top5=0.974, t=50.4
+[9250] epoch=10 loss=0.671, acc=0.818, val_loss=0.502, val_acc=0.859, val_top5=0.975, t=26.2
+>> Best val_loss=0.502, saved best.pt
+[9500] epoch=11 loss=0.542, acc=0.851, val_loss=0.512, val_acc=0.857, val_top5=0.975, t=26.4
+[10000] epoch=11 loss=0.622, acc=0.820, val_loss=0.495, val_acc=0.862, val_top5=0.976, t=50.4
+[10091] epoch=11 loss=0.573, acc=0.821, val_loss=0.506, val_acc=0.860, val_top5=0.977, t=10.9
+[10500] epoch=12 loss=0.562, acc=0.832, val_loss=0.492, val_acc=0.862, val_top5=0.976, t=41.5
+[10932] epoch=12 loss=0.561, acc=0.811, val_loss=0.521, val_acc=0.853, val_top5=0.973, t=43.7
+[11000] epoch=13 loss=0.415, acc=0.869, val_loss=0.488, val_acc=0.864, val_top5=0.976, t=8.8
+[11500] epoch=13 loss=0.589, acc=0.812, val_loss=0.501, val_acc=0.860, val_top5=0.975, t=50.3
+[11773] epoch=13 loss=0.644, acc=0.829, val_loss=0.498, val_acc=0.862, val_top5=0.976, t=28.5
+>> Best val_loss=0.498, saved best.pt
+[12000] epoch=14 loss=0.516, acc=0.843, val_loss=0.504, val_acc=0.860, val_top5=0.976, t=24.2
+[12500] epoch=14 loss=0.520, acc=0.835, val_loss=0.494, val_acc=0.865, val_top5=0.978, t=50.4
+[12614] epoch=14 loss=0.530, acc=0.844, val_loss=0.513, val_acc=0.858, val_top5=0.974, t=13.2
+[13000] epoch=15 loss=0.477, acc=0.846, val_loss=0.489, val_acc=0.863, val_top5=0.976, t=39.0
+[13455] epoch=15 loss=0.548, acc=0.818, val_loss=0.488, val_acc=0.863, val_top5=0.976, t=45.2
+>> Best val_loss=0.488, saved best.pt
+[13500] epoch=16 loss=0.402, acc=0.854, val_loss=0.501, val_acc=0.865, val_top5=0.977, t=6.6
+[14000] epoch=16 loss=0.494, acc=0.838, val_loss=0.515, val_acc=0.861, val_top5=0.976, t=49.5
+[14296] epoch=16 loss=0.550, acc=0.816, val_loss=0.483, val_acc=0.864, val_top5=0.977, t=30.2
+>> Best val_loss=0.483, saved best.pt
+[14500] epoch=17 loss=0.485, acc=0.847, val_loss=0.500, val_acc=0.860, val_top5=0.975, t=21.6
+[15000] epoch=17 loss=0.492, acc=0.843, val_loss=0.527, val_acc=0.863, val_top5=0.976, t=49.4
+[15137] epoch=17 loss=0.451, acc=0.852, val_loss=0.485, val_acc=0.866, val_top5=0.977, t=15.0
+[15500] epoch=18 loss=0.464, acc=0.860, val_loss=0.490, val_acc=0.864, val_top5=0.976, t=36.5
+[15978] epoch=18 loss=0.434, acc=0.854, val_loss=0.507, val_acc=0.862, val_top5=0.976, t=47.3
+[16000] epoch=19 loss=0.399, acc=0.876, val_loss=0.481, val_acc=0.866, val_top5=0.976, t=4.3
+[16500] epoch=19 loss=0.443, acc=0.865, val_loss=0.489, val_acc=0.866, val_top5=0.976, t=49.5
+[16819] epoch=19 loss=0.458, acc=0.864, val_loss=0.490, val_acc=0.864, val_top5=0.976, t=32.3
+[17000] epoch=20 loss=0.485, acc=0.853, val_loss=0.508, val_acc=0.866, val_top5=0.977, t=19.3
+[17500] epoch=20 loss=0.444, acc=0.861, val_loss=0.493, val_acc=0.866, val_top5=0.978, t=49.6
+[17660] epoch=20 loss=0.452, acc=0.852, val_loss=0.505, val_acc=0.867, val_top5=0.977, t=17.3
+[18000] epoch=21 loss=0.400, acc=0.875, val_loss=0.491, val_acc=0.870, val_top5=0.978, t=34.4
+[18500] epoch=21 loss=0.530, acc=0.839, val_loss=0.500, val_acc=0.864, val_top5=0.976, t=49.5
+[18501] epoch=21 loss=0.497, acc=0.847, val_loss=0.499, val_acc=0.862, val_top5=0.975, t=2.2
+>> Patience 5 reached, STOP training
+Total t=31.9 min
+===== 2026-11-25 20:59:33 end 1024-512 seed 1 (exit 0)
+===== 2026-11-25 20:59:33 start 2048-1024 seed 1
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_2048-1024_s1_20261125_205934/model.pt
+>> Config:  n_class=3922, n1=2048, n2=1024, dropout_p=0.3, seed=1
+>> Params:  15,659,570
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=2048, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=2048, out_features=1024, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=1024, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_2048-1024_s1_20261125_205934)
+
+[0] epoch=0 loss=8.279, acc=0.000, val_loss=8.275, val_acc=0.000, val_top5=0.002, t=6.1
+[500] epoch=0 loss=1.975, acc=0.515, val_loss=1.451, val_acc=0.619, val_top5=0.881, t=56.6
+[840] epoch=0 loss=1.725, acc=0.591, val_loss=1.054, val_acc=0.717, val_top5=0.928, t=39.4
+>> Best val_loss=1.054, saved best.pt
+[1000] epoch=1 loss=1.270, acc=0.653, val_loss=0.897, val_acc=0.752, val_top5=0.942, t=20.2
+[1500] epoch=1 loss=1.097, acc=0.692, val_loss=0.742, val_acc=0.791, val_top5=0.957, t=56.8
+[1681] epoch=1 loss=1.009, acc=0.724, val_loss=0.751, val_acc=0.796, val_top5=0.959, t=22.1
+>> Best val_loss=0.751, saved best.pt
+[2000] epoch=2 loss=0.951, acc=0.729, val_loss=0.875, val_acc=0.792, val_top5=0.955, t=37.5
+[2500] epoch=2 loss=0.841, acc=0.759, val_loss=0.656, val_acc=0.816, val_top5=0.964, t=58.8
+[2522] epoch=2 loss=0.985, acc=0.757, val_loss=0.642, val_acc=0.822, val_top5=0.966, t=5.1
+>> Best val_loss=0.642, saved best.pt
+[3000] epoch=3 loss=0.842, acc=0.760, val_loss=0.622, val_acc=0.826, val_top5=0.967, t=55.6
+[3363] epoch=3 loss=0.799, acc=0.767, val_loss=0.634, val_acc=0.826, val_top5=0.967, t=42.8
+>> Best val_loss=0.634, saved best.pt
+[3500] epoch=4 loss=0.643, acc=0.806, val_loss=0.584, val_acc=0.835, val_top5=0.970, t=18.0
+[4000] epoch=4 loss=0.782, acc=0.780, val_loss=0.554, val_acc=0.844, val_top5=0.971, t=57.8
+[4204] epoch=4 loss=0.720, acc=0.795, val_loss=0.579, val_acc=0.838, val_top5=0.969, t=24.9
+>> Best val_loss=0.579, saved best.pt
+[4500] epoch=5 loss=0.697, acc=0.823, val_loss=0.603, val_acc=0.836, val_top5=0.970, t=35.3
+[5000] epoch=5 loss=0.648, acc=0.811, val_loss=0.585, val_acc=0.842, val_top5=0.971, t=57.2
+[5045] epoch=5 loss=0.896, acc=0.754, val_loss=0.557, val_acc=0.845, val_top5=0.973, t=7.3
+>> Best val_loss=0.557, saved best.pt
+[5500] epoch=6 loss=0.669, acc=0.806, val_loss=0.551, val_acc=0.846, val_top5=0.972, t=52.3
+[5886] epoch=6 loss=0.600, acc=0.808, val_loss=0.544, val_acc=0.847, val_top5=0.972, t=44.6
+>> Best val_loss=0.544, saved best.pt
+[6000] epoch=7 loss=0.564, acc=0.826, val_loss=0.531, val_acc=0.854, val_top5=0.974, t=15.1
+[6500] epoch=7 loss=0.571, acc=0.826, val_loss=0.532, val_acc=0.855, val_top5=0.975, t=56.9
+[6727] epoch=7 loss=0.684, acc=0.790, val_loss=0.542, val_acc=0.850, val_top5=0.972, t=27.1
+>> Best val_loss=0.542, saved best.pt
+[7000] epoch=8 loss=0.624, acc=0.821, val_loss=0.580, val_acc=0.854, val_top5=0.974, t=32.3
+[7500] epoch=8 loss=0.564, acc=0.829, val_loss=0.536, val_acc=0.852, val_top5=0.973, t=56.8
+[7568] epoch=8 loss=0.634, acc=0.831, val_loss=0.536, val_acc=0.853, val_top5=0.974, t=9.8
+>> Best val_loss=0.536, saved best.pt
+[8000] epoch=9 loss=0.519, acc=0.836, val_loss=0.540, val_acc=0.851, val_top5=0.973, t=49.6
+[8409] epoch=9 loss=0.576, acc=0.831, val_loss=0.530, val_acc=0.853, val_top5=0.974, t=46.8
+>> Best val_loss=0.530, saved best.pt
+[8500] epoch=10 loss=0.404, acc=0.875, val_loss=0.501, val_acc=0.860, val_top5=0.976, t=12.6
+[9000] epoch=10 loss=0.480, acc=0.857, val_loss=0.541, val_acc=0.856, val_top5=0.974, t=56.9
+[9250] epoch=10 loss=0.481, acc=0.857, val_loss=0.517, val_acc=0.857, val_top5=0.975, t=29.6
+>> Best val_loss=0.517, saved best.pt
+[9500] epoch=11 loss=0.438, acc=0.867, val_loss=0.532, val_acc=0.860, val_top5=0.976, t=29.9
+[10000] epoch=11 loss=0.519, acc=0.839, val_loss=0.517, val_acc=0.858, val_top5=0.975, t=56.9
+[10091] epoch=11 loss=0.561, acc=0.831, val_loss=0.513, val_acc=0.857, val_top5=0.974, t=12.3
+>> Best val_loss=0.513, saved best.pt
+[10500] epoch=12 loss=0.465, acc=0.847, val_loss=0.519, val_acc=0.860, val_top5=0.975, t=47.1
+[10932] epoch=12 loss=0.450, acc=0.847, val_loss=0.505, val_acc=0.862, val_top5=0.976, t=49.4
+>> Best val_loss=0.505, saved best.pt
+[11000] epoch=13 loss=0.317, acc=0.899, val_loss=0.538, val_acc=0.863, val_top5=0.976, t=10.1
+[11500] epoch=13 loss=0.433, acc=0.863, val_loss=0.509, val_acc=0.858, val_top5=0.975, t=56.9
+[11773] epoch=13 loss=0.494, acc=0.859, val_loss=0.516, val_acc=0.865, val_top5=0.976, t=34.5
+[12000] epoch=14 loss=0.350, acc=0.889, val_loss=0.610, val_acc=0.859, val_top5=0.975, t=30.1
+[12500] epoch=14 loss=0.409, acc=0.870, val_loss=0.541, val_acc=0.851, val_top5=0.971, t=61.7
+[12614] epoch=14 loss=0.374, acc=0.895, val_loss=0.561, val_acc=0.861, val_top5=0.976, t=15.8
+[13000] epoch=15 loss=0.388, acc=0.868, val_loss=0.504, val_acc=0.861, val_top5=0.975, t=47.3
+[13455] epoch=15 loss=0.497, acc=0.847, val_loss=0.519, val_acc=0.867, val_top5=0.977, t=54.9
+[13500] epoch=16 loss=0.329, acc=0.886, val_loss=0.529, val_acc=0.865, val_top5=0.976, t=7.7
+[14000] epoch=16 loss=0.415, acc=0.854, val_loss=0.526, val_acc=0.864, val_top5=0.976, t=59.6
+[14296] epoch=16 loss=0.474, acc=0.857, val_loss=0.516, val_acc=0.863, val_top5=0.975, t=36.1
+[14500] epoch=17 loss=0.357, acc=0.882, val_loss=0.524, val_acc=0.865, val_top5=0.976, t=25.9
+[15000] epoch=17 loss=0.381, acc=0.890, val_loss=0.512, val_acc=0.865, val_top5=0.976, t=59.3
+[15137] epoch=17 loss=0.327, acc=0.905, val_loss=0.506, val_acc=0.863, val_top5=0.976, t=18.0
+>> Patience 5 reached, STOP training
+Total t=30.1 min
+===== 2026-11-25 21:29:40 end 2048-1024 seed 1 (exit 0)
+===== 2026-11-25 21:29:40 start 4096-2048 seed 1
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_4096-2048_s1_20261125_212942/model.pt
+>> Config:  n_class=3922, n1=4096, n2=2048, dropout_p=0.3, seed=1
+>> Params:  35,407,410
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=4096, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=4096, out_features=2048, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=2048, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_4096-2048_s1_20261125_212942)
+
+[0] epoch=0 loss=8.274, acc=0.001, val_loss=8.275, val_acc=0.000, val_top5=0.001, t=7.0
+[500] epoch=0 loss=1.918, acc=0.498, val_loss=1.497, val_acc=0.610, val_top5=0.872, t=76.5
+[840] epoch=0 loss=1.657, acc=0.542, val_loss=1.076, val_acc=0.710, val_top5=0.924, t=53.0
+>> Best val_loss=1.076, saved best.pt
+[1000] epoch=1 loss=1.299, acc=0.632, val_loss=1.012, val_acc=0.738, val_top5=0.936, t=27.3
+[1500] epoch=1 loss=1.184, acc=0.684, val_loss=0.792, val_acc=0.781, val_top5=0.951, t=76.2
+[1681] epoch=1 loss=0.961, acc=0.747, val_loss=0.760, val_acc=0.794, val_top5=0.957, t=29.5
+>> Best val_loss=0.760, saved best.pt
+[2000] epoch=2 loss=0.941, acc=0.753, val_loss=0.823, val_acc=0.799, val_top5=0.957, t=50.3
+[2500] epoch=2 loss=0.865, acc=0.758, val_loss=0.658, val_acc=0.818, val_top5=0.964, t=76.3
+[2522] epoch=2 loss=0.941, acc=0.729, val_loss=0.744, val_acc=0.799, val_top5=0.957, t=6.4
+>> Best val_loss=0.744, saved best.pt
+[3000] epoch=3 loss=0.875, acc=0.754, val_loss=0.632, val_acc=0.826, val_top5=0.966, t=73.7
+[3363] epoch=3 loss=0.835, acc=0.765, val_loss=0.631, val_acc=0.823, val_top5=0.965, t=56.4
+>> Best val_loss=0.631, saved best.pt
+[3500] epoch=4 loss=0.614, acc=0.820, val_loss=0.609, val_acc=0.831, val_top5=0.967, t=23.9
+[4000] epoch=4 loss=0.747, acc=0.792, val_loss=0.587, val_acc=0.838, val_top5=0.968, t=76.7
+[4204] epoch=4 loss=0.710, acc=0.793, val_loss=0.629, val_acc=0.840, val_top5=0.971, t=33.2
+>> Best val_loss=0.629, saved best.pt
+[4500] epoch=5 loss=0.674, acc=0.799, val_loss=0.581, val_acc=0.842, val_top5=0.971, t=47.3
+[5000] epoch=5 loss=0.626, acc=0.812, val_loss=0.596, val_acc=0.841, val_top5=0.970, t=76.9
+[5045] epoch=5 loss=0.724, acc=0.795, val_loss=0.621, val_acc=0.839, val_top5=0.970, t=9.9
+>> Best val_loss=0.621, saved best.pt
+[5500] epoch=6 loss=0.631, acc=0.812, val_loss=0.579, val_acc=0.847, val_top5=0.972, t=70.7
+[5886] epoch=6 loss=0.612, acc=0.824, val_loss=0.572, val_acc=0.847, val_top5=0.972, t=58.6
+>> Best val_loss=0.572, saved best.pt
+[6000] epoch=7 loss=0.534, acc=0.835, val_loss=0.618, val_acc=0.848, val_top5=0.973, t=20.1
+[6500] epoch=7 loss=0.558, acc=0.844, val_loss=0.547, val_acc=0.849, val_top5=0.972, t=75.0
+[6727] epoch=7 loss=0.606, acc=0.829, val_loss=0.533, val_acc=0.853, val_top5=0.973, t=35.7
+>> Best val_loss=0.533, saved best.pt
+[7000] epoch=8 loss=0.490, acc=0.845, val_loss=0.528, val_acc=0.854, val_top5=0.974, t=42.9
+[7500] epoch=8 loss=0.472, acc=0.860, val_loss=0.552, val_acc=0.848, val_top5=0.971, t=74.9
+[7568] epoch=8 loss=0.525, acc=0.826, val_loss=0.538, val_acc=0.856, val_top5=0.974, t=12.9
+[8000] epoch=9 loss=0.470, acc=0.862, val_loss=0.598, val_acc=0.839, val_top5=0.968, t=65.1
+[8409] epoch=9 loss=0.572, acc=0.816, val_loss=0.542, val_acc=0.854, val_top5=0.973, t=61.8
+[8500] epoch=10 loss=0.357, acc=0.882, val_loss=0.531, val_acc=0.862, val_top5=0.974, t=16.4
+[9000] epoch=10 loss=0.503, acc=0.838, val_loss=0.545, val_acc=0.854, val_top5=0.973, t=74.7
+[9250] epoch=10 loss=0.515, acc=0.831, val_loss=0.515, val_acc=0.860, val_top5=0.975, t=38.8
+>> Best val_loss=0.515, saved best.pt
+[9500] epoch=11 loss=0.355, acc=0.884, val_loss=0.686, val_acc=0.852, val_top5=0.973, t=38.9
+[10000] epoch=11 loss=0.421, acc=0.881, val_loss=0.536, val_acc=0.853, val_top5=0.972, t=72.9
+[10091] epoch=11 loss=0.389, acc=0.885, val_loss=0.533, val_acc=0.855, val_top5=0.972, t=15.7
+[10500] epoch=12 loss=0.359, acc=0.895, val_loss=0.698, val_acc=0.826, val_top5=0.961, t=60.1
+[10932] epoch=12 loss=0.310, acc=0.903, val_loss=0.552, val_acc=0.862, val_top5=0.975, t=63.3
+[11000] epoch=13 loss=0.291, acc=0.908, val_loss=0.621, val_acc=0.859, val_top5=0.975, t=12.6
+[11500] epoch=13 loss=0.414, acc=0.873, val_loss=0.593, val_acc=0.858, val_top5=0.974, t=72.9
+[11773] epoch=13 loss=0.313, acc=0.898, val_loss=0.547, val_acc=0.856, val_top5=0.973, t=41.2
+[12000] epoch=14 loss=0.311, acc=0.891, val_loss=0.577, val_acc=0.858, val_top5=0.974, t=34.8
+[12500] epoch=14 loss=0.324, acc=0.893, val_loss=0.582, val_acc=0.844, val_top5=0.968, t=72.7
+[12614] epoch=14 loss=0.317, acc=0.903, val_loss=0.542, val_acc=0.855, val_top5=0.972, t=18.8
+[13000] epoch=15 loss=0.303, acc=0.918, val_loss=0.545, val_acc=0.861, val_top5=0.974, t=56.7
+[13455] epoch=15 loss=0.420, acc=0.875, val_loss=0.765, val_acc=0.848, val_top5=0.972, t=66.1
+>> Patience 5 reached, STOP training
+Total t=34.6 min
+===== 2026-11-25 22:04:18 end 4096-2048 seed 1 (exit 0)
+===== 2026-11-25 22:04:18 start 256-128 seed 2
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_256-128_s2_20261125_220419/model.pt
+>> Config:  n_class=3922, n1=256, n2=128, dropout_p=0.3, seed=2
+>> Params:  1,820,850
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=256, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=256, out_features=128, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_256-128_s2_20261125_220419)
+
+[0] epoch=0 loss=8.280, acc=0.000, val_loss=8.276, val_acc=0.000, val_top5=0.001, t=5.9
+[500] epoch=0 loss=3.396, acc=0.232, val_loss=2.526, val_acc=0.418, val_top5=0.735, t=44.9
+[840] epoch=0 loss=2.538, acc=0.396, val_loss=1.613, val_acc=0.588, val_top5=0.862, t=31.1
+>> Best val_loss=1.613, saved best.pt
+[1000] epoch=1 loss=2.237, acc=0.455, val_loss=1.388, val_acc=0.642, val_top5=0.894, t=15.8
+[1500] epoch=1 loss=1.905, acc=0.518, val_loss=1.170, val_acc=0.701, val_top5=0.920, t=44.8
+[1681] epoch=1 loss=1.772, acc=0.532, val_loss=1.031, val_acc=0.729, val_top5=0.933, t=17.5
+>> Best val_loss=1.031, saved best.pt
+[2000] epoch=2 loss=1.719, acc=0.541, val_loss=0.976, val_acc=0.744, val_top5=0.940, t=29.4
+[2500] epoch=2 loss=1.787, acc=0.540, val_loss=0.900, val_acc=0.762, val_top5=0.945, t=44.9
+[2522] epoch=2 loss=1.586, acc=0.565, val_loss=0.919, val_acc=0.758, val_top5=0.944, t=3.9
+>> Best val_loss=0.919, saved best.pt
+[3000] epoch=3 loss=1.638, acc=0.574, val_loss=0.872, val_acc=0.767, val_top5=0.947, t=43.0
+[3363] epoch=3 loss=1.501, acc=0.642, val_loss=0.851, val_acc=0.780, val_top5=0.952, t=33.1
+>> Best val_loss=0.851, saved best.pt
+[3500] epoch=4 loss=1.402, acc=0.630, val_loss=0.832, val_acc=0.777, val_top5=0.950, t=13.8
+[4000] epoch=4 loss=1.486, acc=0.602, val_loss=0.765, val_acc=0.794, val_top5=0.957, t=45.0
+[4204] epoch=4 loss=1.486, acc=0.637, val_loss=0.790, val_acc=0.792, val_top5=0.957, t=19.5
+>> Best val_loss=0.790, saved best.pt
+[4500] epoch=5 loss=1.333, acc=0.632, val_loss=0.745, val_acc=0.792, val_top5=0.957, t=27.5
+[5000] epoch=5 loss=1.436, acc=0.627, val_loss=0.711, val_acc=0.804, val_top5=0.960, t=45.0
+[5045] epoch=5 loss=1.556, acc=0.606, val_loss=0.730, val_acc=0.799, val_top5=0.958, t=5.8
+>> Best val_loss=0.730, saved best.pt
+[5500] epoch=6 loss=1.348, acc=0.636, val_loss=0.677, val_acc=0.812, val_top5=0.963, t=41.2
+[5886] epoch=6 loss=1.399, acc=0.637, val_loss=0.692, val_acc=0.807, val_top5=0.962, t=35.2
+>> Best val_loss=0.692, saved best.pt
+[6000] epoch=7 loss=1.237, acc=0.666, val_loss=0.693, val_acc=0.808, val_top5=0.962, t=11.9
+[6500] epoch=7 loss=1.333, acc=0.649, val_loss=0.682, val_acc=0.813, val_top5=0.963, t=45.1
+[6727] epoch=7 loss=1.421, acc=0.629, val_loss=0.669, val_acc=0.815, val_top5=0.963, t=21.5
+>> Best val_loss=0.669, saved best.pt
+[7000] epoch=8 loss=1.328, acc=0.644, val_loss=0.679, val_acc=0.812, val_top5=0.962, t=25.6
+[7500] epoch=8 loss=1.334, acc=0.630, val_loss=0.682, val_acc=0.814, val_top5=0.962, t=45.0
+[7568] epoch=8 loss=1.293, acc=0.639, val_loss=0.653, val_acc=0.819, val_top5=0.964, t=7.8
+>> Best val_loss=0.653, saved best.pt
+[8000] epoch=9 loss=1.379, acc=0.646, val_loss=0.663, val_acc=0.819, val_top5=0.964, t=39.3
+[8409] epoch=9 loss=1.223, acc=0.662, val_loss=0.659, val_acc=0.819, val_top5=0.964, t=37.2
+[8500] epoch=10 loss=1.240, acc=0.697, val_loss=0.650, val_acc=0.822, val_top5=0.965, t=9.9
+[9000] epoch=10 loss=1.267, acc=0.648, val_loss=0.648, val_acc=0.824, val_top5=0.965, t=45.0
+[9250] epoch=10 loss=1.285, acc=0.652, val_loss=0.620, val_acc=0.828, val_top5=0.968, t=23.5
+>> Best val_loss=0.620, saved best.pt
+[9500] epoch=11 loss=1.265, acc=0.659, val_loss=0.641, val_acc=0.824, val_top5=0.967, t=23.6
+[10000] epoch=11 loss=1.159, acc=0.675, val_loss=0.639, val_acc=0.823, val_top5=0.965, t=45.0
+[10091] epoch=11 loss=1.254, acc=0.665, val_loss=0.654, val_acc=0.819, val_top5=0.964, t=9.8
+[10500] epoch=12 loss=1.168, acc=0.680, val_loss=0.631, val_acc=0.824, val_top5=0.966, t=37.2
+[10932] epoch=12 loss=1.372, acc=0.629, val_loss=0.601, val_acc=0.833, val_top5=0.968, t=39.1
+>> Best val_loss=0.601, saved best.pt
+[11000] epoch=13 loss=1.131, acc=0.689, val_loss=0.628, val_acc=0.828, val_top5=0.967, t=7.9
+[11500] epoch=13 loss=1.161, acc=0.698, val_loss=0.603, val_acc=0.830, val_top5=0.968, t=45.0
+[11773] epoch=13 loss=1.081, acc=0.662, val_loss=0.641, val_acc=0.820, val_top5=0.965, t=25.5
+[12000] epoch=14 loss=1.110, acc=0.694, val_loss=0.618, val_acc=0.830, val_top5=0.967, t=21.6
+[12500] epoch=14 loss=1.172, acc=0.666, val_loss=0.622, val_acc=0.825, val_top5=0.966, t=48.3
+[12614] epoch=14 loss=1.221, acc=0.685, val_loss=0.602, val_acc=0.834, val_top5=0.969, t=12.4
+[13000] epoch=15 loss=1.146, acc=0.689, val_loss=0.587, val_acc=0.837, val_top5=0.970, t=35.1
+[13455] epoch=15 loss=1.146, acc=0.668, val_loss=0.590, val_acc=0.836, val_top5=0.970, t=40.5
+>> Best val_loss=0.590, saved best.pt
+[13500] epoch=16 loss=1.111, acc=0.698, val_loss=0.577, val_acc=0.840, val_top5=0.970, t=5.9
+[14000] epoch=16 loss=1.179, acc=0.689, val_loss=0.573, val_acc=0.840, val_top5=0.971, t=44.8
+[14296] epoch=16 loss=1.138, acc=0.726, val_loss=0.572, val_acc=0.842, val_top5=0.971, t=27.3
+>> Best val_loss=0.572, saved best.pt
+[14500] epoch=17 loss=0.929, acc=0.731, val_loss=0.595, val_acc=0.836, val_top5=0.969, t=19.5
+[15000] epoch=17 loss=1.150, acc=0.679, val_loss=0.618, val_acc=0.828, val_top5=0.966, t=44.7
+[15137] epoch=17 loss=1.297, acc=0.668, val_loss=0.616, val_acc=0.831, val_top5=0.967, t=13.6
+[15500] epoch=18 loss=1.074, acc=0.711, val_loss=0.592, val_acc=0.837, val_top5=0.969, t=32.9
+[15978] epoch=18 loss=1.092, acc=0.729, val_loss=0.586, val_acc=0.839, val_top5=0.970, t=42.5
+[16000] epoch=19 loss=1.076, acc=0.706, val_loss=0.570, val_acc=0.839, val_top5=0.970, t=3.9
+[16500] epoch=19 loss=1.080, acc=0.706, val_loss=0.566, val_acc=0.843, val_top5=0.971, t=44.3
+[16819] epoch=19 loss=1.211, acc=0.660, val_loss=0.598, val_acc=0.835, val_top5=0.969, t=29.0
+[17000] epoch=20 loss=1.013, acc=0.730, val_loss=0.576, val_acc=0.840, val_top5=0.971, t=17.4
+[17500] epoch=20 loss=1.141, acc=0.710, val_loss=0.577, val_acc=0.838, val_top5=0.969, t=44.3
+[17660] epoch=20 loss=1.127, acc=0.729, val_loss=0.591, val_acc=0.836, val_top5=0.969, t=15.6
+[18000] epoch=21 loss=1.056, acc=0.698, val_loss=0.593, val_acc=0.839, val_top5=0.969, t=30.8
+[18500] epoch=21 loss=1.084, acc=0.705, val_loss=0.563, val_acc=0.845, val_top5=0.971, t=44.3
+[18501] epoch=21 loss=0.972, acc=0.739, val_loss=0.566, val_acc=0.844, val_top5=0.971, t=2.1
+>> Best val_loss=0.566, saved best.pt
+[19000] epoch=22 loss=1.133, acc=0.694, val_loss=0.584, val_acc=0.840, val_top5=0.969, t=44.3
+[19342] epoch=22 loss=1.186, acc=0.703, val_loss=0.558, val_acc=0.846, val_top5=0.972, t=30.9
+>> Best val_loss=0.558, saved best.pt
+[19500] epoch=23 loss=0.977, acc=0.730, val_loss=0.553, val_acc=0.847, val_top5=0.971, t=15.5
+[20000] epoch=23 loss=0.972, acc=0.725, val_loss=0.559, val_acc=0.842, val_top5=0.971, t=44.5
+[20183] epoch=23 loss=1.141, acc=0.711, val_loss=0.569, val_acc=0.841, val_top5=0.971, t=17.5
+[20500] epoch=24 loss=1.134, acc=0.698, val_loss=0.557, val_acc=0.843, val_top5=0.972, t=28.8
+[21000] epoch=24 loss=1.053, acc=0.716, val_loss=0.548, val_acc=0.848, val_top5=0.973, t=44.2
+[21024] epoch=24 loss=1.055, acc=0.703, val_loss=0.575, val_acc=0.838, val_top5=0.970, t=4.0
+[21500] epoch=25 loss=0.953, acc=0.718, val_loss=0.559, val_acc=0.843, val_top5=0.971, t=42.2
+[21865] epoch=25 loss=1.016, acc=0.714, val_loss=0.571, val_acc=0.839, val_top5=0.969, t=32.8
+[22000] epoch=26 loss=1.101, acc=0.687, val_loss=0.558, val_acc=0.843, val_top5=0.972, t=13.5
+[22500] epoch=26 loss=1.016, acc=0.736, val_loss=0.569, val_acc=0.840, val_top5=0.970, t=44.3
+[22706] epoch=26 loss=0.985, acc=0.724, val_loss=0.554, val_acc=0.844, val_top5=0.972, t=19.4
+>> Best val_loss=0.554, saved best.pt
+[23000] epoch=27 loss=0.930, acc=0.750, val_loss=0.580, val_acc=0.838, val_top5=0.970, t=27.0
+[23500] epoch=27 loss=1.067, acc=0.706, val_loss=0.552, val_acc=0.848, val_top5=0.973, t=44.3
+[23547] epoch=27 loss=1.024, acc=0.731, val_loss=0.559, val_acc=0.843, val_top5=0.972, t=6.0
+[24000] epoch=28 loss=1.049, acc=0.718, val_loss=0.537, val_acc=0.850, val_top5=0.973, t=40.4
+[24388] epoch=28 loss=1.205, acc=0.665, val_loss=0.543, val_acc=0.848, val_top5=0.973, t=34.9
+>> Best val_loss=0.543, saved best.pt
+[24500] epoch=29 loss=1.026, acc=0.695, val_loss=0.544, val_acc=0.850, val_top5=0.972, t=11.6
+[25000] epoch=29 loss=0.980, acc=0.716, val_loss=0.554, val_acc=0.843, val_top5=0.972, t=44.4
+[25229] epoch=29 loss=0.926, acc=0.711, val_loss=0.564, val_acc=0.845, val_top5=0.971, t=21.4
+[25500] epoch=30 loss=0.966, acc=0.722, val_loss=0.562, val_acc=0.843, val_top5=0.971, t=24.9
+[26000] epoch=30 loss=0.957, acc=0.738, val_loss=0.569, val_acc=0.842, val_top5=0.971, t=44.3
+[26070] epoch=30 loss=1.125, acc=0.683, val_loss=0.555, val_acc=0.845, val_top5=0.971, t=7.8
+[26500] epoch=31 loss=0.929, acc=0.756, val_loss=0.540, val_acc=0.847, val_top5=0.972, t=38.0
+[26911] epoch=31 loss=1.096, acc=0.696, val_loss=0.532, val_acc=0.851, val_top5=0.973, t=36.3
+>> Best val_loss=0.532, saved best.pt
+[27000] epoch=32 loss=0.940, acc=0.729, val_loss=0.558, val_acc=0.844, val_top5=0.971, t=9.5
+[27500] epoch=32 loss=1.008, acc=0.734, val_loss=0.538, val_acc=0.849, val_top5=0.973, t=43.8
+[27752] epoch=32 loss=0.901, acc=0.747, val_loss=0.570, val_acc=0.843, val_top5=0.971, t=23.0
+[28000] epoch=33 loss=1.060, acc=0.710, val_loss=0.533, val_acc=0.852, val_top5=0.973, t=22.7
+[28500] epoch=33 loss=1.143, acc=0.692, val_loss=0.550, val_acc=0.848, val_top5=0.972, t=44.4
+[28593] epoch=33 loss=1.017, acc=0.724, val_loss=0.550, val_acc=0.847, val_top5=0.972, t=10.4
+[29000] epoch=34 loss=1.000, acc=0.725, val_loss=0.556, val_acc=0.844, val_top5=0.971, t=37.7
+[29434] epoch=34 loss=1.011, acc=0.724, val_loss=0.535, val_acc=0.851, val_top5=0.973, t=40.0
+[29500] epoch=35 loss=0.902, acc=0.727, val_loss=0.534, val_acc=0.851, val_top5=0.973, t=8.0
+[30000] epoch=35 loss=1.003, acc=0.708, val_loss=0.536, val_acc=0.850, val_top5=0.973, t=46.4
+[30275] epoch=35 loss=1.028, acc=0.716, val_loss=0.544, val_acc=0.849, val_top5=0.972, t=26.5
+[30500] epoch=36 loss=0.985, acc=0.749, val_loss=0.542, val_acc=0.849, val_top5=0.972, t=22.3
+[31000] epoch=36 loss=1.051, acc=0.719, val_loss=0.528, val_acc=0.852, val_top5=0.974, t=47.3
+[31116] epoch=36 loss=1.024, acc=0.747, val_loss=0.544, val_acc=0.848, val_top5=0.972, t=12.7
+>> Patience 5 reached, STOP training
+Total t=47.9 min
+===== 2026-11-25 22:52:11 end 256-128 seed 2 (exit 0)
+===== 2026-11-25 22:52:11 start 512-256 seed 2
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_512-256_s2_20261125_225212/model.pt
+>> Config:  n_class=3922, n1=512, n2=256, dropout_p=0.3, seed=2
+>> Params:  3,601,202
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=512, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=512, out_features=256, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=256, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_512-256_s2_20261125_225212)
+
+[0] epoch=0 loss=8.284, acc=0.000, val_loss=8.275, val_acc=0.000, val_top5=0.001, t=5.7
+[500] epoch=0 loss=2.583, acc=0.366, val_loss=1.823, val_acc=0.533, val_top5=0.827, t=49.6
+[840] epoch=0 loss=1.825, acc=0.527, val_loss=1.261, val_acc=0.667, val_top5=0.904, t=34.6
+>> Best val_loss=1.261, saved best.pt
+[1000] epoch=1 loss=1.653, acc=0.566, val_loss=1.048, val_acc=0.713, val_top5=0.927, t=17.4
+[1500] epoch=1 loss=1.414, acc=0.636, val_loss=0.904, val_acc=0.761, val_top5=0.947, t=49.4
+[1681] epoch=1 loss=1.360, acc=0.650, val_loss=0.880, val_acc=0.755, val_top5=0.944, t=19.2
+>> Best val_loss=0.880, saved best.pt
+[2000] epoch=2 loss=1.264, acc=0.678, val_loss=0.750, val_acc=0.792, val_top5=0.956, t=32.4
+[2500] epoch=2 loss=1.277, acc=0.649, val_loss=0.726, val_acc=0.799, val_top5=0.958, t=49.4
+[2522] epoch=2 loss=1.158, acc=0.678, val_loss=0.711, val_acc=0.800, val_top5=0.960, t=4.2
+>> Best val_loss=0.711, saved best.pt
+[3000] epoch=3 loss=1.232, acc=0.674, val_loss=0.688, val_acc=0.811, val_top5=0.962, t=47.4
+[3363] epoch=3 loss=1.279, acc=0.657, val_loss=0.640, val_acc=0.820, val_top5=0.964, t=36.5
+>> Best val_loss=0.640, saved best.pt
+[3500] epoch=4 loss=1.032, acc=0.708, val_loss=0.634, val_acc=0.821, val_top5=0.965, t=15.2
+[4000] epoch=4 loss=1.028, acc=0.727, val_loss=0.622, val_acc=0.825, val_top5=0.966, t=49.5
+[4204] epoch=4 loss=1.019, acc=0.688, val_loss=0.626, val_acc=0.825, val_top5=0.967, t=21.4
+>> Best val_loss=0.626, saved best.pt
+[4500] epoch=5 loss=0.946, acc=0.723, val_loss=0.611, val_acc=0.827, val_top5=0.968, t=30.3
+[5000] epoch=5 loss=0.943, acc=0.731, val_loss=0.584, val_acc=0.834, val_top5=0.970, t=49.5
+[5045] epoch=5 loss=1.008, acc=0.703, val_loss=0.591, val_acc=0.831, val_top5=0.969, t=6.4
+>> Best val_loss=0.591, saved best.pt
+[5500] epoch=6 loss=0.924, acc=0.742, val_loss=0.574, val_acc=0.837, val_top5=0.969, t=45.3
+[5886] epoch=6 loss=0.929, acc=0.754, val_loss=0.560, val_acc=0.842, val_top5=0.972, t=38.8
+>> Best val_loss=0.560, saved best.pt
+[6000] epoch=7 loss=0.850, acc=0.757, val_loss=0.583, val_acc=0.837, val_top5=0.969, t=13.1
+[6500] epoch=7 loss=0.885, acc=0.765, val_loss=0.604, val_acc=0.834, val_top5=0.969, t=49.7
+[6727] epoch=7 loss=1.009, acc=0.706, val_loss=0.588, val_acc=0.838, val_top5=0.970, t=23.7
+[7000] epoch=8 loss=0.929, acc=0.746, val_loss=0.556, val_acc=0.845, val_top5=0.972, t=28.2
+[7500] epoch=8 loss=0.977, acc=0.726, val_loss=0.550, val_acc=0.845, val_top5=0.972, t=49.9
+[7568] epoch=8 loss=0.882, acc=0.775, val_loss=0.554, val_acc=0.846, val_top5=0.973, t=8.7
+>> Best val_loss=0.554, saved best.pt
+[8000] epoch=9 loss=0.868, acc=0.758, val_loss=0.551, val_acc=0.844, val_top5=0.972, t=43.5
+[8409] epoch=9 loss=0.834, acc=0.757, val_loss=0.535, val_acc=0.848, val_top5=0.973, t=41.2
+>> Best val_loss=0.535, saved best.pt
+[8500] epoch=10 loss=0.780, acc=0.758, val_loss=0.538, val_acc=0.848, val_top5=0.973, t=11.0
+[9000] epoch=10 loss=0.905, acc=0.755, val_loss=0.537, val_acc=0.849, val_top5=0.973, t=50.0
+[9250] epoch=10 loss=1.023, acc=0.721, val_loss=0.536, val_acc=0.850, val_top5=0.974, t=26.1
+[9500] epoch=11 loss=0.831, acc=0.772, val_loss=0.536, val_acc=0.848, val_top5=0.973, t=26.1
+[10000] epoch=11 loss=0.863, acc=0.768, val_loss=0.509, val_acc=0.855, val_top5=0.975, t=48.6
+[10091] epoch=11 loss=0.991, acc=0.714, val_loss=0.521, val_acc=0.853, val_top5=0.974, t=10.5
+>> Best val_loss=0.521, saved best.pt
+[10500] epoch=12 loss=0.750, acc=0.776, val_loss=0.539, val_acc=0.849, val_top5=0.972, t=40.0
+[10932] epoch=12 loss=0.895, acc=0.770, val_loss=0.527, val_acc=0.851, val_top5=0.973, t=41.9
+[11000] epoch=13 loss=0.758, acc=0.785, val_loss=0.512, val_acc=0.856, val_top5=0.975, t=8.4
+[11500] epoch=13 loss=0.757, acc=0.792, val_loss=0.507, val_acc=0.857, val_top5=0.975, t=48.2
+[11773] epoch=13 loss=0.716, acc=0.788, val_loss=0.508, val_acc=0.855, val_top5=0.976, t=27.2
+>> Best val_loss=0.508, saved best.pt
+[12000] epoch=14 loss=0.699, acc=0.804, val_loss=0.513, val_acc=0.855, val_top5=0.974, t=23.1
+[12500] epoch=14 loss=0.773, acc=0.770, val_loss=0.524, val_acc=0.852, val_top5=0.973, t=48.1
+[12614] epoch=14 loss=0.714, acc=0.803, val_loss=0.516, val_acc=0.854, val_top5=0.974, t=12.6
+[13000] epoch=15 loss=0.780, acc=0.777, val_loss=0.513, val_acc=0.855, val_top5=0.975, t=37.6
+[13455] epoch=15 loss=0.761, acc=0.788, val_loss=0.517, val_acc=0.854, val_top5=0.973, t=43.9
+[13500] epoch=16 loss=0.735, acc=0.775, val_loss=0.489, val_acc=0.861, val_top5=0.976, t=6.3
+[14000] epoch=16 loss=0.777, acc=0.799, val_loss=0.497, val_acc=0.860, val_top5=0.975, t=48.1
+[14296] epoch=16 loss=0.914, acc=0.760, val_loss=0.513, val_acc=0.856, val_top5=0.974, t=29.3
+[14500] epoch=17 loss=0.684, acc=0.791, val_loss=0.519, val_acc=0.854, val_top5=0.974, t=20.9
+[15000] epoch=17 loss=0.766, acc=0.773, val_loss=0.507, val_acc=0.857, val_top5=0.975, t=48.2
+[15137] epoch=17 loss=0.817, acc=0.783, val_loss=0.512, val_acc=0.854, val_top5=0.974, t=14.7
+[15500] epoch=18 loss=0.762, acc=0.779, val_loss=0.501, val_acc=0.858, val_top5=0.975, t=35.7
+[15978] epoch=18 loss=0.667, acc=0.801, val_loss=0.488, val_acc=0.862, val_top5=0.977, t=45.9
+>> Best val_loss=0.488, saved best.pt
+[16000] epoch=19 loss=0.658, acc=0.814, val_loss=0.493, val_acc=0.861, val_top5=0.975, t=4.2
+[16500] epoch=19 loss=0.725, acc=0.785, val_loss=0.504, val_acc=0.858, val_top5=0.974, t=47.1
+[16819] epoch=19 loss=0.815, acc=0.770, val_loss=0.488, val_acc=0.862, val_top5=0.976, t=30.7
+[17000] epoch=20 loss=0.661, acc=0.801, val_loss=0.489, val_acc=0.862, val_top5=0.976, t=18.4
+[17500] epoch=20 loss=0.765, acc=0.795, val_loss=0.501, val_acc=0.859, val_top5=0.974, t=47.0
+[17660] epoch=20 loss=0.610, acc=0.813, val_loss=0.486, val_acc=0.863, val_top5=0.976, t=16.4
+>> Best val_loss=0.486, saved best.pt
+[18000] epoch=21 loss=0.643, acc=0.825, val_loss=0.486, val_acc=0.863, val_top5=0.976, t=32.6
+[18500] epoch=21 loss=0.631, acc=0.804, val_loss=0.482, val_acc=0.865, val_top5=0.977, t=46.8
+[18501] epoch=21 loss=0.596, acc=0.836, val_loss=0.485, val_acc=0.864, val_top5=0.977, t=2.1
+>> Best val_loss=0.485, saved best.pt
+[19000] epoch=22 loss=0.706, acc=0.799, val_loss=0.488, val_acc=0.863, val_top5=0.976, t=46.7
+[19342] epoch=22 loss=0.720, acc=0.806, val_loss=0.475, val_acc=0.866, val_top5=0.976, t=32.7
+>> Best val_loss=0.475, saved best.pt
+[19500] epoch=23 loss=0.581, acc=0.833, val_loss=0.505, val_acc=0.859, val_top5=0.974, t=16.4
+[20000] epoch=23 loss=0.560, acc=0.836, val_loss=0.504, val_acc=0.859, val_top5=0.975, t=46.6
+[20183] epoch=23 loss=0.502, acc=0.829, val_loss=0.515, val_acc=0.856, val_top5=0.974, t=18.3
+[20500] epoch=24 loss=0.684, acc=0.802, val_loss=0.503, val_acc=0.861, val_top5=0.976, t=30.3
+[21000] epoch=24 loss=0.628, acc=0.805, val_loss=0.480, val_acc=0.864, val_top5=0.976, t=46.5
+[21024] epoch=24 loss=0.587, acc=0.834, val_loss=0.479, val_acc=0.864, val_top5=0.977, t=4.2
+[21500] epoch=25 loss=0.520, acc=0.832, val_loss=0.482, val_acc=0.865, val_top5=0.977, t=44.4
+[21865] epoch=25 loss=0.683, acc=0.826, val_loss=0.479, val_acc=0.864, val_top5=0.977, t=34.4
+[22000] epoch=26 loss=0.636, acc=0.808, val_loss=0.514, val_acc=0.857, val_top5=0.975, t=14.1
+[22500] epoch=26 loss=0.603, acc=0.838, val_loss=0.477, val_acc=0.867, val_top5=0.977, t=46.5
+[22706] epoch=26 loss=0.507, acc=0.847, val_loss=0.483, val_acc=0.865, val_top5=0.976, t=20.3
+[23000] epoch=27 loss=0.600, acc=0.809, val_loss=0.488, val_acc=0.864, val_top5=0.977, t=28.2
+[23500] epoch=27 loss=0.631, acc=0.824, val_loss=0.491, val_acc=0.864, val_top5=0.977, t=46.5
+[23547] epoch=27 loss=0.536, acc=0.829, val_loss=0.475, val_acc=0.866, val_top5=0.977, t=6.2
+>> Best val_loss=0.475, saved best.pt
+[24000] epoch=28 loss=0.580, acc=0.832, val_loss=0.477, val_acc=0.866, val_top5=0.977, t=42.4
+[24388] epoch=28 loss=0.638, acc=0.813, val_loss=0.483, val_acc=0.864, val_top5=0.976, t=36.4
+[24500] epoch=29 loss=0.581, acc=0.823, val_loss=0.497, val_acc=0.862, val_top5=0.975, t=12.0
+[25000] epoch=29 loss=0.519, acc=0.833, val_loss=0.516, val_acc=0.857, val_top5=0.973, t=46.4
+[25229] epoch=29 loss=0.635, acc=0.790, val_loss=0.496, val_acc=0.860, val_top5=0.976, t=22.3
+[25500] epoch=30 loss=0.583, acc=0.829, val_loss=0.483, val_acc=0.866, val_top5=0.977, t=26.1
+[26000] epoch=30 loss=0.634, acc=0.818, val_loss=0.467, val_acc=0.869, val_top5=0.978, t=46.4
+[26070] epoch=30 loss=0.554, acc=0.839, val_loss=0.489, val_acc=0.863, val_top5=0.976, t=8.2
+[26500] epoch=31 loss=0.569, acc=0.843, val_loss=0.476, val_acc=0.869, val_top5=0.977, t=40.1
+[26911] epoch=31 loss=0.623, acc=0.826, val_loss=0.489, val_acc=0.862, val_top5=0.976, t=38.4
+[27000] epoch=32 loss=0.518, acc=0.844, val_loss=0.511, val_acc=0.862, val_top5=0.976, t=9.9
+[27500] epoch=32 loss=0.643, acc=0.802, val_loss=0.496, val_acc=0.862, val_top5=0.975, t=46.3
+[27752] epoch=32 loss=0.540, acc=0.839, val_loss=0.488, val_acc=0.863, val_top5=0.976, t=24.3
+>> Patience 5 reached, STOP training
+Total t=45.7 min
+===== 2026-11-25 23:37:53 end 512-256 seed 2 (exit 0)
+===== 2026-11-25 23:37:53 start 1024-512 seed 2
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_1024-512_s2_20261125_233754/model.pt
+>> Config:  n_class=3922, n1=1024, n2=512, dropout_p=0.3, seed=2
+>> Params:  7,358,514
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=1024, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=1024, out_features=512, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_1024-512_s2_20261125_233754)
+
+[0] epoch=0 loss=8.280, acc=0.001, val_loss=8.274, val_acc=0.000, val_top5=0.001, t=5.5
+[500] epoch=0 loss=2.231, acc=0.458, val_loss=1.561, val_acc=0.596, val_top5=0.866, t=49.5
+[840] epoch=0 loss=1.462, acc=0.614, val_loss=1.067, val_acc=0.718, val_top5=0.928, t=34.4
+>> Best val_loss=1.067, saved best.pt
+[1000] epoch=1 loss=1.328, acc=0.641, val_loss=0.946, val_acc=0.739, val_top5=0.937, t=17.5
+[1500] epoch=1 loss=1.240, acc=0.665, val_loss=0.833, val_acc=0.773, val_top5=0.950, t=49.5
+[1681] epoch=1 loss=1.139, acc=0.678, val_loss=0.783, val_acc=0.789, val_top5=0.955, t=19.2
+>> Best val_loss=0.783, saved best.pt
+[2000] epoch=2 loss=1.111, acc=0.700, val_loss=0.712, val_acc=0.802, val_top5=0.959, t=32.5
+[2500] epoch=2 loss=1.015, acc=0.721, val_loss=0.658, val_acc=0.815, val_top5=0.964, t=49.5
+[2522] epoch=2 loss=0.952, acc=0.726, val_loss=0.696, val_acc=0.805, val_top5=0.960, t=4.2
+>> Best val_loss=0.696, saved best.pt
+[3000] epoch=3 loss=1.044, acc=0.720, val_loss=0.626, val_acc=0.822, val_top5=0.966, t=47.5
+[3363] epoch=3 loss=1.024, acc=0.719, val_loss=0.606, val_acc=0.828, val_top5=0.968, t=36.5
+>> Best val_loss=0.606, saved best.pt
+[3500] epoch=4 loss=0.794, acc=0.764, val_loss=0.611, val_acc=0.827, val_top5=0.968, t=15.2
+[4000] epoch=4 loss=0.864, acc=0.753, val_loss=0.618, val_acc=0.833, val_top5=0.968, t=49.5
+[4204] epoch=4 loss=0.895, acc=0.726, val_loss=0.614, val_acc=0.832, val_top5=0.969, t=21.4
+[4500] epoch=5 loss=0.790, acc=0.763, val_loss=0.563, val_acc=0.841, val_top5=0.971, t=30.2
+[5000] epoch=5 loss=0.870, acc=0.759, val_loss=0.554, val_acc=0.844, val_top5=0.971, t=49.6
+[5045] epoch=5 loss=0.801, acc=0.777, val_loss=0.573, val_acc=0.839, val_top5=0.970, t=6.4
+>> Best val_loss=0.573, saved best.pt
+[5500] epoch=6 loss=0.699, acc=0.792, val_loss=0.561, val_acc=0.842, val_top5=0.971, t=45.5
+[5886] epoch=6 loss=0.821, acc=0.775, val_loss=0.570, val_acc=0.841, val_top5=0.970, t=38.8
+>> Best val_loss=0.570, saved best.pt
+[6000] epoch=7 loss=0.689, acc=0.799, val_loss=0.556, val_acc=0.843, val_top5=0.971, t=13.1
+[6500] epoch=7 loss=0.689, acc=0.806, val_loss=0.551, val_acc=0.846, val_top5=0.972, t=49.7
+[6727] epoch=7 loss=0.741, acc=0.762, val_loss=0.517, val_acc=0.854, val_top5=0.974, t=23.7
+>> Best val_loss=0.517, saved best.pt
+[7000] epoch=8 loss=0.714, acc=0.808, val_loss=0.538, val_acc=0.853, val_top5=0.974, t=28.3
+[7500] epoch=8 loss=0.711, acc=0.794, val_loss=0.526, val_acc=0.852, val_top5=0.974, t=49.8
+[7568] epoch=8 loss=0.650, acc=0.795, val_loss=0.550, val_acc=0.850, val_top5=0.974, t=8.6
+[8000] epoch=9 loss=0.714, acc=0.802, val_loss=0.541, val_acc=0.849, val_top5=0.972, t=43.5
+[8409] epoch=9 loss=0.646, acc=0.813, val_loss=0.525, val_acc=0.854, val_top5=0.974, t=41.0
+[8500] epoch=10 loss=0.597, acc=0.813, val_loss=0.524, val_acc=0.858, val_top5=0.976, t=10.9
+[9000] epoch=10 loss=0.648, acc=0.808, val_loss=0.510, val_acc=0.855, val_top5=0.975, t=49.7
+[9250] epoch=10 loss=0.645, acc=0.795, val_loss=0.501, val_acc=0.860, val_top5=0.976, t=25.9
+>> Best val_loss=0.501, saved best.pt
+[9500] epoch=11 loss=0.565, acc=0.829, val_loss=0.529, val_acc=0.852, val_top5=0.973, t=26.1
+[10000] epoch=11 loss=0.634, acc=0.820, val_loss=0.518, val_acc=0.856, val_top5=0.975, t=49.7
+[10091] epoch=11 loss=0.628, acc=0.824, val_loss=0.525, val_acc=0.854, val_top5=0.974, t=10.8
+[10500] epoch=12 loss=0.557, acc=0.834, val_loss=0.508, val_acc=0.857, val_top5=0.975, t=41.1
+[10932] epoch=12 loss=0.759, acc=0.770, val_loss=0.499, val_acc=0.859, val_top5=0.976, t=43.3
+>> Best val_loss=0.499, saved best.pt
+[11000] epoch=13 loss=0.500, acc=0.845, val_loss=0.495, val_acc=0.861, val_top5=0.977, t=8.8
+[11500] epoch=13 loss=0.568, acc=0.832, val_loss=0.493, val_acc=0.861, val_top5=0.977, t=49.8
+[11773] epoch=13 loss=0.517, acc=0.849, val_loss=0.508, val_acc=0.858, val_top5=0.975, t=28.1
+[12000] epoch=14 loss=0.484, acc=0.852, val_loss=0.511, val_acc=0.861, val_top5=0.976, t=23.9
+[12500] epoch=14 loss=0.543, acc=0.824, val_loss=0.539, val_acc=0.856, val_top5=0.975, t=50.0
+[12614] epoch=14 loss=0.551, acc=0.824, val_loss=0.487, val_acc=0.865, val_top5=0.977, t=13.1
+>> Best val_loss=0.487, saved best.pt
+[13000] epoch=15 loss=0.498, acc=0.840, val_loss=0.519, val_acc=0.861, val_top5=0.976, t=39.2
+[13455] epoch=15 loss=0.481, acc=0.862, val_loss=0.487, val_acc=0.862, val_top5=0.977, t=45.7
+>> Best val_loss=0.487, saved best.pt
+[13500] epoch=16 loss=0.453, acc=0.866, val_loss=0.498, val_acc=0.862, val_top5=0.977, t=6.6
+[14000] epoch=16 loss=0.542, acc=0.834, val_loss=0.497, val_acc=0.862, val_top5=0.976, t=50.1
+[14296] epoch=16 loss=0.537, acc=0.841, val_loss=0.478, val_acc=0.867, val_top5=0.977, t=30.5
+>> Best val_loss=0.478, saved best.pt
+[14500] epoch=17 loss=0.435, acc=0.873, val_loss=0.513, val_acc=0.865, val_top5=0.977, t=21.9
+[15000] epoch=17 loss=0.511, acc=0.841, val_loss=0.498, val_acc=0.864, val_top5=0.978, t=50.2
+[15137] epoch=17 loss=0.571, acc=0.818, val_loss=0.526, val_acc=0.853, val_top5=0.972, t=15.3
+[15500] epoch=18 loss=0.481, acc=0.850, val_loss=0.484, val_acc=0.866, val_top5=0.977, t=37.1
+[15978] epoch=18 loss=0.503, acc=0.841, val_loss=0.507, val_acc=0.866, val_top5=0.977, t=48.1
+[16000] epoch=19 loss=0.383, acc=0.880, val_loss=0.496, val_acc=0.865, val_top5=0.976, t=4.3
+[16500] epoch=19 loss=0.470, acc=0.854, val_loss=0.511, val_acc=0.867, val_top5=0.977, t=50.1
+[16819] epoch=19 loss=0.518, acc=0.826, val_loss=0.541, val_acc=0.863, val_top5=0.976, t=32.8
+[17000] epoch=20 loss=0.392, acc=0.868, val_loss=0.547, val_acc=0.861, val_top5=0.975, t=19.6
+[17500] epoch=20 loss=0.511, acc=0.851, val_loss=0.521, val_acc=0.864, val_top5=0.977, t=50.2
+[17660] epoch=20 loss=0.436, acc=0.862, val_loss=0.511, val_acc=0.858, val_top5=0.974, t=17.6
+[18000] epoch=21 loss=0.426, acc=0.865, val_loss=0.522, val_acc=0.864, val_top5=0.977, t=35.0
+[18500] epoch=21 loss=0.453, acc=0.856, val_loss=0.521, val_acc=0.863, val_top5=0.977, t=50.4
+[18501] epoch=21 loss=0.415, acc=0.844, val_loss=0.513, val_acc=0.864, val_top5=0.977, t=2.2
+>> Patience 5 reached, STOP training
+Total t=31.6 min
+===== 2026-11-26 00:09:33 end 1024-512 seed 2 (exit 0)
+===== 2026-11-26 00:09:33 start 2048-1024 seed 2
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_2048-1024_s2_20261126_000934/model.pt
+>> Config:  n_class=3922, n1=2048, n2=1024, dropout_p=0.3, seed=2
+>> Params:  15,659,570
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=2048, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=2048, out_features=1024, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=1024, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_2048-1024_s2_20261126_000934)
+
+[0] epoch=0 loss=8.281, acc=0.000, val_loss=8.274, val_acc=0.000, val_top5=0.002, t=5.8
+[500] epoch=0 loss=2.011, acc=0.508, val_loss=1.368, val_acc=0.637, val_top5=0.890, t=57.3
+[840] epoch=0 loss=1.355, acc=0.634, val_loss=1.041, val_acc=0.717, val_top5=0.930, t=39.7
+>> Best val_loss=1.041, saved best.pt
+[1000] epoch=1 loss=1.187, acc=0.680, val_loss=0.926, val_acc=0.744, val_top5=0.940, t=20.3
+[1500] epoch=1 loss=1.099, acc=0.693, val_loss=0.824, val_acc=0.782, val_top5=0.954, t=57.1
+[1681] epoch=1 loss=1.163, acc=0.688, val_loss=0.821, val_acc=0.787, val_top5=0.955, t=22.2
+>> Best val_loss=0.821, saved best.pt
+[2000] epoch=2 loss=1.025, acc=0.713, val_loss=0.765, val_acc=0.792, val_top5=0.956, t=37.6
+[2500] epoch=2 loss=0.967, acc=0.729, val_loss=0.660, val_acc=0.817, val_top5=0.965, t=57.0
+[2522] epoch=2 loss=0.875, acc=0.749, val_loss=0.634, val_acc=0.821, val_top5=0.966, t=4.8
+>> Best val_loss=0.634, saved best.pt
+[3000] epoch=3 loss=0.948, acc=0.745, val_loss=0.703, val_acc=0.820, val_top5=0.964, t=54.6
+[3363] epoch=3 loss=0.911, acc=0.754, val_loss=0.578, val_acc=0.837, val_top5=0.970, t=41.8
+>> Best val_loss=0.578, saved best.pt
+[3500] epoch=4 loss=0.702, acc=0.784, val_loss=0.710, val_acc=0.823, val_top5=0.965, t=17.5
+[4000] epoch=4 loss=0.766, acc=0.760, val_loss=0.586, val_acc=0.836, val_top5=0.969, t=56.8
+[4204] epoch=4 loss=0.779, acc=0.788, val_loss=0.617, val_acc=0.829, val_top5=0.968, t=24.6
+[4500] epoch=5 loss=0.663, acc=0.805, val_loss=0.617, val_acc=0.838, val_top5=0.969, t=34.6
+[5000] epoch=5 loss=0.724, acc=0.787, val_loss=0.573, val_acc=0.842, val_top5=0.971, t=56.7
+[5045] epoch=5 loss=0.817, acc=0.767, val_loss=0.572, val_acc=0.843, val_top5=0.971, t=7.3
+>> Best val_loss=0.572, saved best.pt
+[5500] epoch=6 loss=0.571, acc=0.830, val_loss=0.541, val_acc=0.848, val_top5=0.973, t=52.1
+[5886] epoch=6 loss=0.684, acc=0.841, val_loss=0.547, val_acc=0.849, val_top5=0.973, t=44.4
+>> Best val_loss=0.547, saved best.pt
+[6000] epoch=7 loss=0.534, acc=0.832, val_loss=0.564, val_acc=0.846, val_top5=0.971, t=15.0
+[6500] epoch=7 loss=0.581, acc=0.831, val_loss=0.524, val_acc=0.854, val_top5=0.975, t=56.6
+[6727] epoch=7 loss=0.642, acc=0.808, val_loss=0.560, val_acc=0.846, val_top5=0.971, t=27.0
+[7000] epoch=8 loss=0.576, acc=0.846, val_loss=0.537, val_acc=0.850, val_top5=0.972, t=32.1
+[7500] epoch=8 loss=0.625, acc=0.823, val_loss=0.537, val_acc=0.850, val_top5=0.972, t=56.7
+[7568] epoch=8 loss=0.488, acc=0.839, val_loss=0.525, val_acc=0.854, val_top5=0.974, t=9.8
+>> Best val_loss=0.525, saved best.pt
+[8000] epoch=9 loss=0.517, acc=0.846, val_loss=0.514, val_acc=0.857, val_top5=0.974, t=49.5
+[8409] epoch=9 loss=0.508, acc=0.829, val_loss=0.517, val_acc=0.858, val_top5=0.975, t=46.7
+>> Best val_loss=0.517, saved best.pt
+[8500] epoch=10 loss=0.460, acc=0.857, val_loss=0.512, val_acc=0.857, val_top5=0.974, t=12.5
+[9000] epoch=10 loss=0.523, acc=0.836, val_loss=0.555, val_acc=0.848, val_top5=0.971, t=56.6
+[9250] epoch=10 loss=0.484, acc=0.844, val_loss=0.512, val_acc=0.861, val_top5=0.975, t=29.4
+>> Best val_loss=0.512, saved best.pt
+[9500] epoch=11 loss=0.470, acc=0.849, val_loss=0.515, val_acc=0.858, val_top5=0.975, t=29.7
+[10000] epoch=11 loss=0.486, acc=0.852, val_loss=0.624, val_acc=0.848, val_top5=0.973, t=56.5
+[10091] epoch=11 loss=0.502, acc=0.839, val_loss=0.509, val_acc=0.861, val_top5=0.976, t=12.2
+>> Best val_loss=0.509, saved best.pt
+[10500] epoch=12 loss=0.400, acc=0.874, val_loss=0.542, val_acc=0.861, val_top5=0.976, t=46.8
+[10932] epoch=12 loss=0.519, acc=0.857, val_loss=0.525, val_acc=0.859, val_top5=0.975, t=49.1
+[11000] epoch=13 loss=0.413, acc=0.881, val_loss=0.537, val_acc=0.863, val_top5=0.976, t=9.8
+[11500] epoch=13 loss=0.431, acc=0.868, val_loss=0.503, val_acc=0.862, val_top5=0.976, t=56.5
+[11773] epoch=13 loss=0.414, acc=0.867, val_loss=0.515, val_acc=0.858, val_top5=0.974, t=31.9
+[12000] epoch=14 loss=0.362, acc=0.879, val_loss=0.508, val_acc=0.862, val_top5=0.975, t=27.0
+[12500] epoch=14 loss=0.438, acc=0.870, val_loss=0.567, val_acc=0.861, val_top5=0.975, t=56.5
+[12614] epoch=14 loss=0.455, acc=0.859, val_loss=0.570, val_acc=0.856, val_top5=0.973, t=14.7
+[13000] epoch=15 loss=0.369, acc=0.880, val_loss=0.542, val_acc=0.857, val_top5=0.973, t=44.2
+[13455] epoch=15 loss=0.362, acc=0.887, val_loss=0.526, val_acc=0.863, val_top5=0.976, t=51.6
+[13500] epoch=16 loss=0.308, acc=0.906, val_loss=0.524, val_acc=0.866, val_top5=0.976, t=7.3
+[14000] epoch=16 loss=0.405, acc=0.877, val_loss=0.521, val_acc=0.863, val_top5=0.976, t=56.6
+[14296] epoch=16 loss=0.410, acc=0.877, val_loss=0.673, val_acc=0.851, val_top5=0.974, t=34.5
+>> Patience 5 reached, STOP training
+Total t=27.8 min
+===== 2026-11-26 00:37:24 end 2048-1024 seed 2 (exit 0)
+===== 2026-11-26 00:37:24 start 4096-2048 seed 2
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_4096-2048_s2_20261126_003725/model.pt
+>> Config:  n_class=3922, n1=4096, n2=2048, dropout_p=0.3, seed=2
+>> Params:  35,407,410
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=4096, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=4096, out_features=2048, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=2048, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_4096-2048_s2_20261126_003725)
+
+[0] epoch=0 loss=8.276, acc=0.000, val_loss=8.275, val_acc=0.000, val_top5=0.002, t=6.4
+[500] epoch=0 loss=2.005, acc=0.514, val_loss=1.416, val_acc=0.628, val_top5=0.886, t=73.3
+[840] epoch=0 loss=1.402, acc=0.624, val_loss=0.967, val_acc=0.733, val_top5=0.936, t=51.0
+>> Best val_loss=0.967, saved best.pt
+[1000] epoch=1 loss=1.280, acc=0.657, val_loss=0.961, val_acc=0.741, val_top5=0.938, t=26.3
+[1500] epoch=1 loss=1.065, acc=0.717, val_loss=0.830, val_acc=0.780, val_top5=0.953, t=73.5
+[1681] epoch=1 loss=1.143, acc=0.703, val_loss=0.745, val_acc=0.792, val_top5=0.958, t=28.5
+>> Best val_loss=0.745, saved best.pt
+[2000] epoch=2 loss=0.974, acc=0.736, val_loss=0.774, val_acc=0.794, val_top5=0.956, t=48.5
+[2500] epoch=2 loss=1.027, acc=0.721, val_loss=0.671, val_acc=0.811, val_top5=0.963, t=73.5
+[2522] epoch=2 loss=0.940, acc=0.747, val_loss=0.663, val_acc=0.815, val_top5=0.963, t=6.2
+>> Best val_loss=0.663, saved best.pt
+[3000] epoch=3 loss=0.911, acc=0.756, val_loss=0.625, val_acc=0.829, val_top5=0.967, t=70.9
+[3363] epoch=3 loss=0.793, acc=0.790, val_loss=0.602, val_acc=0.832, val_top5=0.968, t=54.2
+>> Best val_loss=0.602, saved best.pt
+[3500] epoch=4 loss=0.679, acc=0.817, val_loss=0.718, val_acc=0.824, val_top5=0.967, t=22.9
+[4000] epoch=4 loss=0.792, acc=0.788, val_loss=0.577, val_acc=0.840, val_top5=0.971, t=73.4
+[4204] epoch=4 loss=0.854, acc=0.762, val_loss=0.568, val_acc=0.842, val_top5=0.971, t=31.7
+>> Best val_loss=0.568, saved best.pt
+[4500] epoch=5 loss=0.623, acc=0.831, val_loss=0.577, val_acc=0.841, val_top5=0.971, t=45.1
+[5000] epoch=5 loss=0.658, acc=0.813, val_loss=0.608, val_acc=0.840, val_top5=0.971, t=73.5
+[5045] epoch=5 loss=0.710, acc=0.803, val_loss=0.586, val_acc=0.846, val_top5=0.973, t=9.4
+[5500] epoch=6 loss=0.577, acc=0.845, val_loss=0.555, val_acc=0.849, val_top5=0.973, t=66.7
+[5886] epoch=6 loss=0.739, acc=0.795, val_loss=0.532, val_acc=0.851, val_top5=0.973, t=57.0
+>> Best val_loss=0.532, saved best.pt
+[6000] epoch=7 loss=0.422, acc=0.862, val_loss=0.550, val_acc=0.848, val_top5=0.972, t=19.5
+[6500] epoch=7 loss=0.521, acc=0.847, val_loss=0.545, val_acc=0.849, val_top5=0.973, t=73.1
+[6727] epoch=7 loss=0.684, acc=0.803, val_loss=0.541, val_acc=0.850, val_top5=0.972, t=34.8
+[7000] epoch=8 loss=0.497, acc=0.855, val_loss=0.621, val_acc=0.848, val_top5=0.972, t=41.4
+[7500] epoch=8 loss=0.564, acc=0.823, val_loss=0.542, val_acc=0.848, val_top5=0.973, t=73.3
+[7568] epoch=8 loss=0.497, acc=0.852, val_loss=0.672, val_acc=0.834, val_top5=0.966, t=12.6
+[8000] epoch=9 loss=0.506, acc=0.838, val_loss=0.563, val_acc=0.853, val_top5=0.974, t=63.8
+[8409] epoch=9 loss=0.466, acc=0.841, val_loss=0.517, val_acc=0.858, val_top5=0.974, t=60.4
+>> Best val_loss=0.517, saved best.pt
+[8500] epoch=10 loss=0.375, acc=0.896, val_loss=0.541, val_acc=0.852, val_top5=0.972, t=16.3
+[9000] epoch=10 loss=0.474, acc=0.861, val_loss=0.561, val_acc=0.853, val_top5=0.973, t=73.3
+[9250] epoch=10 loss=0.548, acc=0.813, val_loss=0.650, val_acc=0.848, val_top5=0.972, t=38.0
+[9500] epoch=11 loss=0.383, acc=0.881, val_loss=0.559, val_acc=0.854, val_top5=0.973, t=38.0
+[10000] epoch=11 loss=0.444, acc=0.864, val_loss=0.596, val_acc=0.855, val_top5=0.973, t=72.9
+[10091] epoch=11 loss=0.459, acc=0.870, val_loss=0.545, val_acc=0.852, val_top5=0.972, t=15.7
+[10500] epoch=12 loss=0.389, acc=0.883, val_loss=0.716, val_acc=0.849, val_top5=0.973, t=60.2
+[10932] epoch=12 loss=0.391, acc=0.898, val_loss=0.548, val_acc=0.860, val_top5=0.975, t=63.3
+[11000] epoch=13 loss=0.297, acc=0.901, val_loss=0.561, val_acc=0.859, val_top5=0.974, t=12.6
+[11500] epoch=13 loss=0.413, acc=0.883, val_loss=0.552, val_acc=0.851, val_top5=0.972, t=72.7
+[11773] epoch=13 loss=0.248, acc=0.916, val_loss=0.537, val_acc=0.861, val_top5=0.975, t=41.0
+[12000] epoch=14 loss=0.288, acc=0.911, val_loss=0.643, val_acc=0.861, val_top5=0.976, t=34.7
+[12500] epoch=14 loss=0.352, acc=0.883, val_loss=0.630, val_acc=0.856, val_top5=0.975, t=72.7
+[12614] epoch=14 loss=0.278, acc=0.893, val_loss=0.589, val_acc=0.860, val_top5=0.975, t=18.9
+>> Patience 5 reached, STOP training
+Total t=31.7 min
+===== 2026-11-26 01:09:07 end 4096-2048 seed 2 (exit 0)
+===== 2026-11-26 01:09:07 start 256-128 seed 3
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_256-128_s3_20261126_010909/model.pt
+>> Config:  n_class=3922, n1=256, n2=128, dropout_p=0.3, seed=3
+>> Params:  1,820,850
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=256, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=256, out_features=128, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=128, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_256-128_s3_20261126_010909)
+
+[0] epoch=0 loss=8.281, acc=0.000, val_loss=8.276, val_acc=0.000, val_top5=0.002, t=5.3
+[500] epoch=0 loss=3.222, acc=0.260, val_loss=2.475, val_acc=0.441, val_top5=0.763, t=44.9
+[840] epoch=0 loss=2.335, acc=0.404, val_loss=1.632, val_acc=0.592, val_top5=0.869, t=31.3
+>> Best val_loss=1.632, saved best.pt
+[1000] epoch=1 loss=2.403, acc=0.407, val_loss=1.472, val_acc=0.627, val_top5=0.887, t=15.8
+[1500] epoch=1 loss=2.057, acc=0.491, val_loss=1.116, val_acc=0.706, val_top5=0.924, t=45.1
+[1681] epoch=1 loss=1.940, acc=0.522, val_loss=1.085, val_acc=0.710, val_top5=0.925, t=17.7
+>> Best val_loss=1.085, saved best.pt
+[2000] epoch=2 loss=1.848, acc=0.528, val_loss=1.013, val_acc=0.732, val_top5=0.934, t=29.6
+[2500] epoch=2 loss=1.655, acc=0.580, val_loss=0.912, val_acc=0.750, val_top5=0.944, t=45.2
+[2522] epoch=2 loss=1.839, acc=0.545, val_loss=0.907, val_acc=0.757, val_top5=0.944, t=3.9
+>> Best val_loss=0.907, saved best.pt
+[3000] epoch=3 loss=1.642, acc=0.567, val_loss=0.844, val_acc=0.771, val_top5=0.949, t=43.4
+[3363] epoch=3 loss=1.747, acc=0.575, val_loss=0.877, val_acc=0.765, val_top5=0.946, t=33.3
+>> Best val_loss=0.877, saved best.pt
+[3500] epoch=4 loss=1.610, acc=0.572, val_loss=0.820, val_acc=0.779, val_top5=0.952, t=14.0
+[4000] epoch=4 loss=1.509, acc=0.595, val_loss=0.768, val_acc=0.787, val_top5=0.956, t=45.2
+[4204] epoch=4 loss=1.491, acc=0.621, val_loss=0.771, val_acc=0.788, val_top5=0.956, t=19.6
+>> Best val_loss=0.771, saved best.pt
+[4500] epoch=5 loss=1.432, acc=0.639, val_loss=0.775, val_acc=0.793, val_top5=0.956, t=27.6
+[5000] epoch=5 loss=1.287, acc=0.666, val_loss=0.749, val_acc=0.794, val_top5=0.957, t=45.2
+[5045] epoch=5 loss=1.454, acc=0.616, val_loss=0.754, val_acc=0.798, val_top5=0.958, t=5.9
+>> Best val_loss=0.754, saved best.pt
+[5500] epoch=6 loss=1.366, acc=0.643, val_loss=0.766, val_acc=0.798, val_top5=0.958, t=41.3
+[5886] epoch=6 loss=1.412, acc=0.642, val_loss=0.732, val_acc=0.797, val_top5=0.957, t=35.3
+>> Best val_loss=0.732, saved best.pt
+[6000] epoch=7 loss=1.421, acc=0.605, val_loss=0.727, val_acc=0.802, val_top5=0.959, t=11.9
+[6500] epoch=7 loss=1.320, acc=0.653, val_loss=0.722, val_acc=0.799, val_top5=0.958, t=45.2
+[6727] epoch=7 loss=1.387, acc=0.645, val_loss=0.680, val_acc=0.812, val_top5=0.963, t=21.5
+>> Best val_loss=0.680, saved best.pt
+[7000] epoch=8 loss=1.281, acc=0.677, val_loss=0.704, val_acc=0.805, val_top5=0.960, t=25.7
+[7500] epoch=8 loss=1.341, acc=0.654, val_loss=0.729, val_acc=0.809, val_top5=0.960, t=45.3
+[7568] epoch=8 loss=1.252, acc=0.670, val_loss=0.674, val_acc=0.813, val_top5=0.963, t=7.9
+>> Best val_loss=0.674, saved best.pt
+[8000] epoch=9 loss=1.309, acc=0.661, val_loss=0.649, val_acc=0.819, val_top5=0.965, t=39.3
+[8409] epoch=9 loss=1.167, acc=0.673, val_loss=0.662, val_acc=0.817, val_top5=0.963, t=37.3
+>> Best val_loss=0.662, saved best.pt
+[8500] epoch=10 loss=1.194, acc=0.678, val_loss=0.683, val_acc=0.815, val_top5=0.963, t=9.9
+[9000] epoch=10 loss=1.297, acc=0.659, val_loss=0.671, val_acc=0.813, val_top5=0.962, t=45.2
+[9250] epoch=10 loss=1.241, acc=0.665, val_loss=0.676, val_acc=0.815, val_top5=0.963, t=23.6
+[9500] epoch=11 loss=1.124, acc=0.702, val_loss=0.643, val_acc=0.820, val_top5=0.965, t=23.7
+[10000] epoch=11 loss=1.182, acc=0.687, val_loss=0.645, val_acc=0.824, val_top5=0.966, t=45.5
+[10091] epoch=11 loss=1.268, acc=0.650, val_loss=0.646, val_acc=0.826, val_top5=0.966, t=9.9
+>> Best val_loss=0.646, saved best.pt
+[10500] epoch=12 loss=1.119, acc=0.705, val_loss=0.660, val_acc=0.818, val_top5=0.964, t=37.6
+[10932] epoch=12 loss=1.328, acc=0.678, val_loss=0.630, val_acc=0.828, val_top5=0.966, t=39.6
+>> Best val_loss=0.630, saved best.pt
+[11000] epoch=13 loss=1.149, acc=0.678, val_loss=0.601, val_acc=0.833, val_top5=0.968, t=8.0
+[11500] epoch=13 loss=1.145, acc=0.685, val_loss=0.621, val_acc=0.827, val_top5=0.967, t=45.5
+[11773] epoch=13 loss=1.266, acc=0.680, val_loss=0.648, val_acc=0.822, val_top5=0.964, t=25.8
+[12000] epoch=14 loss=1.116, acc=0.712, val_loss=0.625, val_acc=0.828, val_top5=0.966, t=21.8
+[12500] epoch=14 loss=1.178, acc=0.682, val_loss=0.611, val_acc=0.829, val_top5=0.967, t=45.7
+[12614] epoch=14 loss=1.146, acc=0.688, val_loss=0.595, val_acc=0.833, val_top5=0.969, t=12.0
+>> Best val_loss=0.595, saved best.pt
+[13000] epoch=15 loss=1.086, acc=0.712, val_loss=0.611, val_acc=0.831, val_top5=0.968, t=35.8
+[13455] epoch=15 loss=1.083, acc=0.703, val_loss=0.619, val_acc=0.832, val_top5=0.967, t=41.8
+[13500] epoch=16 loss=1.201, acc=0.673, val_loss=0.603, val_acc=0.834, val_top5=0.969, t=6.0
+[14000] epoch=16 loss=1.240, acc=0.655, val_loss=0.607, val_acc=0.833, val_top5=0.967, t=45.7
+[14296] epoch=16 loss=1.192, acc=0.688, val_loss=0.603, val_acc=0.832, val_top5=0.968, t=27.9
+[14500] epoch=17 loss=1.078, acc=0.689, val_loss=0.631, val_acc=0.829, val_top5=0.966, t=19.9
+[15000] epoch=17 loss=1.099, acc=0.696, val_loss=0.608, val_acc=0.832, val_top5=0.967, t=45.8
+[15137] epoch=17 loss=1.296, acc=0.670, val_loss=0.608, val_acc=0.836, val_top5=0.968, t=14.0
+[15500] epoch=18 loss=1.059, acc=0.697, val_loss=0.596, val_acc=0.835, val_top5=0.968, t=33.8
+[15978] epoch=18 loss=1.136, acc=0.708, val_loss=0.590, val_acc=0.840, val_top5=0.969, t=43.8
+>> Best val_loss=0.590, saved best.pt
+[16000] epoch=19 loss=1.067, acc=0.702, val_loss=0.607, val_acc=0.835, val_top5=0.968, t=4.0
+[16500] epoch=19 loss=1.121, acc=0.699, val_loss=0.601, val_acc=0.837, val_top5=0.968, t=45.7
+[16819] epoch=19 loss=1.138, acc=0.706, val_loss=0.593, val_acc=0.836, val_top5=0.968, t=29.9
+[17000] epoch=20 loss=1.114, acc=0.692, val_loss=0.581, val_acc=0.841, val_top5=0.970, t=17.9
+[17500] epoch=20 loss=1.195, acc=0.670, val_loss=0.579, val_acc=0.839, val_top5=0.970, t=45.6
+[17660] epoch=20 loss=1.148, acc=0.693, val_loss=0.600, val_acc=0.838, val_top5=0.969, t=16.0
+[18000] epoch=21 loss=1.117, acc=0.700, val_loss=0.587, val_acc=0.839, val_top5=0.969, t=31.7
+[18500] epoch=21 loss=1.017, acc=0.704, val_loss=0.578, val_acc=0.839, val_top5=0.970, t=45.6
+[18501] epoch=21 loss=1.314, acc=0.645, val_loss=0.593, val_acc=0.834, val_top5=0.968, t=2.1
+[19000] epoch=22 loss=1.051, acc=0.701, val_loss=0.595, val_acc=0.839, val_top5=0.968, t=45.6
+[19342] epoch=22 loss=1.248, acc=0.675, val_loss=0.586, val_acc=0.840, val_top5=0.969, t=31.9
+>> Best val_loss=0.586, saved best.pt
+[19500] epoch=23 loss=1.075, acc=0.719, val_loss=0.574, val_acc=0.841, val_top5=0.970, t=15.9
+[20000] epoch=23 loss=1.162, acc=0.686, val_loss=0.577, val_acc=0.839, val_top5=0.969, t=45.7
+[20183] epoch=23 loss=1.090, acc=0.691, val_loss=0.565, val_acc=0.844, val_top5=0.971, t=18.0
+>> Best val_loss=0.565, saved best.pt
+[20500] epoch=24 loss=1.006, acc=0.709, val_loss=0.587, val_acc=0.837, val_top5=0.969, t=29.6
+[21000] epoch=24 loss=0.981, acc=0.737, val_loss=0.574, val_acc=0.842, val_top5=0.970, t=45.5
+[21024] epoch=24 loss=1.113, acc=0.701, val_loss=0.570, val_acc=0.845, val_top5=0.971, t=4.1
+[21500] epoch=25 loss=0.962, acc=0.722, val_loss=0.573, val_acc=0.842, val_top5=0.969, t=43.5
+[21865] epoch=25 loss=0.966, acc=0.726, val_loss=0.575, val_acc=0.844, val_top5=0.970, t=33.8
+[22000] epoch=26 loss=0.987, acc=0.729, val_loss=0.582, val_acc=0.841, val_top5=0.970, t=13.8
+[22500] epoch=26 loss=1.012, acc=0.702, val_loss=0.592, val_acc=0.841, val_top5=0.969, t=45.7
+[22706] epoch=26 loss=1.005, acc=0.731, val_loss=0.569, val_acc=0.842, val_top5=0.971, t=19.9
+[23000] epoch=27 loss=1.058, acc=0.729, val_loss=0.562, val_acc=0.844, val_top5=0.972, t=27.7
+[23500] epoch=27 loss=1.136, acc=0.683, val_loss=0.556, val_acc=0.845, val_top5=0.972, t=45.6
+[23547] epoch=27 loss=1.139, acc=0.660, val_loss=0.593, val_acc=0.834, val_top5=0.969, t=6.1
+[24000] epoch=28 loss=1.065, acc=0.711, val_loss=0.576, val_acc=0.842, val_top5=0.971, t=41.5
+[24388] epoch=28 loss=0.967, acc=0.698, val_loss=0.552, val_acc=0.846, val_top5=0.972, t=35.8
+>> Best val_loss=0.552, saved best.pt
+[24500] epoch=29 loss=1.054, acc=0.717, val_loss=0.580, val_acc=0.838, val_top5=0.969, t=11.9
+[25000] epoch=29 loss=1.015, acc=0.722, val_loss=0.557, val_acc=0.845, val_top5=0.971, t=45.4
+[25229] epoch=29 loss=0.876, acc=0.762, val_loss=0.559, val_acc=0.845, val_top5=0.971, t=21.8
+[25500] epoch=30 loss=1.006, acc=0.722, val_loss=0.548, val_acc=0.847, val_top5=0.972, t=25.4
+[26000] epoch=30 loss=0.979, acc=0.716, val_loss=0.559, val_acc=0.848, val_top5=0.972, t=45.3
+[26070] epoch=30 loss=1.075, acc=0.706, val_loss=0.542, val_acc=0.850, val_top5=0.973, t=8.1
+>> Best val_loss=0.542, saved best.pt
+[26500] epoch=31 loss=0.968, acc=0.715, val_loss=0.566, val_acc=0.843, val_top5=0.970, t=39.4
+[26911] epoch=31 loss=0.980, acc=0.734, val_loss=0.553, val_acc=0.846, val_top5=0.972, t=37.6
+[27000] epoch=32 loss=1.054, acc=0.694, val_loss=0.563, val_acc=0.844, val_top5=0.971, t=9.8
+[27500] epoch=32 loss=1.153, acc=0.696, val_loss=0.548, val_acc=0.847, val_top5=0.972, t=45.2
+[27752] epoch=32 loss=1.022, acc=0.737, val_loss=0.574, val_acc=0.840, val_top5=0.970, t=23.8
+[28000] epoch=33 loss=1.032, acc=0.730, val_loss=0.559, val_acc=0.844, val_top5=0.971, t=23.5
+[28500] epoch=33 loss=1.072, acc=0.721, val_loss=0.551, val_acc=0.846, val_top5=0.971, t=45.4
+[28593] epoch=33 loss=0.990, acc=0.711, val_loss=0.543, val_acc=0.850, val_top5=0.973, t=10.0
+[29000] epoch=34 loss=1.054, acc=0.714, val_loss=0.558, val_acc=0.845, val_top5=0.971, t=37.1
+[29434] epoch=34 loss=0.944, acc=0.749, val_loss=0.577, val_acc=0.841, val_top5=0.969, t=39.3
+[29500] epoch=35 loss=0.967, acc=0.739, val_loss=0.533, val_acc=0.852, val_top5=0.973, t=7.7
+[30000] epoch=35 loss=0.952, acc=0.731, val_loss=0.543, val_acc=0.849, val_top5=0.973, t=45.2
+[30275] epoch=35 loss=0.893, acc=0.719, val_loss=0.561, val_acc=0.843, val_top5=0.971, t=25.7
+>> Patience 5 reached, STOP training
+Total t=47.1 min
+===== 2026-11-26 01:56:17 end 256-128 seed 3 (exit 0)
+===== 2026-11-26 01:56:17 start 512-256 seed 3
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_512-256_s3_20261126_015618/model.pt
+>> Config:  n_class=3922, n1=512, n2=256, dropout_p=0.3, seed=3
+>> Params:  3,601,202
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=512, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=512, out_features=256, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=256, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_512-256_s3_20261126_015618)
+
+[0] epoch=0 loss=8.278, acc=0.000, val_loss=8.275, val_acc=0.000, val_top5=0.002, t=5.3
+[500] epoch=0 loss=2.302, acc=0.420, val_loss=1.870, val_acc=0.548, val_top5=0.844, t=46.6
+[840] epoch=0 loss=1.679, acc=0.522, val_loss=1.251, val_acc=0.690, val_top5=0.917, t=32.5
+>> Best val_loss=1.251, saved best.pt
+[1000] epoch=1 loss=1.758, acc=0.561, val_loss=1.115, val_acc=0.696, val_top5=0.919, t=16.4
+[1500] epoch=1 loss=1.453, acc=0.627, val_loss=0.899, val_acc=0.752, val_top5=0.943, t=46.5
+[1681] epoch=1 loss=1.467, acc=0.619, val_loss=0.833, val_acc=0.770, val_top5=0.948, t=18.1
+>> Best val_loss=0.833, saved best.pt
+[2000] epoch=2 loss=1.332, acc=0.651, val_loss=0.801, val_acc=0.779, val_top5=0.950, t=30.5
+[2500] epoch=2 loss=1.263, acc=0.669, val_loss=0.759, val_acc=0.796, val_top5=0.957, t=46.6
+[2522] epoch=2 loss=1.249, acc=0.688, val_loss=0.769, val_acc=0.793, val_top5=0.954, t=4.0
+>> Best val_loss=0.769, saved best.pt
+[3000] epoch=3 loss=1.124, acc=0.699, val_loss=0.688, val_acc=0.806, val_top5=0.962, t=44.6
+[3363] epoch=3 loss=1.152, acc=0.683, val_loss=0.659, val_acc=0.818, val_top5=0.965, t=34.3
+>> Best val_loss=0.659, saved best.pt
+[3500] epoch=4 loss=1.100, acc=0.719, val_loss=0.662, val_acc=0.814, val_top5=0.963, t=14.4
+[4000] epoch=4 loss=1.071, acc=0.700, val_loss=0.645, val_acc=0.820, val_top5=0.964, t=46.5
+[4204] epoch=4 loss=1.148, acc=0.696, val_loss=0.647, val_acc=0.823, val_top5=0.966, t=20.1
+>> Best val_loss=0.647, saved best.pt
+[4500] epoch=5 loss=1.069, acc=0.710, val_loss=0.621, val_acc=0.827, val_top5=0.968, t=28.4
+[5000] epoch=5 loss=1.005, acc=0.745, val_loss=0.603, val_acc=0.830, val_top5=0.968, t=46.5
+[5045] epoch=5 loss=1.021, acc=0.729, val_loss=0.613, val_acc=0.830, val_top5=0.968, t=6.0
+>> Best val_loss=0.613, saved best.pt
+[5500] epoch=6 loss=0.922, acc=0.737, val_loss=0.603, val_acc=0.828, val_top5=0.968, t=42.6
+[5886] epoch=6 loss=1.067, acc=0.729, val_loss=0.591, val_acc=0.834, val_top5=0.968, t=36.3
+>> Best val_loss=0.591, saved best.pt
+[6000] epoch=7 loss=1.012, acc=0.733, val_loss=0.566, val_acc=0.839, val_top5=0.971, t=12.3
+[6500] epoch=7 loss=0.883, acc=0.759, val_loss=0.583, val_acc=0.835, val_top5=0.969, t=46.5
+[6727] epoch=7 loss=0.944, acc=0.714, val_loss=0.571, val_acc=0.839, val_top5=0.970, t=22.2
+>> Best val_loss=0.571, saved best.pt
+[7000] epoch=8 loss=0.812, acc=0.775, val_loss=0.574, val_acc=0.837, val_top5=0.971, t=26.4
+[7500] epoch=8 loss=0.933, acc=0.736, val_loss=0.545, val_acc=0.846, val_top5=0.972, t=46.5
+[7568] epoch=8 loss=0.788, acc=0.754, val_loss=0.573, val_acc=0.840, val_top5=0.971, t=8.1
+[8000] epoch=9 loss=0.872, acc=0.733, val_loss=0.552, val_acc=0.845, val_top5=0.972, t=40.6
+[8409] epoch=9 loss=0.757, acc=0.795, val_loss=0.555, val_acc=0.842, val_top5=0.971, t=38.4
+>> Best val_loss=0.555, saved best.pt
+[8500] epoch=10 loss=0.848, acc=0.757, val_loss=0.540, val_acc=0.847, val_top5=0.973, t=10.2
+[9000] epoch=10 loss=0.798, acc=0.769, val_loss=0.556, val_acc=0.844, val_top5=0.971, t=46.7
+[9250] epoch=10 loss=0.887, acc=0.739, val_loss=0.543, val_acc=0.846, val_top5=0.972, t=24.4
+>> Best val_loss=0.543, saved best.pt
+[9500] epoch=11 loss=0.651, acc=0.792, val_loss=0.566, val_acc=0.841, val_top5=0.970, t=24.5
+[10000] epoch=11 loss=0.775, acc=0.781, val_loss=0.537, val_acc=0.848, val_top5=0.972, t=46.9
+[10091] epoch=11 loss=1.001, acc=0.747, val_loss=0.557, val_acc=0.848, val_top5=0.971, t=10.2
+[10500] epoch=12 loss=0.743, acc=0.788, val_loss=0.537, val_acc=0.848, val_top5=0.972, t=38.8
+[10932] epoch=12 loss=0.843, acc=0.752, val_loss=0.528, val_acc=0.852, val_top5=0.973, t=40.8
+>> Best val_loss=0.528, saved best.pt
+[11000] epoch=13 loss=0.778, acc=0.779, val_loss=0.505, val_acc=0.857, val_top5=0.975, t=8.2
+[11500] epoch=13 loss=0.722, acc=0.778, val_loss=0.515, val_acc=0.854, val_top5=0.975, t=47.0
+[11773] epoch=13 loss=0.756, acc=0.775, val_loss=0.532, val_acc=0.850, val_top5=0.973, t=26.5
+[12000] epoch=14 loss=0.736, acc=0.790, val_loss=0.513, val_acc=0.854, val_top5=0.975, t=22.5
+[12500] epoch=14 loss=0.720, acc=0.798, val_loss=0.514, val_acc=0.854, val_top5=0.974, t=47.0
+[12614] epoch=14 loss=0.813, acc=0.749, val_loss=0.514, val_acc=0.854, val_top5=0.975, t=12.3
+>> Best val_loss=0.514, saved best.pt
+[13000] epoch=15 loss=0.731, acc=0.801, val_loss=0.519, val_acc=0.853, val_top5=0.974, t=36.8
+[13455] epoch=15 loss=0.731, acc=0.788, val_loss=0.510, val_acc=0.856, val_top5=0.975, t=43.0
+>> Best val_loss=0.510, saved best.pt
+[13500] epoch=16 loss=0.655, acc=0.812, val_loss=0.505, val_acc=0.857, val_top5=0.975, t=6.2
+[14000] epoch=16 loss=0.715, acc=0.786, val_loss=0.525, val_acc=0.853, val_top5=0.973, t=47.0
+[14296] epoch=16 loss=0.851, acc=0.747, val_loss=0.534, val_acc=0.850, val_top5=0.974, t=28.6
+[14500] epoch=17 loss=0.667, acc=0.816, val_loss=0.508, val_acc=0.857, val_top5=0.974, t=20.4
+[15000] epoch=17 loss=0.717, acc=0.784, val_loss=0.522, val_acc=0.855, val_top5=0.974, t=47.0
+[15137] epoch=17 loss=0.859, acc=0.742, val_loss=0.510, val_acc=0.857, val_top5=0.975, t=14.4
+>> Best val_loss=0.510, saved best.pt
+[15500] epoch=18 loss=0.722, acc=0.788, val_loss=0.513, val_acc=0.855, val_top5=0.974, t=34.8
+[15978] epoch=18 loss=0.725, acc=0.801, val_loss=0.492, val_acc=0.862, val_top5=0.976, t=45.0
+>> Best val_loss=0.492, saved best.pt
+[16000] epoch=19 loss=0.567, acc=0.827, val_loss=0.493, val_acc=0.862, val_top5=0.976, t=4.2
+[16500] epoch=19 loss=0.647, acc=0.812, val_loss=0.497, val_acc=0.860, val_top5=0.975, t=47.1
+[16819] epoch=19 loss=0.723, acc=0.793, val_loss=0.522, val_acc=0.854, val_top5=0.974, t=30.7
+[17000] epoch=20 loss=0.675, acc=0.816, val_loss=0.496, val_acc=0.861, val_top5=0.977, t=18.3
+[17500] epoch=20 loss=0.707, acc=0.795, val_loss=0.491, val_acc=0.861, val_top5=0.976, t=47.0
+[17660] epoch=20 loss=0.747, acc=0.775, val_loss=0.489, val_acc=0.863, val_top5=0.976, t=16.4
+>> Best val_loss=0.489, saved best.pt
+[18000] epoch=21 loss=0.689, acc=0.808, val_loss=0.494, val_acc=0.862, val_top5=0.977, t=32.5
+[18500] epoch=21 loss=0.668, acc=0.804, val_loss=0.502, val_acc=0.860, val_top5=0.975, t=46.6
+[18501] epoch=21 loss=0.799, acc=0.785, val_loss=0.502, val_acc=0.859, val_top5=0.975, t=2.1
+[19000] epoch=22 loss=0.680, acc=0.812, val_loss=0.495, val_acc=0.860, val_top5=0.976, t=46.6
+[19342] epoch=22 loss=0.708, acc=0.790, val_loss=0.494, val_acc=0.861, val_top5=0.976, t=32.5
+[19500] epoch=23 loss=0.681, acc=0.789, val_loss=0.488, val_acc=0.864, val_top5=0.976, t=16.1
+[20000] epoch=23 loss=0.732, acc=0.794, val_loss=0.499, val_acc=0.861, val_top5=0.976, t=46.4
+[20183] epoch=23 loss=0.664, acc=0.798, val_loss=0.497, val_acc=0.861, val_top5=0.976, t=18.2
+[20500] epoch=24 loss=0.667, acc=0.803, val_loss=0.487, val_acc=0.864, val_top5=0.976, t=30.2
+[21000] epoch=24 loss=0.689, acc=0.809, val_loss=0.485, val_acc=0.864, val_top5=0.976, t=46.4
+[21024] epoch=24 loss=0.659, acc=0.775, val_loss=0.501, val_acc=0.860, val_top5=0.975, t=4.1
+[21500] epoch=25 loss=0.592, acc=0.830, val_loss=0.496, val_acc=0.862, val_top5=0.975, t=44.3
+[21865] epoch=25 loss=0.591, acc=0.808, val_loss=0.497, val_acc=0.862, val_top5=0.975, t=34.3
+>> Patience 5 reached, STOP training
+Total t=35.0 min
+===== 2026-11-26 02:31:19 end 512-256 seed 3 (exit 0)
+===== 2026-11-26 02:31:19 start 1024-512 seed 3
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_1024-512_s3_20261126_023120/model.pt
+>> Config:  n_class=3922, n1=1024, n2=512, dropout_p=0.3, seed=3
+>> Params:  7,358,514
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=1024, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=1024, out_features=512, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=512, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_1024-512_s3_20261126_023120)
+
+[0] epoch=0 loss=8.278, acc=0.001, val_loss=8.274, val_acc=0.000, val_top5=0.001, t=5.5
+[500] epoch=0 loss=1.906, acc=0.484, val_loss=1.491, val_acc=0.611, val_top5=0.876, t=49.5
+[840] epoch=0 loss=1.361, acc=0.614, val_loss=1.081, val_acc=0.704, val_top5=0.924, t=34.4
+>> Best val_loss=1.081, saved best.pt
+[1000] epoch=1 loss=1.394, acc=0.622, val_loss=0.945, val_acc=0.739, val_top5=0.938, t=17.5
+[1500] epoch=1 loss=1.216, acc=0.676, val_loss=0.813, val_acc=0.776, val_top5=0.951, t=49.5
+[1681] epoch=1 loss=1.297, acc=0.650, val_loss=0.773, val_acc=0.787, val_top5=0.954, t=19.3
+>> Best val_loss=0.773, saved best.pt
+[2000] epoch=2 loss=1.026, acc=0.712, val_loss=0.725, val_acc=0.798, val_top5=0.959, t=32.5
+[2500] epoch=2 loss=1.001, acc=0.723, val_loss=0.734, val_acc=0.795, val_top5=0.959, t=49.6
+[2522] epoch=2 loss=1.154, acc=0.701, val_loss=0.661, val_acc=0.821, val_top5=0.965, t=4.2
+>> Best val_loss=0.661, saved best.pt
+[3000] epoch=3 loss=0.903, acc=0.745, val_loss=0.618, val_acc=0.825, val_top5=0.967, t=47.9
+[3363] epoch=3 loss=1.002, acc=0.703, val_loss=0.599, val_acc=0.831, val_top5=0.968, t=36.7
+>> Best val_loss=0.599, saved best.pt
+[3500] epoch=4 loss=0.872, acc=0.749, val_loss=0.610, val_acc=0.834, val_top5=0.969, t=15.3
+[4000] epoch=4 loss=0.809, acc=0.779, val_loss=0.588, val_acc=0.836, val_top5=0.970, t=49.6
+[4204] epoch=4 loss=0.759, acc=0.808, val_loss=0.566, val_acc=0.839, val_top5=0.971, t=21.5
+>> Best val_loss=0.566, saved best.pt
+[4500] epoch=5 loss=0.777, acc=0.779, val_loss=0.570, val_acc=0.839, val_top5=0.971, t=30.5
+[5000] epoch=5 loss=0.816, acc=0.777, val_loss=0.573, val_acc=0.843, val_top5=0.971, t=49.8
+[5045] epoch=5 loss=0.777, acc=0.798, val_loss=0.559, val_acc=0.843, val_top5=0.971, t=6.4
+>> Best val_loss=0.559, saved best.pt
+[5500] epoch=6 loss=0.705, acc=0.793, val_loss=0.553, val_acc=0.845, val_top5=0.972, t=45.4
+[5886] epoch=6 loss=0.929, acc=0.737, val_loss=0.524, val_acc=0.851, val_top5=0.974, t=38.6
+>> Best val_loss=0.524, saved best.pt
+[6000] epoch=7 loss=0.765, acc=0.775, val_loss=0.550, val_acc=0.850, val_top5=0.974, t=13.1
+[6500] epoch=7 loss=0.677, acc=0.807, val_loss=0.529, val_acc=0.851, val_top5=0.974, t=49.4
+[6727] epoch=7 loss=0.747, acc=0.767, val_loss=0.530, val_acc=0.850, val_top5=0.974, t=23.6
+[7000] epoch=8 loss=0.582, acc=0.813, val_loss=0.540, val_acc=0.849, val_top5=0.973, t=28.0
+[7500] epoch=8 loss=0.684, acc=0.805, val_loss=0.542, val_acc=0.847, val_top5=0.972, t=49.5
+[7568] epoch=8 loss=0.679, acc=0.795, val_loss=0.522, val_acc=0.852, val_top5=0.974, t=8.5
+>> Best val_loss=0.522, saved best.pt
+[8000] epoch=9 loss=0.646, acc=0.819, val_loss=0.525, val_acc=0.852, val_top5=0.973, t=43.1
+[8409] epoch=9 loss=0.627, acc=0.818, val_loss=0.525, val_acc=0.851, val_top5=0.973, t=40.8
+[8500] epoch=10 loss=0.494, acc=0.854, val_loss=0.527, val_acc=0.855, val_top5=0.974, t=10.8
+[9000] epoch=10 loss=0.567, acc=0.832, val_loss=0.531, val_acc=0.852, val_top5=0.973, t=49.5
+[9250] epoch=10 loss=0.706, acc=0.790, val_loss=0.509, val_acc=0.858, val_top5=0.975, t=25.8
+>> Best val_loss=0.509, saved best.pt
+[9500] epoch=11 loss=0.543, acc=0.833, val_loss=0.526, val_acc=0.857, val_top5=0.975, t=26.0
+[10000] epoch=11 loss=0.604, acc=0.816, val_loss=0.507, val_acc=0.860, val_top5=0.976, t=49.5
+[10091] epoch=11 loss=0.617, acc=0.795, val_loss=0.529, val_acc=0.853, val_top5=0.974, t=10.7
+[10500] epoch=12 loss=0.533, acc=0.854, val_loss=0.546, val_acc=0.856, val_top5=0.975, t=40.9
+[10932] epoch=12 loss=0.608, acc=0.811, val_loss=0.485, val_acc=0.863, val_top5=0.977, t=43.0
+>> Best val_loss=0.485, saved best.pt
+[11000] epoch=13 loss=0.470, acc=0.848, val_loss=0.503, val_acc=0.860, val_top5=0.975, t=8.7
+[11500] epoch=13 loss=0.508, acc=0.841, val_loss=0.525, val_acc=0.851, val_top5=0.974, t=49.5
+[11773] epoch=13 loss=0.540, acc=0.849, val_loss=0.494, val_acc=0.862, val_top5=0.975, t=28.0
+[12000] epoch=14 loss=0.489, acc=0.848, val_loss=0.512, val_acc=0.858, val_top5=0.975, t=23.7
+[12500] epoch=14 loss=0.538, acc=0.826, val_loss=0.495, val_acc=0.862, val_top5=0.976, t=49.5
+[12614] epoch=14 loss=0.610, acc=0.816, val_loss=0.510, val_acc=0.861, val_top5=0.976, t=12.9
+[13000] epoch=15 loss=0.485, acc=0.850, val_loss=0.506, val_acc=0.860, val_top5=0.975, t=38.6
+[13455] epoch=15 loss=0.499, acc=0.839, val_loss=0.481, val_acc=0.867, val_top5=0.977, t=45.1
+>> Best val_loss=0.481, saved best.pt
+[13500] epoch=16 loss=0.489, acc=0.854, val_loss=0.492, val_acc=0.864, val_top5=0.976, t=6.5
+[14000] epoch=16 loss=0.532, acc=0.841, val_loss=0.500, val_acc=0.862, val_top5=0.976, t=49.3
+[14296] epoch=16 loss=0.582, acc=0.795, val_loss=0.478, val_acc=0.866, val_top5=0.977, t=30.0
+>> Best val_loss=0.478, saved best.pt
+[14500] epoch=17 loss=0.474, acc=0.873, val_loss=0.495, val_acc=0.867, val_top5=0.978, t=21.5
+[15000] epoch=17 loss=0.430, acc=0.868, val_loss=0.492, val_acc=0.866, val_top5=0.976, t=49.3
+[15137] epoch=17 loss=0.573, acc=0.811, val_loss=0.481, val_acc=0.867, val_top5=0.977, t=15.0
+[15500] epoch=18 loss=0.464, acc=0.857, val_loss=0.505, val_acc=0.860, val_top5=0.975, t=36.4
+[15978] epoch=18 loss=0.416, acc=0.880, val_loss=0.505, val_acc=0.863, val_top5=0.976, t=47.2
+[16000] epoch=19 loss=0.412, acc=0.877, val_loss=0.512, val_acc=0.861, val_top5=0.975, t=4.3
+[16500] epoch=19 loss=0.452, acc=0.852, val_loss=0.492, val_acc=0.867, val_top5=0.977, t=49.4
+[16819] epoch=19 loss=0.464, acc=0.852, val_loss=0.475, val_acc=0.868, val_top5=0.977, t=32.3
+>> Best val_loss=0.475, saved best.pt
+[17000] epoch=20 loss=0.452, acc=0.848, val_loss=0.519, val_acc=0.860, val_top5=0.974, t=19.4
+[17500] epoch=20 loss=0.463, acc=0.855, val_loss=0.511, val_acc=0.864, val_top5=0.977, t=49.5
+[17660] epoch=20 loss=0.537, acc=0.826, val_loss=0.487, val_acc=0.868, val_top5=0.977, t=17.3
+[18000] epoch=21 loss=0.481, acc=0.861, val_loss=0.496, val_acc=0.866, val_top5=0.977, t=34.5
+[18500] epoch=21 loss=0.381, acc=0.883, val_loss=0.479, val_acc=0.870, val_top5=0.978, t=49.5
+[18501] epoch=21 loss=0.561, acc=0.836, val_loss=0.483, val_acc=0.870, val_top5=0.978, t=2.2
+[19000] epoch=22 loss=0.432, acc=0.863, val_loss=0.501, val_acc=0.862, val_top5=0.975, t=49.5
+[19342] epoch=22 loss=0.515, acc=0.831, val_loss=0.487, val_acc=0.867, val_top5=0.977, t=34.6
+[19500] epoch=23 loss=0.415, acc=0.870, val_loss=0.481, val_acc=0.868, val_top5=0.977, t=17.2
+[20000] epoch=23 loss=0.469, acc=0.861, val_loss=0.508, val_acc=0.867, val_top5=0.978, t=49.7
+[20183] epoch=23 loss=0.388, acc=0.887, val_loss=0.484, val_acc=0.869, val_top5=0.978, t=19.5
+[20500] epoch=24 loss=0.404, acc=0.871, val_loss=0.503, val_acc=0.865, val_top5=0.975, t=32.3
+[21000] epoch=24 loss=0.397, acc=0.868, val_loss=0.508, val_acc=0.865, val_top5=0.976, t=49.8
+[21024] epoch=24 loss=0.440, acc=0.875, val_loss=0.483, val_acc=0.870, val_top5=0.978, t=4.4
+>> Patience 5 reached, STOP training
+Total t=35.7 min
+===== 2026-11-26 03:07:04 end 1024-512 seed 3 (exit 0)
+===== 2026-11-26 03:07:04 start 2048-1024 seed 3
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_2048-1024_s3_20261126_030705/model.pt
+>> Config:  n_class=3922, n1=2048, n2=1024, dropout_p=0.3, seed=3
+>> Params:  15,659,570
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=2048, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=2048, out_features=1024, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=1024, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_2048-1024_s3_20261126_030705)
+
+[0] epoch=0 loss=8.278, acc=0.000, val_loss=8.274, val_acc=0.001, val_top5=0.002, t=5.6
+[500] epoch=0 loss=1.817, acc=0.515, val_loss=1.465, val_acc=0.620, val_top5=0.881, t=56.8
+[840] epoch=0 loss=1.368, acc=0.604, val_loss=1.015, val_acc=0.723, val_top5=0.932, t=39.4
+>> Best val_loss=1.015, saved best.pt
+[1000] epoch=1 loss=1.280, acc=0.669, val_loss=0.952, val_acc=0.745, val_top5=0.940, t=20.1
+[1500] epoch=1 loss=1.131, acc=0.709, val_loss=0.836, val_acc=0.769, val_top5=0.949, t=56.5
+[1681] epoch=1 loss=1.160, acc=0.703, val_loss=0.762, val_acc=0.786, val_top5=0.955, t=21.9
+>> Best val_loss=0.762, saved best.pt
+[2000] epoch=2 loss=0.966, acc=0.717, val_loss=0.710, val_acc=0.801, val_top5=0.960, t=37.0
+[2500] epoch=2 loss=0.900, acc=0.758, val_loss=0.647, val_acc=0.818, val_top5=0.965, t=56.3
+[2522] epoch=2 loss=1.027, acc=0.724, val_loss=0.659, val_acc=0.822, val_top5=0.966, t=4.8
+>> Best val_loss=0.659, saved best.pt
+[3000] epoch=3 loss=0.860, acc=0.772, val_loss=0.599, val_acc=0.831, val_top5=0.969, t=54.2
+[3363] epoch=3 loss=0.819, acc=0.777, val_loss=0.587, val_acc=0.835, val_top5=0.969, t=41.5
+>> Best val_loss=0.587, saved best.pt
+[3500] epoch=4 loss=0.782, acc=0.762, val_loss=0.575, val_acc=0.838, val_top5=0.971, t=17.5
+[4000] epoch=4 loss=0.789, acc=0.778, val_loss=0.558, val_acc=0.841, val_top5=0.972, t=56.4
+[4204] epoch=4 loss=0.767, acc=0.793, val_loss=0.626, val_acc=0.834, val_top5=0.967, t=24.4
+[4500] epoch=5 loss=0.638, acc=0.821, val_loss=0.550, val_acc=0.845, val_top5=0.972, t=34.4
+[5000] epoch=5 loss=0.722, acc=0.809, val_loss=0.546, val_acc=0.846, val_top5=0.972, t=56.5
+[5045] epoch=5 loss=0.762, acc=0.793, val_loss=0.548, val_acc=0.845, val_top5=0.972, t=7.3
+>> Best val_loss=0.548, saved best.pt
+[5500] epoch=6 loss=0.617, acc=0.813, val_loss=0.574, val_acc=0.843, val_top5=0.971, t=51.9
+[5886] epoch=6 loss=0.719, acc=0.788, val_loss=0.554, val_acc=0.845, val_top5=0.971, t=44.0
+[6000] epoch=7 loss=0.608, acc=0.814, val_loss=0.554, val_acc=0.853, val_top5=0.975, t=14.7
+[6500] epoch=7 loss=0.614, acc=0.817, val_loss=0.568, val_acc=0.843, val_top5=0.970, t=56.4
+[6727] epoch=7 loss=0.604, acc=0.811, val_loss=0.569, val_acc=0.848, val_top5=0.973, t=26.9
+[7000] epoch=8 loss=0.505, acc=0.845, val_loss=0.537, val_acc=0.855, val_top5=0.974, t=32.0
+[7500] epoch=8 loss=0.534, acc=0.837, val_loss=0.522, val_acc=0.854, val_top5=0.974, t=56.5
+[7568] epoch=8 loss=0.470, acc=0.852, val_loss=0.535, val_acc=0.856, val_top5=0.974, t=9.7
+>> Best val_loss=0.535, saved best.pt
+[8000] epoch=9 loss=0.530, acc=0.834, val_loss=0.536, val_acc=0.852, val_top5=0.973, t=49.4
+[8409] epoch=9 loss=0.507, acc=0.859, val_loss=0.518, val_acc=0.856, val_top5=0.974, t=46.6
+>> Best val_loss=0.518, saved best.pt
+[8500] epoch=10 loss=0.457, acc=0.862, val_loss=0.567, val_acc=0.855, val_top5=0.975, t=12.5
+[9000] epoch=10 loss=0.505, acc=0.847, val_loss=0.535, val_acc=0.857, val_top5=0.975, t=56.3
+[9250] epoch=10 loss=0.507, acc=0.826, val_loss=0.520, val_acc=0.855, val_top5=0.974, t=29.3
+[9500] epoch=11 loss=0.425, acc=0.869, val_loss=0.517, val_acc=0.860, val_top5=0.975, t=29.4
+[10000] epoch=11 loss=0.515, acc=0.841, val_loss=0.529, val_acc=0.861, val_top5=0.975, t=56.4
+[10091] epoch=11 loss=0.493, acc=0.849, val_loss=0.524, val_acc=0.855, val_top5=0.974, t=12.2
+[10500] epoch=12 loss=0.404, acc=0.877, val_loss=0.519, val_acc=0.859, val_top5=0.975, t=46.6
+[10932] epoch=12 loss=0.437, acc=0.847, val_loss=0.550, val_acc=0.859, val_top5=0.975, t=49.1
+[11000] epoch=13 loss=0.384, acc=0.877, val_loss=0.526, val_acc=0.865, val_top5=0.976, t=9.8
+[11500] epoch=13 loss=0.452, acc=0.858, val_loss=0.540, val_acc=0.859, val_top5=0.975, t=56.4
+[11773] epoch=13 loss=0.372, acc=0.887, val_loss=0.529, val_acc=0.856, val_top5=0.973, t=31.8
+[12000] epoch=14 loss=0.312, acc=0.895, val_loss=0.511, val_acc=0.866, val_top5=0.976, t=27.0
+[12500] epoch=14 loss=0.419, acc=0.872, val_loss=0.519, val_acc=0.861, val_top5=0.976, t=56.5
+[12614] epoch=14 loss=0.494, acc=0.836, val_loss=0.495, val_acc=0.865, val_top5=0.976, t=14.7
+>> Best val_loss=0.495, saved best.pt
+[13000] epoch=15 loss=0.369, acc=0.882, val_loss=0.626, val_acc=0.859, val_top5=0.976, t=44.2
+[13455] epoch=15 loss=0.421, acc=0.862, val_loss=0.506, val_acc=0.864, val_top5=0.975, t=51.4
+[13500] epoch=16 loss=0.344, acc=0.895, val_loss=0.521, val_acc=0.864, val_top5=0.976, t=7.3
+[14000] epoch=16 loss=0.358, acc=0.881, val_loss=0.523, val_acc=0.862, val_top5=0.975, t=56.4
+[14296] epoch=16 loss=0.351, acc=0.895, val_loss=0.512, val_acc=0.862, val_top5=0.975, t=34.3
+[14500] epoch=17 loss=0.356, acc=0.883, val_loss=0.554, val_acc=0.848, val_top5=0.970, t=24.4
+[15000] epoch=17 loss=0.388, acc=0.885, val_loss=0.560, val_acc=0.861, val_top5=0.975, t=56.3
+[15137] epoch=17 loss=0.516, acc=0.857, val_loss=0.517, val_acc=0.863, val_top5=0.976, t=17.1
+[15500] epoch=18 loss=0.327, acc=0.902, val_loss=0.554, val_acc=0.860, val_top5=0.975, t=41.5
+[15978] epoch=18 loss=0.394, acc=0.890, val_loss=0.651, val_acc=0.852, val_top5=0.973, t=53.8
+[16000] epoch=19 loss=0.226, acc=0.920, val_loss=0.514, val_acc=0.863, val_top5=0.975, t=4.8
+[16500] epoch=19 loss=0.318, acc=0.893, val_loss=0.543, val_acc=0.861, val_top5=0.975, t=56.3
+[16819] epoch=19 loss=0.351, acc=0.887, val_loss=0.594, val_acc=0.861, val_top5=0.975, t=36.7
+>> Patience 5 reached, STOP training
+Total t=32.5 min
+===== 2026-11-26 03:39:37 end 2048-1024 seed 3 (exit 0)
+===== 2026-11-26 03:39:37 start 4096-2048 seed 3
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_4096-2048_s3_20261126_033938/model.pt
+>> Config:  n_class=3922, n1=4096, n2=2048, dropout_p=0.3, seed=3
+>> Params:  35,407,410
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=4096, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=4096, out_features=2048, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=2048, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_4096-2048_s3_20261126_033938)
+
+[0] epoch=0 loss=8.282, acc=0.000, val_loss=8.275, val_acc=0.000, val_top5=0.002, t=6.4
+[500] epoch=0 loss=1.756, acc=0.538, val_loss=1.514, val_acc=0.618, val_top5=0.880, t=72.8
+[840] epoch=0 loss=1.319, acc=0.639, val_loss=0.971, val_acc=0.731, val_top5=0.934, t=50.3
+>> Best val_loss=0.971, saved best.pt
+[1000] epoch=1 loss=1.290, acc=0.646, val_loss=0.929, val_acc=0.743, val_top5=0.939, t=25.8
+[1500] epoch=1 loss=1.130, acc=0.690, val_loss=0.775, val_acc=0.783, val_top5=0.955, t=72.4
+[1681] epoch=1 loss=1.096, acc=0.675, val_loss=0.739, val_acc=0.792, val_top5=0.957, t=28.1
+>> Best val_loss=0.739, saved best.pt
+[2000] epoch=2 loss=1.022, acc=0.716, val_loss=0.812, val_acc=0.797, val_top5=0.959, t=47.7
+[2500] epoch=2 loss=0.903, acc=0.749, val_loss=0.628, val_acc=0.823, val_top5=0.966, t=72.5
+[2522] epoch=2 loss=0.943, acc=0.767, val_loss=0.650, val_acc=0.820, val_top5=0.964, t=6.1
+>> Best val_loss=0.650, saved best.pt
+[3000] epoch=3 loss=0.740, acc=0.773, val_loss=0.620, val_acc=0.827, val_top5=0.967, t=70.0
+[3363] epoch=3 loss=0.880, acc=0.749, val_loss=0.597, val_acc=0.833, val_top5=0.968, t=53.5
+>> Best val_loss=0.597, saved best.pt
+[3500] epoch=4 loss=0.745, acc=0.780, val_loss=0.582, val_acc=0.838, val_top5=0.970, t=22.6
+[4000] epoch=4 loss=0.771, acc=0.785, val_loss=0.698, val_acc=0.830, val_top5=0.967, t=72.8
+[4204] epoch=4 loss=0.724, acc=0.793, val_loss=0.584, val_acc=0.840, val_top5=0.970, t=31.4
+>> Best val_loss=0.584, saved best.pt
+[4500] epoch=5 loss=0.571, acc=0.843, val_loss=0.554, val_acc=0.845, val_top5=0.972, t=44.8
+[5000] epoch=5 loss=0.715, acc=0.791, val_loss=0.550, val_acc=0.849, val_top5=0.973, t=72.7
+[5045] epoch=5 loss=0.689, acc=0.806, val_loss=0.565, val_acc=0.844, val_top5=0.972, t=9.3
+>> Best val_loss=0.565, saved best.pt
+[5500] epoch=6 loss=0.523, acc=0.843, val_loss=0.551, val_acc=0.848, val_top5=0.972, t=67.0
+[5886] epoch=6 loss=0.639, acc=0.821, val_loss=0.567, val_acc=0.844, val_top5=0.970, t=57.0
+[6000] epoch=7 loss=0.499, acc=0.860, val_loss=0.582, val_acc=0.844, val_top5=0.970, t=19.0
+[6500] epoch=7 loss=0.522, acc=0.851, val_loss=0.555, val_acc=0.854, val_top5=0.973, t=73.0
+[6727] epoch=7 loss=0.530, acc=0.834, val_loss=0.560, val_acc=0.853, val_top5=0.974, t=34.8
+>> Best val_loss=0.560, saved best.pt
+[7000] epoch=8 loss=0.467, acc=0.856, val_loss=0.534, val_acc=0.855, val_top5=0.975, t=41.8
+[7500] epoch=8 loss=0.477, acc=0.854, val_loss=0.541, val_acc=0.851, val_top5=0.972, t=73.2
+[7568] epoch=8 loss=0.403, acc=0.880, val_loss=0.539, val_acc=0.856, val_top5=0.974, t=12.6
+>> Best val_loss=0.539, saved best.pt
+[8000] epoch=9 loss=0.478, acc=0.856, val_loss=0.586, val_acc=0.855, val_top5=0.973, t=63.9
+[8409] epoch=9 loss=0.397, acc=0.875, val_loss=0.522, val_acc=0.856, val_top5=0.973, t=60.1
+>> Best val_loss=0.522, saved best.pt
+[8500] epoch=10 loss=0.366, acc=0.876, val_loss=0.537, val_acc=0.858, val_top5=0.974, t=16.2
+[9000] epoch=10 loss=0.413, acc=0.885, val_loss=0.558, val_acc=0.858, val_top5=0.974, t=72.8
+[9250] epoch=10 loss=0.466, acc=0.880, val_loss=0.565, val_acc=0.858, val_top5=0.974, t=37.8
+[9500] epoch=11 loss=0.355, acc=0.888, val_loss=0.552, val_acc=0.859, val_top5=0.975, t=37.9
+[10000] epoch=11 loss=0.430, acc=0.865, val_loss=0.533, val_acc=0.860, val_top5=0.974, t=72.7
+[10091] epoch=11 loss=0.353, acc=0.864, val_loss=0.547, val_acc=0.861, val_top5=0.975, t=15.7
+[10500] epoch=12 loss=0.413, acc=0.876, val_loss=0.595, val_acc=0.856, val_top5=0.974, t=60.1
+[10932] epoch=12 loss=0.471, acc=0.836, val_loss=0.555, val_acc=0.859, val_top5=0.974, t=63.3
+[11000] epoch=13 loss=0.268, acc=0.905, val_loss=0.560, val_acc=0.863, val_top5=0.976, t=12.6
+[11500] epoch=13 loss=0.326, acc=0.896, val_loss=0.609, val_acc=0.856, val_top5=0.973, t=72.8
+[11773] epoch=13 loss=0.322, acc=0.905, val_loss=0.542, val_acc=0.855, val_top5=0.972, t=41.1
+[12000] epoch=14 loss=0.302, acc=0.903, val_loss=0.591, val_acc=0.860, val_top5=0.974, t=34.8
+[12500] epoch=14 loss=0.371, acc=0.893, val_loss=0.543, val_acc=0.859, val_top5=0.974, t=72.8
+[12614] epoch=14 loss=0.295, acc=0.903, val_loss=0.558, val_acc=0.862, val_top5=0.974, t=18.9
+>> Patience 5 reached, STOP training
+Total t=31.5 min
+===== 2026-11-26 04:11:10 end 4096-2048 seed 3 (exit 0)
+ALL DONE 2026-11-26 04:11:10
+===== 2026-11-26 09:20:19 start 128-64 seed 1
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0569
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_128-64_s1_20261126_092020/model.pt
+>> Config:  n_class=3922, n1=128, n2=64, dropout_p=0.3, seed=1
+>> Params:  955,250
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=128, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=128, out_features=64, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=64, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_128-64_s1_20261126_092020)
+
+[0] epoch=0 loss=8.275, acc=0.000, val_loss=8.277, val_acc=0.000, val_top5=0.001, t=5.8
+[500] epoch=0 loss=4.768, acc=0.081, val_loss=3.649, val_acc=0.241, val_top5=0.551, t=43.6
+[840] epoch=0 loss=3.865, acc=0.174, val_loss=2.658, val_acc=0.406, val_top5=0.733, t=30.3
+>> Best val_loss=2.658, saved best.pt
+[1000] epoch=1 loss=3.452, acc=0.225, val_loss=2.243, val_acc=0.472, val_top5=0.786, t=15.3
+[1500] epoch=1 loss=3.114, acc=0.300, val_loss=1.936, val_acc=0.565, val_top5=0.852, t=43.5
+[1681] epoch=1 loss=2.758, acc=0.340, val_loss=1.802, val_acc=0.581, val_top5=0.859, t=16.9
+>> Best val_loss=1.802, saved best.pt
+[2000] epoch=2 loss=2.773, acc=0.338, val_loss=1.675, val_acc=0.599, val_top5=0.871, t=28.5
+[2500] epoch=2 loss=2.578, acc=0.380, val_loss=1.548, val_acc=0.629, val_top5=0.886, t=43.5
+[2522] epoch=2 loss=2.623, acc=0.381, val_loss=1.505, val_acc=0.644, val_top5=0.894, t=3.7
+>> Best val_loss=1.505, saved best.pt
+[3000] epoch=3 loss=2.623, acc=0.373, val_loss=1.366, val_acc=0.669, val_top5=0.907, t=41.8
+[3363] epoch=3 loss=2.596, acc=0.353, val_loss=1.326, val_acc=0.672, val_top5=0.908, t=32.1
+>> Best val_loss=1.326, saved best.pt
+[3500] epoch=4 loss=2.405, acc=0.406, val_loss=1.327, val_acc=0.687, val_top5=0.914, t=13.4
+[4000] epoch=4 loss=2.425, acc=0.393, val_loss=1.275, val_acc=0.698, val_top5=0.920, t=43.5
+[4204] epoch=4 loss=2.318, acc=0.404, val_loss=1.207, val_acc=0.701, val_top5=0.922, t=18.9
+>> Best val_loss=1.207, saved best.pt
+[4500] epoch=5 loss=2.323, acc=0.438, val_loss=1.182, val_acc=0.703, val_top5=0.921, t=26.6
+[5000] epoch=5 loss=2.311, acc=0.426, val_loss=1.174, val_acc=0.708, val_top5=0.923, t=43.7
+[5045] epoch=5 loss=2.488, acc=0.402, val_loss=1.163, val_acc=0.703, val_top5=0.922, t=5.7
+>> Best val_loss=1.163, saved best.pt
+[5500] epoch=6 loss=2.140, acc=0.471, val_loss=1.094, val_acc=0.718, val_top5=0.928, t=40.0
+[5886] epoch=6 loss=2.252, acc=0.432, val_loss=1.070, val_acc=0.727, val_top5=0.932, t=34.1
+>> Best val_loss=1.070, saved best.pt
+[6000] epoch=7 loss=2.287, acc=0.444, val_loss=1.129, val_acc=0.705, val_top5=0.922, t=11.5
+[6500] epoch=7 loss=2.293, acc=0.437, val_loss=1.075, val_acc=0.727, val_top5=0.931, t=43.8
+[6727] epoch=7 loss=2.235, acc=0.473, val_loss=1.024, val_acc=0.730, val_top5=0.933, t=20.9
+>> Best val_loss=1.024, saved best.pt
+[7000] epoch=8 loss=2.121, acc=0.457, val_loss=1.037, val_acc=0.738, val_top5=0.936, t=24.8
+[7500] epoch=8 loss=2.115, acc=0.487, val_loss=0.994, val_acc=0.735, val_top5=0.934, t=43.8
+[7568] epoch=8 loss=2.083, acc=0.494, val_loss=1.042, val_acc=0.741, val_top5=0.938, t=7.6
+[8000] epoch=9 loss=2.093, acc=0.502, val_loss=1.022, val_acc=0.731, val_top5=0.932, t=38.1
+[8409] epoch=9 loss=2.050, acc=0.514, val_loss=0.977, val_acc=0.748, val_top5=0.939, t=36.2
+>> Best val_loss=0.977, saved best.pt
+[8500] epoch=10 loss=2.099, acc=0.489, val_loss=0.968, val_acc=0.744, val_top5=0.936, t=9.6
+[9000] epoch=10 loss=2.027, acc=0.494, val_loss=0.978, val_acc=0.754, val_top5=0.941, t=44.0
+[9250] epoch=10 loss=1.948, acc=0.512, val_loss=0.971, val_acc=0.748, val_top5=0.940, t=23.0
+>> Best val_loss=0.971, saved best.pt
+[9500] epoch=11 loss=1.939, acc=0.493, val_loss=0.929, val_acc=0.754, val_top5=0.942, t=22.9
+[10000] epoch=11 loss=2.053, acc=0.495, val_loss=0.904, val_acc=0.760, val_top5=0.944, t=43.7
+[10091] epoch=11 loss=2.186, acc=0.450, val_loss=0.966, val_acc=0.756, val_top5=0.941, t=9.5
+>> Best val_loss=0.966, saved best.pt
+[10500] epoch=12 loss=1.984, acc=0.482, val_loss=0.911, val_acc=0.765, val_top5=0.947, t=36.1
+[10932] epoch=12 loss=1.789, acc=0.506, val_loss=0.964, val_acc=0.750, val_top5=0.940, t=37.8
+>> Best val_loss=0.964, saved best.pt
+[11000] epoch=13 loss=1.841, acc=0.507, val_loss=0.914, val_acc=0.759, val_top5=0.944, t=7.7
+[11500] epoch=13 loss=1.929, acc=0.510, val_loss=0.905, val_acc=0.758, val_top5=0.942, t=43.5
+[11773] epoch=13 loss=1.868, acc=0.488, val_loss=0.904, val_acc=0.766, val_top5=0.945, t=24.6
+>> Best val_loss=0.904, saved best.pt
+[12000] epoch=14 loss=1.989, acc=0.478, val_loss=0.929, val_acc=0.760, val_top5=0.943, t=20.9
+[12500] epoch=14 loss=1.880, acc=0.519, val_loss=0.915, val_acc=0.762, val_top5=0.944, t=43.5
+[12614] epoch=14 loss=2.006, acc=0.524, val_loss=0.904, val_acc=0.765, val_top5=0.945, t=11.4
+>> Best val_loss=0.904, saved best.pt
+[13000] epoch=15 loss=1.908, acc=0.492, val_loss=0.859, val_acc=0.769, val_top5=0.946, t=34.1
+[13455] epoch=15 loss=2.104, acc=0.486, val_loss=0.923, val_acc=0.769, val_top5=0.946, t=39.8
+[13500] epoch=16 loss=1.828, acc=0.526, val_loss=0.909, val_acc=0.767, val_top5=0.946, t=5.7
+[14000] epoch=16 loss=1.915, acc=0.542, val_loss=0.917, val_acc=0.772, val_top5=0.947, t=43.5
+[14296] epoch=16 loss=2.074, acc=0.527, val_loss=0.896, val_acc=0.773, val_top5=0.948, t=26.5
+>> Best val_loss=0.896, saved best.pt
+[14500] epoch=17 loss=1.890, acc=0.527, val_loss=0.867, val_acc=0.772, val_top5=0.948, t=19.0
+[15000] epoch=17 loss=1.889, acc=0.538, val_loss=0.910, val_acc=0.763, val_top5=0.943, t=43.5
+[15137] epoch=17 loss=1.707, acc=0.563, val_loss=0.837, val_acc=0.777, val_top5=0.949, t=13.3
+>> Best val_loss=0.837, saved best.pt
+[15500] epoch=18 loss=1.789, acc=0.551, val_loss=0.872, val_acc=0.778, val_top5=0.949, t=32.2
+[15978] epoch=18 loss=1.958, acc=0.514, val_loss=0.957, val_acc=0.765, val_top5=0.944, t=41.0
+[16000] epoch=19 loss=1.706, acc=0.554, val_loss=0.848, val_acc=0.780, val_top5=0.950, t=3.7
+[16500] epoch=19 loss=1.835, acc=0.544, val_loss=0.865, val_acc=0.773, val_top5=0.947, t=42.8
+[16819] epoch=19 loss=1.829, acc=0.560, val_loss=0.838, val_acc=0.784, val_top5=0.951, t=27.9
+[17000] epoch=20 loss=1.885, acc=0.533, val_loss=0.859, val_acc=0.779, val_top5=0.950, t=16.7
+[17500] epoch=20 loss=1.869, acc=0.525, val_loss=0.837, val_acc=0.782, val_top5=0.951, t=42.8
+[17660] epoch=20 loss=1.709, acc=0.537, val_loss=0.837, val_acc=0.780, val_top5=0.950, t=14.9
+[18000] epoch=21 loss=1.705, acc=0.555, val_loss=0.826, val_acc=0.780, val_top5=0.950, t=29.7
+[18500] epoch=21 loss=1.762, acc=0.539, val_loss=0.823, val_acc=0.786, val_top5=0.951, t=42.7
+[18501] epoch=21 loss=1.907, acc=0.517, val_loss=0.827, val_acc=0.784, val_top5=0.950, t=1.9
+>> Best val_loss=0.827, saved best.pt
+[19000] epoch=22 loss=1.767, acc=0.545, val_loss=0.825, val_acc=0.785, val_top5=0.951, t=42.7
+[19342] epoch=22 loss=1.675, acc=0.560, val_loss=0.804, val_acc=0.788, val_top5=0.953, t=29.8
+>> Best val_loss=0.804, saved best.pt
+[19500] epoch=23 loss=1.743, acc=0.552, val_loss=0.812, val_acc=0.787, val_top5=0.952, t=14.9
+[20000] epoch=23 loss=1.829, acc=0.540, val_loss=0.845, val_acc=0.781, val_top5=0.950, t=42.8
+[20183] epoch=23 loss=2.025, acc=0.545, val_loss=0.820, val_acc=0.790, val_top5=0.953, t=16.8
+[20500] epoch=24 loss=1.706, acc=0.556, val_loss=0.817, val_acc=0.787, val_top5=0.953, t=27.8
+[21000] epoch=24 loss=1.808, acc=0.543, val_loss=0.817, val_acc=0.788, val_top5=0.952, t=42.8
+[21024] epoch=24 loss=1.639, acc=0.591, val_loss=0.828, val_acc=0.787, val_top5=0.951, t=3.8
+[21500] epoch=25 loss=1.750, acc=0.541, val_loss=0.808, val_acc=0.786, val_top5=0.952, t=40.9
+[21865] epoch=25 loss=1.779, acc=0.545, val_loss=0.795, val_acc=0.789, val_top5=0.954, t=31.8
+>> Best val_loss=0.795, saved best.pt
+[22000] epoch=26 loss=1.679, acc=0.564, val_loss=0.802, val_acc=0.791, val_top5=0.953, t=13.0
+[22500] epoch=26 loss=1.777, acc=0.562, val_loss=0.800, val_acc=0.791, val_top5=0.953, t=42.9
+[22706] epoch=26 loss=1.676, acc=0.583, val_loss=0.825, val_acc=0.784, val_top5=0.951, t=18.7
+[23000] epoch=27 loss=1.686, acc=0.563, val_loss=0.801, val_acc=0.783, val_top5=0.951, t=26.0
+[23500] epoch=27 loss=1.834, acc=0.532, val_loss=0.800, val_acc=0.790, val_top5=0.952, t=42.8
+[23547] epoch=27 loss=1.806, acc=0.598, val_loss=0.784, val_acc=0.792, val_top5=0.954, t=5.7
+>> Best val_loss=0.784, saved best.pt
+[24000] epoch=28 loss=1.692, acc=0.589, val_loss=0.781, val_acc=0.794, val_top5=0.954, t=39.0
+[24388] epoch=28 loss=1.696, acc=0.552, val_loss=0.781, val_acc=0.794, val_top5=0.955, t=33.6
+>> Best val_loss=0.781, saved best.pt
+[24500] epoch=29 loss=1.695, acc=0.568, val_loss=0.768, val_acc=0.796, val_top5=0.955, t=11.1
+[25000] epoch=29 loss=1.703, acc=0.567, val_loss=0.774, val_acc=0.794, val_top5=0.954, t=42.8
+[25229] epoch=29 loss=1.871, acc=0.558, val_loss=0.796, val_acc=0.792, val_top5=0.953, t=20.6
+[25500] epoch=30 loss=1.744, acc=0.544, val_loss=0.782, val_acc=0.791, val_top5=0.954, t=24.1
+[26000] epoch=30 loss=1.769, acc=0.559, val_loss=0.815, val_acc=0.793, val_top5=0.953, t=42.7
+[26070] epoch=30 loss=1.587, acc=0.583, val_loss=0.777, val_acc=0.792, val_top5=0.953, t=7.6
+>> Best val_loss=0.777, saved best.pt
+[26500] epoch=31 loss=1.726, acc=0.547, val_loss=0.786, val_acc=0.791, val_top5=0.954, t=37.1
+[26911] epoch=31 loss=1.788, acc=0.560, val_loss=0.793, val_acc=0.793, val_top5=0.953, t=35.5
+[27000] epoch=32 loss=1.661, acc=0.579, val_loss=0.797, val_acc=0.787, val_top5=0.952, t=9.2
+[27500] epoch=32 loss=1.765, acc=0.551, val_loss=0.778, val_acc=0.794, val_top5=0.954, t=42.8
+[27752] epoch=32 loss=1.561, acc=0.573, val_loss=0.784, val_acc=0.792, val_top5=0.953, t=22.5
+[28000] epoch=33 loss=1.648, acc=0.572, val_loss=0.768, val_acc=0.796, val_top5=0.955, t=22.2
+[28500] epoch=33 loss=1.778, acc=0.552, val_loss=0.803, val_acc=0.784, val_top5=0.950, t=42.8
+[28593] epoch=33 loss=1.692, acc=0.555, val_loss=0.784, val_acc=0.790, val_top5=0.953, t=9.5
+[29000] epoch=34 loss=1.801, acc=0.567, val_loss=0.778, val_acc=0.796, val_top5=0.955, t=35.2
+[29434] epoch=34 loss=1.709, acc=0.568, val_loss=0.797, val_acc=0.792, val_top5=0.953, t=37.4
+[29500] epoch=35 loss=1.657, acc=0.589, val_loss=0.762, val_acc=0.799, val_top5=0.955, t=7.3
+[30000] epoch=35 loss=1.594, acc=0.565, val_loss=0.765, val_acc=0.796, val_top5=0.955, t=42.8
+[30275] epoch=35 loss=1.555, acc=0.591, val_loss=0.759, val_acc=0.798, val_top5=0.955, t=24.4
+>> Best val_loss=0.759, saved best.pt
+[30500] epoch=36 loss=1.594, acc=0.575, val_loss=0.807, val_acc=0.788, val_top5=0.952, t=20.3
+[31000] epoch=36 loss=1.707, acc=0.566, val_loss=0.792, val_acc=0.793, val_top5=0.953, t=42.8
+[31116] epoch=36 loss=1.787, acc=0.514, val_loss=0.807, val_acc=0.787, val_top5=0.951, t=11.4
+[31500] epoch=37 loss=1.681, acc=0.565, val_loss=0.757, val_acc=0.798, val_top5=0.955, t=33.3
+[31957] epoch=37 loss=1.625, acc=0.573, val_loss=0.754, val_acc=0.802, val_top5=0.956, t=39.2
+>> Best val_loss=0.754, saved best.pt
+[32000] epoch=38 loss=1.707, acc=0.542, val_loss=0.760, val_acc=0.798, val_top5=0.955, t=5.5
+[32500] epoch=38 loss=1.705, acc=0.582, val_loss=0.778, val_acc=0.795, val_top5=0.953, t=42.8
+[32798] epoch=38 loss=1.814, acc=0.532, val_loss=0.809, val_acc=0.783, val_top5=0.949, t=26.3
+[33000] epoch=39 loss=1.561, acc=0.588, val_loss=0.757, val_acc=0.800, val_top5=0.956, t=18.5
+[33500] epoch=39 loss=1.653, acc=0.582, val_loss=0.770, val_acc=0.795, val_top5=0.954, t=42.8
+[33639] epoch=39 loss=1.618, acc=0.601, val_loss=0.788, val_acc=0.791, val_top5=0.952, t=13.2
+[34000] epoch=40 loss=1.782, acc=0.540, val_loss=0.762, val_acc=0.799, val_top5=0.954, t=31.4
+[34480] epoch=40 loss=1.612, acc=0.575, val_loss=0.769, val_acc=0.797, val_top5=0.954, t=41.1
+[34500] epoch=41 loss=1.611, acc=0.595, val_loss=0.774, val_acc=0.796, val_top5=0.953, t=3.6
+[35000] epoch=41 loss=1.726, acc=0.576, val_loss=0.761, val_acc=0.799, val_top5=0.955, t=42.8
+[35321] epoch=41 loss=1.493, acc=0.606, val_loss=0.778, val_acc=0.797, val_top5=0.954, t=28.1
+[35500] epoch=42 loss=1.611, acc=0.577, val_loss=0.760, val_acc=0.797, val_top5=0.955, t=16.6
+[36000] epoch=42 loss=1.633, acc=0.568, val_loss=0.783, val_acc=0.799, val_top5=0.955, t=42.8
+[36162] epoch=42 loss=1.885, acc=0.524, val_loss=0.756, val_acc=0.803, val_top5=0.957, t=15.2
+>> Patience 5 reached, STOP training
+Total t=53.5 min
+===== 2026-11-26 10:13:49 end 128-64 seed 1 (exit 0)
+skip 256-128 seed 1 (done)
+skip 512-256 seed 1 (done)
+skip 1024-512 seed 1 (done)
+skip 2048-1024 seed 1 (done)
+skip 4096-2048 seed 1 (done)
+===== 2026-11-26 10:13:49 start 128-64 seed 2
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_128-64_s2_20261126_101350/model.pt
+>> Config:  n_class=3922, n1=128, n2=64, dropout_p=0.3, seed=2
+>> Params:  955,250
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=128, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=128, out_features=64, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=64, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_128-64_s2_20261126_101350)
+
+[0] epoch=0 loss=8.274, acc=0.000, val_loss=8.277, val_acc=0.000, val_top5=0.001, t=5.1
+[500] epoch=0 loss=4.898, acc=0.075, val_loss=3.732, val_acc=0.223, val_top5=0.512, t=42.8
+[840] epoch=0 loss=3.808, acc=0.166, val_loss=2.696, val_acc=0.402, val_top5=0.734, t=29.8
+>> Best val_loss=2.696, saved best.pt
+[1000] epoch=1 loss=3.493, acc=0.219, val_loss=2.502, val_acc=0.414, val_top5=0.741, t=15.1
+[1500] epoch=1 loss=2.984, acc=0.292, val_loss=1.827, val_acc=0.559, val_top5=0.851, t=42.9
+[1681] epoch=1 loss=3.035, acc=0.297, val_loss=1.842, val_acc=0.586, val_top5=0.867, t=16.7
+>> Best val_loss=1.842, saved best.pt
+[2000] epoch=2 loss=2.805, acc=0.331, val_loss=1.647, val_acc=0.613, val_top5=0.881, t=28.1
+[2500] epoch=2 loss=2.756, acc=0.343, val_loss=1.460, val_acc=0.648, val_top5=0.899, t=42.9
+[2522] epoch=2 loss=2.599, acc=0.353, val_loss=1.453, val_acc=0.646, val_top5=0.898, t=3.7
+>> Best val_loss=1.453, saved best.pt
+[3000] epoch=3 loss=2.633, acc=0.392, val_loss=1.351, val_acc=0.660, val_top5=0.902, t=41.1
+[3363] epoch=3 loss=2.559, acc=0.371, val_loss=1.302, val_acc=0.686, val_top5=0.915, t=31.6
+>> Best val_loss=1.302, saved best.pt
+[3500] epoch=4 loss=2.425, acc=0.408, val_loss=1.308, val_acc=0.679, val_top5=0.910, t=13.2
+[4000] epoch=4 loss=2.396, acc=0.396, val_loss=1.189, val_acc=0.692, val_top5=0.918, t=42.9
+[4204] epoch=4 loss=2.460, acc=0.425, val_loss=1.149, val_acc=0.704, val_top5=0.922, t=18.6
+>> Best val_loss=1.149, saved best.pt
+[4500] epoch=5 loss=2.297, acc=0.450, val_loss=1.185, val_acc=0.701, val_top5=0.921, t=26.2
+[5000] epoch=5 loss=2.358, acc=0.432, val_loss=1.129, val_acc=0.715, val_top5=0.927, t=42.9
+[5045] epoch=5 loss=2.312, acc=0.450, val_loss=1.160, val_acc=0.715, val_top5=0.926, t=5.6
+[5500] epoch=6 loss=2.245, acc=0.443, val_loss=1.088, val_acc=0.720, val_top5=0.929, t=39.2
+[5886] epoch=6 loss=2.488, acc=0.409, val_loss=1.069, val_acc=0.723, val_top5=0.930, t=33.5
+>> Best val_loss=1.069, saved best.pt
+[6000] epoch=7 loss=2.107, acc=0.456, val_loss=1.063, val_acc=0.721, val_top5=0.928, t=11.3
+[6500] epoch=7 loss=2.185, acc=0.460, val_loss=1.069, val_acc=0.729, val_top5=0.933, t=42.9
+[6727] epoch=7 loss=2.159, acc=0.455, val_loss=1.016, val_acc=0.735, val_top5=0.934, t=20.5
+>> Best val_loss=1.016, saved best.pt
+[7000] epoch=8 loss=2.179, acc=0.485, val_loss=1.050, val_acc=0.742, val_top5=0.937, t=24.3
+[7500] epoch=8 loss=2.153, acc=0.460, val_loss=0.983, val_acc=0.743, val_top5=0.938, t=42.9
+[7568] epoch=8 loss=2.040, acc=0.476, val_loss=1.025, val_acc=0.743, val_top5=0.935, t=7.5
+[8000] epoch=9 loss=2.178, acc=0.467, val_loss=0.996, val_acc=0.741, val_top5=0.936, t=37.3
+[8409] epoch=9 loss=1.942, acc=0.506, val_loss=0.952, val_acc=0.747, val_top5=0.940, t=35.4
+>> Best val_loss=0.952, saved best.pt
+[8500] epoch=10 loss=2.059, acc=0.463, val_loss=0.972, val_acc=0.748, val_top5=0.939, t=9.4
+[9000] epoch=10 loss=2.094, acc=0.481, val_loss=1.003, val_acc=0.749, val_top5=0.939, t=42.9
+[9250] epoch=10 loss=1.963, acc=0.499, val_loss=0.942, val_acc=0.750, val_top5=0.940, t=22.3
+>> Best val_loss=0.942, saved best.pt
+[9500] epoch=11 loss=1.999, acc=0.507, val_loss=0.968, val_acc=0.750, val_top5=0.939, t=22.4
+[10000] epoch=11 loss=1.878, acc=0.521, val_loss=0.925, val_acc=0.755, val_top5=0.943, t=42.8
+[10091] epoch=11 loss=2.201, acc=0.463, val_loss=0.915, val_acc=0.756, val_top5=0.942, t=9.3
+>> Best val_loss=0.915, saved best.pt
+[10500] epoch=12 loss=1.905, acc=0.510, val_loss=0.898, val_acc=0.762, val_top5=0.944, t=35.4
+[10932] epoch=12 loss=2.295, acc=0.468, val_loss=0.927, val_acc=0.757, val_top5=0.942, t=37.2
+[11000] epoch=13 loss=2.016, acc=0.488, val_loss=0.909, val_acc=0.758, val_top5=0.942, t=7.5
+[11500] epoch=13 loss=2.038, acc=0.498, val_loss=0.895, val_acc=0.768, val_top5=0.947, t=42.8
+[11773] epoch=13 loss=1.908, acc=0.522, val_loss=0.924, val_acc=0.763, val_top5=0.945, t=24.2
+[12000] epoch=14 loss=1.779, acc=0.540, val_loss=0.914, val_acc=0.768, val_top5=0.946, t=20.5
+[12500] epoch=14 loss=1.956, acc=0.513, val_loss=0.877, val_acc=0.774, val_top5=0.948, t=42.8
+[12614] epoch=14 loss=1.846, acc=0.535, val_loss=0.893, val_acc=0.773, val_top5=0.947, t=11.2
+>> Best val_loss=0.893, saved best.pt
+[13000] epoch=15 loss=1.859, acc=0.525, val_loss=0.874, val_acc=0.765, val_top5=0.944, t=33.6
+[13455] epoch=15 loss=1.952, acc=0.529, val_loss=0.867, val_acc=0.777, val_top5=0.949, t=39.2
+>> Best val_loss=0.867, saved best.pt
+[13500] epoch=16 loss=1.859, acc=0.521, val_loss=0.864, val_acc=0.776, val_top5=0.948, t=5.7
+[14000] epoch=16 loss=1.874, acc=0.536, val_loss=0.850, val_acc=0.772, val_top5=0.947, t=42.8
+[14296] epoch=16 loss=1.938, acc=0.527, val_loss=0.846, val_acc=0.778, val_top5=0.950, t=26.1
+>> Best val_loss=0.846, saved best.pt
+[14500] epoch=17 loss=1.805, acc=0.539, val_loss=0.853, val_acc=0.774, val_top5=0.948, t=18.7
+[15000] epoch=17 loss=1.841, acc=0.533, val_loss=0.848, val_acc=0.775, val_top5=0.949, t=42.9
+[15137] epoch=17 loss=1.932, acc=0.545, val_loss=0.862, val_acc=0.774, val_top5=0.949, t=13.1
+[15500] epoch=18 loss=1.869, acc=0.522, val_loss=0.847, val_acc=0.776, val_top5=0.949, t=31.6
+[15978] epoch=18 loss=1.711, acc=0.542, val_loss=0.859, val_acc=0.775, val_top5=0.947, t=41.0
+[16000] epoch=19 loss=1.845, acc=0.540, val_loss=0.847, val_acc=0.783, val_top5=0.951, t=3.8
+[16500] epoch=19 loss=1.826, acc=0.528, val_loss=0.899, val_acc=0.769, val_top5=0.945, t=42.9
+[16819] epoch=19 loss=1.858, acc=0.501, val_loss=0.827, val_acc=0.784, val_top5=0.951, t=28.0
+>> Best val_loss=0.827, saved best.pt
+[17000] epoch=20 loss=1.808, acc=0.556, val_loss=0.828, val_acc=0.779, val_top5=0.950, t=16.8
+[17500] epoch=20 loss=1.853, acc=0.562, val_loss=0.849, val_acc=0.779, val_top5=0.949, t=42.9
+[17660] epoch=20 loss=1.826, acc=0.517, val_loss=0.825, val_acc=0.782, val_top5=0.950, t=15.0
+>> Best val_loss=0.825, saved best.pt
+[18000] epoch=21 loss=1.735, acc=0.559, val_loss=0.844, val_acc=0.779, val_top5=0.948, t=29.8
+[18500] epoch=21 loss=1.799, acc=0.561, val_loss=0.830, val_acc=0.783, val_top5=0.949, t=42.9
+[18501] epoch=21 loss=1.881, acc=0.570, val_loss=0.836, val_acc=0.782, val_top5=0.949, t=1.9
+[19000] epoch=22 loss=1.806, acc=0.555, val_loss=0.812, val_acc=0.788, val_top5=0.951, t=42.7
+[19342] epoch=22 loss=1.892, acc=0.532, val_loss=0.827, val_acc=0.782, val_top5=0.950, t=29.9
+[19500] epoch=23 loss=1.671, acc=0.559, val_loss=0.787, val_acc=0.792, val_top5=0.954, t=14.9
+[20000] epoch=23 loss=1.705, acc=0.544, val_loss=0.837, val_acc=0.780, val_top5=0.949, t=42.9
+[20183] epoch=23 loss=1.732, acc=0.550, val_loss=0.844, val_acc=0.782, val_top5=0.950, t=16.9
+[20500] epoch=24 loss=1.873, acc=0.545, val_loss=0.808, val_acc=0.786, val_top5=0.952, t=27.9
+[21000] epoch=24 loss=1.653, acc=0.592, val_loss=0.809, val_acc=0.790, val_top5=0.953, t=43.0
+[21024] epoch=24 loss=1.794, acc=0.542, val_loss=0.830, val_acc=0.786, val_top5=0.952, t=3.9
+[21500] epoch=25 loss=1.667, acc=0.546, val_loss=0.795, val_acc=0.791, val_top5=0.954, t=41.1
+[21865] epoch=25 loss=1.697, acc=0.558, val_loss=0.818, val_acc=0.786, val_top5=0.951, t=31.9
+>> Best val_loss=0.818, saved best.pt
+[22000] epoch=26 loss=1.807, acc=0.531, val_loss=0.801, val_acc=0.790, val_top5=0.953, t=13.1
+[22500] epoch=26 loss=1.731, acc=0.568, val_loss=0.779, val_acc=0.795, val_top5=0.954, t=43.1
+[22706] epoch=26 loss=1.720, acc=0.573, val_loss=0.792, val_acc=0.793, val_top5=0.953, t=18.9
+>> Best val_loss=0.792, saved best.pt
+[23000] epoch=27 loss=1.664, acc=0.575, val_loss=0.787, val_acc=0.791, val_top5=0.953, t=26.2
+[23500] epoch=27 loss=1.828, acc=0.551, val_loss=0.778, val_acc=0.795, val_top5=0.955, t=43.1
+[23547] epoch=27 loss=1.654, acc=0.563, val_loss=0.774, val_acc=0.793, val_top5=0.954, t=5.8
+>> Best val_loss=0.774, saved best.pt
+[24000] epoch=28 loss=1.711, acc=0.565, val_loss=0.778, val_acc=0.795, val_top5=0.955, t=39.3
+[24388] epoch=28 loss=1.923, acc=0.540, val_loss=0.804, val_acc=0.789, val_top5=0.953, t=33.9
+[24500] epoch=29 loss=1.733, acc=0.560, val_loss=0.769, val_acc=0.796, val_top5=0.955, t=11.2
+[25000] epoch=29 loss=1.658, acc=0.548, val_loss=0.822, val_acc=0.785, val_top5=0.951, t=42.4
+[25229] epoch=29 loss=1.574, acc=0.609, val_loss=0.776, val_acc=0.797, val_top5=0.956, t=20.4
+[25500] epoch=30 loss=1.675, acc=0.558, val_loss=0.791, val_acc=0.792, val_top5=0.953, t=23.9
+[26000] epoch=30 loss=1.693, acc=0.572, val_loss=0.776, val_acc=0.796, val_top5=0.955, t=42.4
+[26070] epoch=30 loss=1.681, acc=0.550, val_loss=0.772, val_acc=0.795, val_top5=0.955, t=7.5
+>> Best val_loss=0.772, saved best.pt
+[26500] epoch=31 loss=1.738, acc=0.579, val_loss=0.779, val_acc=0.794, val_top5=0.952, t=36.7
+[26911] epoch=31 loss=1.663, acc=0.591, val_loss=0.782, val_acc=0.794, val_top5=0.954, t=35.1
+[27000] epoch=32 loss=1.539, acc=0.603, val_loss=0.782, val_acc=0.792, val_top5=0.953, t=9.1
+[27500] epoch=32 loss=1.818, acc=0.534, val_loss=0.774, val_acc=0.797, val_top5=0.954, t=42.3
+[27752] epoch=32 loss=1.488, acc=0.575, val_loss=0.774, val_acc=0.799, val_top5=0.955, t=22.3
+[28000] epoch=33 loss=1.677, acc=0.557, val_loss=0.812, val_acc=0.785, val_top5=0.950, t=22.0
+[28500] epoch=33 loss=1.774, acc=0.554, val_loss=0.777, val_acc=0.800, val_top5=0.957, t=42.4
+[28593] epoch=33 loss=1.649, acc=0.545, val_loss=0.768, val_acc=0.799, val_top5=0.955, t=9.4
+>> Best val_loss=0.768, saved best.pt
+[29000] epoch=34 loss=1.598, acc=0.577, val_loss=0.766, val_acc=0.797, val_top5=0.955, t=34.8
+[29434] epoch=34 loss=1.680, acc=0.596, val_loss=0.756, val_acc=0.801, val_top5=0.956, t=37.0
+>> Best val_loss=0.756, saved best.pt
+[29500] epoch=35 loss=1.598, acc=0.582, val_loss=0.777, val_acc=0.796, val_top5=0.953, t=7.3
+[30000] epoch=35 loss=1.634, acc=0.578, val_loss=0.758, val_acc=0.801, val_top5=0.956, t=42.3
+[30275] epoch=35 loss=1.563, acc=0.586, val_loss=0.789, val_acc=0.794, val_top5=0.953, t=24.1
+[30500] epoch=36 loss=1.697, acc=0.559, val_loss=0.772, val_acc=0.794, val_top5=0.953, t=20.1
+[31000] epoch=36 loss=1.762, acc=0.548, val_loss=0.788, val_acc=0.796, val_top5=0.954, t=42.4
+[31116] epoch=36 loss=1.697, acc=0.604, val_loss=0.761, val_acc=0.800, val_top5=0.955, t=11.3
+[31500] epoch=37 loss=1.693, acc=0.573, val_loss=0.751, val_acc=0.800, val_top5=0.956, t=33.0
+[31957] epoch=37 loss=1.519, acc=0.575, val_loss=0.748, val_acc=0.802, val_top5=0.956, t=38.8
+>> Best val_loss=0.748, saved best.pt
+[32000] epoch=38 loss=1.557, acc=0.601, val_loss=0.761, val_acc=0.799, val_top5=0.954, t=5.4
+[32500] epoch=38 loss=1.621, acc=0.586, val_loss=0.779, val_acc=0.799, val_top5=0.955, t=42.4
+[32798] epoch=38 loss=1.630, acc=0.578, val_loss=0.745, val_acc=0.801, val_top5=0.956, t=26.0
+>> Best val_loss=0.745, saved best.pt
+[33000] epoch=39 loss=1.613, acc=0.548, val_loss=0.790, val_acc=0.797, val_top5=0.954, t=18.3
+[33500] epoch=39 loss=1.696, acc=0.578, val_loss=0.775, val_acc=0.796, val_top5=0.954, t=42.4
+[33639] epoch=39 loss=1.672, acc=0.563, val_loss=0.767, val_acc=0.800, val_top5=0.955, t=13.1
+[34000] epoch=40 loss=1.600, acc=0.590, val_loss=0.741, val_acc=0.804, val_top5=0.956, t=31.1
+[34480] epoch=40 loss=1.622, acc=0.601, val_loss=0.792, val_acc=0.791, val_top5=0.952, t=40.7
+[34500] epoch=41 loss=1.557, acc=0.591, val_loss=0.783, val_acc=0.791, val_top5=0.952, t=3.5
+[35000] epoch=41 loss=1.566, acc=0.596, val_loss=0.754, val_acc=0.802, val_top5=0.955, t=42.4
+[35321] epoch=41 loss=1.571, acc=0.581, val_loss=0.770, val_acc=0.800, val_top5=0.955, t=27.9
+[35500] epoch=42 loss=1.598, acc=0.594, val_loss=0.763, val_acc=0.799, val_top5=0.955, t=16.4
+[36000] epoch=42 loss=1.677, acc=0.549, val_loss=0.769, val_acc=0.799, val_top5=0.955, t=42.4
+[36162] epoch=42 loss=1.783, acc=0.568, val_loss=0.739, val_acc=0.802, val_top5=0.956, t=15.0
+>> Best val_loss=0.739, saved best.pt
+[36500] epoch=43 loss=1.572, acc=0.575, val_loss=0.786, val_acc=0.793, val_top5=0.952, t=29.3
+[37000] epoch=43 loss=1.674, acc=0.579, val_loss=0.754, val_acc=0.800, val_top5=0.955, t=42.4
+[37003] epoch=43 loss=1.481, acc=0.586, val_loss=0.756, val_acc=0.801, val_top5=0.955, t=2.1
+[37500] epoch=44 loss=1.607, acc=0.584, val_loss=0.809, val_acc=0.790, val_top5=0.951, t=42.2
+[37844] epoch=44 loss=1.563, acc=0.583, val_loss=0.759, val_acc=0.803, val_top5=0.956, t=29.7
+[38000] epoch=45 loss=1.634, acc=0.566, val_loss=0.766, val_acc=0.797, val_top5=0.953, t=14.5
+[38500] epoch=45 loss=1.621, acc=0.588, val_loss=0.741, val_acc=0.805, val_top5=0.956, t=42.4
+[38685] epoch=45 loss=1.560, acc=0.596, val_loss=0.735, val_acc=0.804, val_top5=0.957, t=16.9
+>> Best val_loss=0.735, saved best.pt
+[39000] epoch=46 loss=1.540, acc=0.617, val_loss=0.749, val_acc=0.800, val_top5=0.956, t=27.4
+[39500] epoch=46 loss=1.614, acc=0.580, val_loss=0.759, val_acc=0.797, val_top5=0.952, t=42.4
+[39526] epoch=46 loss=1.631, acc=0.575, val_loss=0.753, val_acc=0.798, val_top5=0.954, t=4.0
+[40000] epoch=47 loss=1.625, acc=0.580, val_loss=0.790, val_acc=0.795, val_top5=0.953, t=40.3
+[40367] epoch=47 loss=1.652, acc=0.583, val_loss=0.734, val_acc=0.807, val_top5=0.957, t=31.6
+>> Best val_loss=0.734, saved best.pt
+[40500] epoch=48 loss=1.487, acc=0.604, val_loss=0.751, val_acc=0.801, val_top5=0.954, t=12.7
+[41000] epoch=48 loss=1.630, acc=0.599, val_loss=0.729, val_acc=0.804, val_top5=0.957, t=42.4
+[41208] epoch=48 loss=1.677, acc=0.563, val_loss=0.740, val_acc=0.806, val_top5=0.957, t=18.7
+[41500] epoch=49 loss=1.495, acc=0.597, val_loss=0.739, val_acc=0.803, val_top5=0.956, t=25.6
+[42000] epoch=49 loss=1.587, acc=0.581, val_loss=0.772, val_acc=0.796, val_top5=0.952, t=42.4
+[42049] epoch=49 loss=1.632, acc=0.591, val_loss=0.755, val_acc=0.804, val_top5=0.957, t=5.8
+[42500] epoch=50 loss=1.455, acc=0.627, val_loss=0.732, val_acc=0.804, val_top5=0.956, t=38.4
+[42890] epoch=50 loss=1.575, acc=0.563, val_loss=0.748, val_acc=0.799, val_top5=0.954, t=33.5
+[43000] epoch=51 loss=1.571, acc=0.576, val_loss=0.822, val_acc=0.794, val_top5=0.952, t=10.8
+[43500] epoch=51 loss=1.438, acc=0.638, val_loss=0.737, val_acc=0.805, val_top5=0.956, t=42.4
+[43731] epoch=51 loss=1.544, acc=0.611, val_loss=0.766, val_acc=0.799, val_top5=0.954, t=20.6
+[44000] epoch=52 loss=1.617, acc=0.559, val_loss=0.733, val_acc=0.805, val_top5=0.956, t=23.7
+[44500] epoch=52 loss=1.649, acc=0.575, val_loss=0.741, val_acc=0.805, val_top5=0.957, t=42.4
+[44572] epoch=52 loss=1.634, acc=0.593, val_loss=0.733, val_acc=0.806, val_top5=0.956, t=7.7
+>> Best val_loss=0.733, saved best.pt
+[45000] epoch=53 loss=1.606, acc=0.590, val_loss=0.761, val_acc=0.798, val_top5=0.953, t=36.6
+[45413] epoch=53 loss=1.603, acc=0.573, val_loss=0.734, val_acc=0.805, val_top5=0.955, t=35.3
+[45500] epoch=54 loss=1.570, acc=0.587, val_loss=0.779, val_acc=0.798, val_top5=0.953, t=9.0
+[46000] epoch=54 loss=1.660, acc=0.583, val_loss=0.730, val_acc=0.808, val_top5=0.958, t=42.4
+[46254] epoch=54 loss=1.600, acc=0.611, val_loss=0.761, val_acc=0.801, val_top5=0.954, t=22.4
+[46500] epoch=55 loss=1.529, acc=0.601, val_loss=0.778, val_acc=0.796, val_top5=0.952, t=21.8
+[47000] epoch=55 loss=1.684, acc=0.588, val_loss=0.766, val_acc=0.801, val_top5=0.956, t=42.4
+[47095] epoch=55 loss=1.702, acc=0.591, val_loss=0.740, val_acc=0.807, val_top5=0.956, t=9.5
+[47500] epoch=56 loss=1.584, acc=0.578, val_loss=0.749, val_acc=0.800, val_top5=0.955, t=34.7
+[47936] epoch=56 loss=1.655, acc=0.583, val_loss=0.734, val_acc=0.806, val_top5=0.956, t=37.1
+[48000] epoch=57 loss=1.598, acc=0.592, val_loss=0.734, val_acc=0.805, val_top5=0.956, t=7.1
+[48500] epoch=57 loss=1.553, acc=0.592, val_loss=0.744, val_acc=0.804, val_top5=0.955, t=42.4
+[48777] epoch=57 loss=1.592, acc=0.565, val_loss=0.719, val_acc=0.808, val_top5=0.957, t=24.3
+>> Best val_loss=0.719, saved best.pt
+[49000] epoch=58 loss=1.515, acc=0.603, val_loss=0.733, val_acc=0.805, val_top5=0.955, t=20.0
+[49500] epoch=58 loss=1.719, acc=0.588, val_loss=0.729, val_acc=0.808, val_top5=0.957, t=42.4
+[49618] epoch=58 loss=1.559, acc=0.591, val_loss=0.741, val_acc=0.803, val_top5=0.955, t=11.4
+[50000] epoch=59 loss=1.459, acc=0.613, val_loss=0.743, val_acc=0.804, val_top5=0.955, t=32.8
+[50459] epoch=59 loss=1.715, acc=0.568, val_loss=0.751, val_acc=0.803, val_top5=0.954, t=39.0
+[50500] epoch=60 loss=1.478, acc=0.609, val_loss=0.746, val_acc=0.805, val_top5=0.955, t=5.2
+[51000] epoch=60 loss=1.552, acc=0.610, val_loss=0.740, val_acc=0.802, val_top5=0.956, t=42.4
+[51300] epoch=60 loss=1.703, acc=0.573, val_loss=0.733, val_acc=0.809, val_top5=0.957, t=26.1
+[51500] epoch=61 loss=1.509, acc=0.615, val_loss=0.743, val_acc=0.802, val_top5=0.955, t=18.1
+[52000] epoch=61 loss=1.642, acc=0.604, val_loss=0.746, val_acc=0.805, val_top5=0.956, t=42.4
+[52141] epoch=61 loss=1.447, acc=0.645, val_loss=0.717, val_acc=0.811, val_top5=0.958, t=13.3
+>> Best val_loss=0.717, saved best.pt
+[52500] epoch=62 loss=1.579, acc=0.581, val_loss=0.784, val_acc=0.797, val_top5=0.952, t=31.0
+[52982] epoch=62 loss=1.484, acc=0.627, val_loss=0.796, val_acc=0.794, val_top5=0.953, t=40.9
+[53000] epoch=63 loss=1.495, acc=0.619, val_loss=0.728, val_acc=0.806, val_top5=0.956, t=3.4
+[53500] epoch=63 loss=1.529, acc=0.612, val_loss=0.716, val_acc=0.809, val_top5=0.957, t=42.4
+[53823] epoch=63 loss=1.422, acc=0.634, val_loss=0.751, val_acc=0.805, val_top5=0.955, t=28.0
+[54000] epoch=64 loss=1.523, acc=0.604, val_loss=0.728, val_acc=0.807, val_top5=0.956, t=16.3
+[54500] epoch=64 loss=1.573, acc=0.590, val_loss=0.720, val_acc=0.808, val_top5=0.957, t=42.4
+[54664] epoch=64 loss=1.644, acc=0.573, val_loss=0.764, val_acc=0.798, val_top5=0.952, t=15.1
+[55000] epoch=65 loss=1.488, acc=0.610, val_loss=0.728, val_acc=0.806, val_top5=0.955, t=29.1
+[55500] epoch=65 loss=1.599, acc=0.581, val_loss=0.814, val_acc=0.783, val_top5=0.947, t=42.4
+[55505] epoch=65 loss=1.485, acc=0.604, val_loss=0.734, val_acc=0.805, val_top5=0.955, t=2.3
+[56000] epoch=66 loss=1.499, acc=0.619, val_loss=0.760, val_acc=0.802, val_top5=0.955, t=42.0
+[56346] epoch=66 loss=1.640, acc=0.558, val_loss=0.723, val_acc=0.807, val_top5=0.957, t=29.9
+>> Patience 5 reached, STOP training
+Total t=82.2 min
+===== 2026-11-26 11:36:03 end 128-64 seed 2 (exit 0)
+skip 256-128 seed 2 (done)
+skip 512-256 seed 2 (done)
+skip 1024-512 seed 2 (done)
+skip 2048-1024 seed 2 (done)
+skip 4096-2048 seed 2 (done)
+===== 2026-11-26 11:36:03 start 128-64 seed 3
+>> Device:  mps
+>> Input:   mean=0.0100, std=0.0567
+
+------------------   NEW CNN MODEL   ------------------
+>> Path:    runs/cnn_48_3922_128-64_s3_20261126_113604/model.pt
+>> Config:  n_class=3922, n1=128, n2=64, dropout_p=0.3, seed=3
+>> Params:  955,250
+>> Model:
+CNN_Classifier(
+  (features): Sequential(
+    (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU()
+    (3): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (5): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (6): ReLU()
+    (7): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (8): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): ReLU()
+    (11): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+    (12): Flatten(start_dim=1, end_dim=-1)
+    (13): BatchNorm1d(4608, eps=0.01, momentum=0.1, affine=True, track_running_stats=True)
+  )
+  (head): NN_Classifier(
+    (model): Sequential(
+      (0): Linear(in_features=4608, out_features=128, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=128, out_features=64, bias=True)
+      (3): ReLU()
+      (4): Linear(in_features=64, out_features=3922, bias=True)
+    )
+  )
+)
+
+>> Training start:
+(to stop after this epoch, create a "STOP" file in: runs/cnn_48_3922_128-64_s3_20261126_113604)
+
+[0] epoch=0 loss=8.281, acc=0.000, val_loss=8.277, val_acc=0.000, val_top5=0.001, t=4.9
+[500] epoch=0 loss=4.654, acc=0.073, val_loss=3.653, val_acc=0.244, val_top5=0.553, t=42.4
+[840] epoch=0 loss=3.697, acc=0.184, val_loss=2.609, val_acc=0.435, val_top5=0.762, t=29.5
+>> Best val_loss=2.609, saved best.pt
+[1000] epoch=1 loss=3.555, acc=0.216, val_loss=2.131, val_acc=0.483, val_top5=0.799, t=14.9
+[1500] epoch=1 loss=3.050, acc=0.295, val_loss=1.767, val_acc=0.568, val_top5=0.854, t=42.4
+[1681] epoch=1 loss=2.860, acc=0.348, val_loss=1.669, val_acc=0.572, val_top5=0.855, t=16.6
+>> Best val_loss=1.669, saved best.pt
+[2000] epoch=2 loss=2.908, acc=0.312, val_loss=1.645, val_acc=0.601, val_top5=0.871, t=27.8
+[2500] epoch=2 loss=2.650, acc=0.386, val_loss=1.396, val_acc=0.644, val_top5=0.896, t=42.4
+[2522] epoch=2 loss=2.623, acc=0.361, val_loss=1.506, val_acc=0.635, val_top5=0.891, t=3.7
+>> Best val_loss=1.506, saved best.pt
+[3000] epoch=3 loss=2.565, acc=0.375, val_loss=1.317, val_acc=0.673, val_top5=0.910, t=40.6
+[3363] epoch=3 loss=2.496, acc=0.348, val_loss=1.294, val_acc=0.678, val_top5=0.911, t=31.3
+>> Best val_loss=1.294, saved best.pt
+[3500] epoch=4 loss=2.456, acc=0.391, val_loss=1.315, val_acc=0.683, val_top5=0.912, t=13.1
+[4000] epoch=4 loss=2.419, acc=0.422, val_loss=1.202, val_acc=0.702, val_top5=0.923, t=42.4
+[4204] epoch=4 loss=2.407, acc=0.407, val_loss=1.272, val_acc=0.706, val_top5=0.922, t=18.5
+>> Best val_loss=1.272, saved best.pt
+[4500] epoch=5 loss=2.301, acc=0.435, val_loss=1.127, val_acc=0.701, val_top5=0.922, t=26.0
+[5000] epoch=5 loss=2.274, acc=0.432, val_loss=1.109, val_acc=0.711, val_top5=0.925, t=42.6
+[5045] epoch=5 loss=2.421, acc=0.414, val_loss=1.203, val_acc=0.708, val_top5=0.922, t=5.5
+>> Best val_loss=1.203, saved best.pt
+[5500] epoch=6 loss=2.211, acc=0.454, val_loss=1.356, val_acc=0.698, val_top5=0.917, t=39.0
+[5886] epoch=6 loss=2.223, acc=0.422, val_loss=1.062, val_acc=0.732, val_top5=0.933, t=33.3
+>> Best val_loss=1.062, saved best.pt
+[6000] epoch=7 loss=2.304, acc=0.453, val_loss=1.103, val_acc=0.720, val_top5=0.930, t=11.2
+[6500] epoch=7 loss=2.174, acc=0.449, val_loss=1.027, val_acc=0.733, val_top5=0.934, t=42.6
+[6727] epoch=7 loss=2.207, acc=0.450, val_loss=1.030, val_acc=0.733, val_top5=0.933, t=20.3
+>> Best val_loss=1.030, saved best.pt
+[7000] epoch=8 loss=2.159, acc=0.475, val_loss=0.999, val_acc=0.731, val_top5=0.933, t=24.2
+[7500] epoch=8 loss=2.116, acc=0.476, val_loss=0.989, val_acc=0.744, val_top5=0.938, t=42.6
+[7568] epoch=8 loss=2.161, acc=0.450, val_loss=1.014, val_acc=0.742, val_top5=0.938, t=7.3
+>> Best val_loss=1.014, saved best.pt
+[8000] epoch=9 loss=2.172, acc=0.457, val_loss=0.988, val_acc=0.741, val_top5=0.937, t=36.5
+[8409] epoch=9 loss=2.075, acc=0.494, val_loss=0.960, val_acc=0.743, val_top5=0.938, t=34.7
+>> Best val_loss=0.960, saved best.pt
+[8500] epoch=10 loss=2.075, acc=0.478, val_loss=0.962, val_acc=0.752, val_top5=0.941, t=9.2
+[9000] epoch=10 loss=2.080, acc=0.511, val_loss=0.944, val_acc=0.752, val_top5=0.941, t=42.0
+[9250] epoch=10 loss=2.115, acc=0.473, val_loss=0.953, val_acc=0.758, val_top5=0.943, t=21.9
+>> Best val_loss=0.953, saved best.pt
+[9500] epoch=11 loss=1.978, acc=0.513, val_loss=0.919, val_acc=0.748, val_top5=0.941, t=22.0
+[10000] epoch=11 loss=1.986, acc=0.493, val_loss=0.916, val_acc=0.757, val_top5=0.943, t=42.0
+[10091] epoch=11 loss=1.979, acc=0.473, val_loss=0.935, val_acc=0.757, val_top5=0.942, t=9.1
+>> Best val_loss=0.935, saved best.pt
+[10500] epoch=12 loss=1.857, acc=0.528, val_loss=1.011, val_acc=0.755, val_top5=0.942, t=34.7
+[10932] epoch=12 loss=1.951, acc=0.512, val_loss=0.883, val_acc=0.766, val_top5=0.946, t=36.5
+>> Best val_loss=0.883, saved best.pt
+[11000] epoch=13 loss=1.924, acc=0.526, val_loss=0.892, val_acc=0.766, val_top5=0.946, t=7.4
+[11500] epoch=13 loss=1.929, acc=0.516, val_loss=0.897, val_acc=0.764, val_top5=0.945, t=42.0
+[11773] epoch=13 loss=1.888, acc=0.512, val_loss=0.883, val_acc=0.766, val_top5=0.945, t=23.7
+[12000] epoch=14 loss=1.945, acc=0.525, val_loss=0.958, val_acc=0.767, val_top5=0.946, t=20.1
+[12500] epoch=14 loss=1.929, acc=0.524, val_loss=0.922, val_acc=0.769, val_top5=0.947, t=42.0
+[12614] epoch=14 loss=1.972, acc=0.522, val_loss=0.923, val_acc=0.768, val_top5=0.946, t=11.0
+[13000] epoch=15 loss=1.811, acc=0.530, val_loss=0.895, val_acc=0.757, val_top5=0.943, t=32.9
+[13455] epoch=15 loss=1.852, acc=0.542, val_loss=0.894, val_acc=0.767, val_top5=0.945, t=38.4
+[13500] epoch=16 loss=1.797, acc=0.543, val_loss=0.886, val_acc=0.760, val_top5=0.943, t=5.5
+[14000] epoch=16 loss=1.875, acc=0.521, val_loss=0.861, val_acc=0.776, val_top5=0.949, t=42.0
+[14296] epoch=16 loss=2.022, acc=0.512, val_loss=0.877, val_acc=0.772, val_top5=0.947, t=25.6
+>> Best val_loss=0.877, saved best.pt
+[14500] epoch=17 loss=1.916, acc=0.519, val_loss=0.866, val_acc=0.779, val_top5=0.950, t=18.3
+[15000] epoch=17 loss=1.786, acc=0.520, val_loss=0.867, val_acc=0.767, val_top5=0.945, t=42.0
+[15137] epoch=17 loss=1.912, acc=0.504, val_loss=0.856, val_acc=0.775, val_top5=0.949, t=12.8
+>> Best val_loss=0.856, saved best.pt
+[15500] epoch=18 loss=1.870, acc=0.537, val_loss=0.850, val_acc=0.779, val_top5=0.949, t=31.0
+[15978] epoch=18 loss=1.735, acc=0.555, val_loss=0.911, val_acc=0.776, val_top5=0.948, t=40.2
+[16000] epoch=19 loss=1.748, acc=0.540, val_loss=0.842, val_acc=0.780, val_top5=0.951, t=3.7
+[16500] epoch=19 loss=1.886, acc=0.532, val_loss=0.862, val_acc=0.776, val_top5=0.949, t=42.0
+[16819] epoch=19 loss=1.942, acc=0.519, val_loss=0.864, val_acc=0.779, val_top5=0.950, t=27.4
+[17000] epoch=20 loss=1.852, acc=0.544, val_loss=0.857, val_acc=0.769, val_top5=0.946, t=16.4
+[17500] epoch=20 loss=1.833, acc=0.539, val_loss=0.819, val_acc=0.782, val_top5=0.952, t=42.0
+[17660] epoch=20 loss=1.853, acc=0.522, val_loss=0.816, val_acc=0.783, val_top5=0.951, t=14.7
+>> Best val_loss=0.816, saved best.pt
+[18000] epoch=21 loss=1.886, acc=0.530, val_loss=0.818, val_acc=0.784, val_top5=0.952, t=29.2
+[18500] epoch=21 loss=1.753, acc=0.552, val_loss=0.824, val_acc=0.785, val_top5=0.952, t=42.0
+[18501] epoch=21 loss=2.064, acc=0.517, val_loss=0.827, val_acc=0.786, val_top5=0.952, t=1.9
+[19000] epoch=22 loss=1.877, acc=0.532, val_loss=0.853, val_acc=0.779, val_top5=0.949, t=41.9
+[19342] epoch=22 loss=1.916, acc=0.542, val_loss=0.875, val_acc=0.775, val_top5=0.949, t=29.3
+[19500] epoch=23 loss=1.880, acc=0.529, val_loss=0.815, val_acc=0.785, val_top5=0.952, t=14.6
+[20000] epoch=23 loss=1.827, acc=0.559, val_loss=0.838, val_acc=0.781, val_top5=0.951, t=42.0
+[20183] epoch=23 loss=1.787, acc=0.565, val_loss=0.848, val_acc=0.775, val_top5=0.949, t=16.5
+[20500] epoch=24 loss=1.781, acc=0.542, val_loss=0.812, val_acc=0.788, val_top5=0.953, t=27.3
+[21000] epoch=24 loss=1.779, acc=0.559, val_loss=0.799, val_acc=0.791, val_top5=0.953, t=42.0
+[21024] epoch=24 loss=1.729, acc=0.558, val_loss=0.826, val_acc=0.785, val_top5=0.952, t=3.8
+[21500] epoch=25 loss=1.736, acc=0.558, val_loss=0.815, val_acc=0.783, val_top5=0.951, t=40.1
+[21865] epoch=25 loss=1.668, acc=0.588, val_loss=0.878, val_acc=0.777, val_top5=0.949, t=31.1
+>> Patience 5 reached, STOP training
+Total t=31.6 min
+===== 2026-11-26 12:07:40 end 128-64 seed 3 (exit 0)
+skip 256-128 seed 3 (done)
+skip 512-256 seed 3 (done)
+skip 1024-512 seed 3 (done)
+skip 2048-1024 seed 3 (done)
+skip 4096-2048 seed 3 (done)
+ALL DONE 2026-11-26 12:07:40

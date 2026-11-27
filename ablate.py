@@ -13,7 +13,9 @@ LAYER = 1  # model.model[1] = first ReLU
 if __name__ == "__main__":
     model, cfg = load_model(RESUME)
     n_class, n_units = cfg["n_class"], cfg["n1"]
-    loader = load_loader(SPLIT, int(cfg["n_input"] ** 0.5))
+    if cfg["model_type"] != "mlp":
+        raise ValueError("ablate.py pokes the MLP hidden units; cnn not supported yet")
+    loader = load_loader(SPLIT, cfg)
     c_dict = CLASS_DICT_DIR.read_text(encoding="utf-8").splitlines()
 
     print("[Notice] Baseline...")

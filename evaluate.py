@@ -1,10 +1,13 @@
+import csv
+from pathlib import Path
 from collections import Counter
 
 import torch
 
 from a1_prepare_data import CLASS_DICT_DIR
 from dataloader import DeviceLoader, ShardDataset
-from NN_Classifier import NN_Classifier, resume_file
+from models import build_model, wants_flat_input
+from NN_Classifier import resume_file
 from util import get_device
 
 DEVICE = get_device()
@@ -16,7 +19,7 @@ testset_name = "val"  # test, val
 CN_begin = 155  # before this are +-*\abcd
 
 
-def evaluate(model, loader, n_class):
+def evaluate(model, loader, n_class, csv_path=None):
 
     c_appear = torch.zeros(n_class)  # appearance [class1, class2, class3 ..]
     c_correct = torch.zeros(n_class)  # correctness [class1, class2,  class3 ...]
@@ -45,25 +48,29 @@ def evaluate(model, loader, n_class):
     c_acc = c_correct / c_appear  # acc [class1, class2, class3 ..]
     c_dict = CLASS_DICT_DIR.read_text(encoding="utf-8").splitlines()  # {class:label}
 
-    # # save a csv for eyeball
-    # rows = [
-    #     (
-    #         i,
-    #         int(c_appear[i]),
-    #         int(c_correct[i]),
-    #         c_acc[i].item(),
-    #         c_dict[i],
-    #         "".join(c_dict[p] * n + " " for p, n in c_mistaken_as[i].most_common()),
-    #     )
-    #     for i in range(CN_begin, n_class)
-    # ]
-    # rows.sort(key=lambda r: r[4])  # worst accuracy first
-    # with open("eval_result_Classifier.csv", "w", newline="", encoding="utf-8-sig") as f:
-    #     writer = csv.writer(f)
-    #     writer.writerow(["label", "n", "n_correct", "acc", "charactor", "mistaken as"])
-    #     writer.writerows(rows)
+    cn = slice(CN_begin, n_class)  # Chinese characters only
+    print(f">> acc all classes:   {c_correct.sum() / c_appear.sum():.4f}")
+    print(f">> acc Chinese only:  {c_correct[cn].sum() / c_appear[cn].sum():.4f}")
 
-    print("DONE!")
+    if csv_path is not None:  # one row per Chinese character, worst first
+        rows = [
+            (
+                i,
+                int(c_appear[i]),
+                int(c_correct[i]),
+                c_acc[i].item(),
+                c_dict[i],
+                "".join(c_dict[p] * n + " " for p, n in c_mistaken_as[i].most_common()),
+            )
+            for i in range(CN_begin, n_class)
+        ]
+        rows.sort(key=lambda r: r[3])  # worst accuracy first
+        with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
+            writer = csv.writer(f)
+            writer.writerow(["label", "n", "n_correct", "acc", "charactor", "mistaken as"])
+            writer.writerows(rows)
+        print(f">> saved {csv_path}")
+
     return c_acc
 
 
@@ -77,13 +84,16 @@ def make_ablate_hook(unit):
 
 
 def load_model(resume):
-    saved = torch.load(resume_file(resume), map_location="cpu")
-    model = NN_Classifier(
-        n_class=saved["n_class"],
-        n_input=saved["n_input"],
-        n1=saved["n1"],
-        n2=saved["n2"],
-        dropout_p=0,
+    saved = torch.load(resume_file(resume), map_location="cpu", weights_only=False)
+    saved.setdefault("model_type", "mlp")  # old checkpoints are all mlp
+    saved.setdefault("image_size", int(saved["n_input"] ** 0.5))
+    model = build_model(
+        saved["model_type"],
+        saved["n_class"],
+        saved["image_size"],
+        saved["n1"],
+        saved["n2"],
+        dropout_p=0,  # eval: dropout off
     )
     model.load_state_dict(saved["model"])
     model.to(DEVICE)
@@ -91,10 +101,12 @@ def load_model(resume):
     return model, saved
 
 
-def load_loader(split, image_size, batch_size=1024):
-    dataset = ShardDataset(split, image_size=image_size)
+def load_loader(split, saved, batch_size=1024):
+    """loader that matches the checkpoint (image size, flat or 2D)"""
+    dataset = ShardDataset(split, image_size=saved["image_size"])
     # whole split kept on the GPU (ablate.py walks it 512 times)
-    return DeviceLoader(dataset, batch_size, shuffle=False, device=DEVICE)
+    flat = wants_flat_input(saved["model_type"])
+    return DeviceLoader(dataset, batch_size, False, DEVICE, flatten=flat)
 
 
 def count_correct(model, loader, n_class):
@@ -110,5 +122,7 @@ def count_correct(model, loader, n_class):
 if __name__ == "__main__":
 
     model, saved = load_model(RESUME)
-    loader = load_loader(testset_name, int(saved["n_input"] ** 0.5))
-    evaluate(model, loader, saved["n_class"])
+    loader = load_loader(testset_name, saved)
+    run_name = Path(RESUME).parent.name
+    csv_path = f"eval_result_{run_name}_{testset_name}.csv"
+    evaluate(model, loader, saved["n_class"], csv_path)

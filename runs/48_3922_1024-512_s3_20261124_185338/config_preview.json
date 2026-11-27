@@ -1,0 +1,22 @@
+{
+  "n_class": 3922,
+  "class_set": null,
+  "image_size": 48,
+  "n_input": 2304,
+  "n1": 1024,
+  "n2": 512,
+  "dropout_p": 0.3,
+  "batch_size": 1024,
+  "val_batch_size": 1024,
+  "step": 117740,
+  "epoch": 140,
+  "train_loss": 1.4630051851272583,
+  "val_acc": 0.7572445218103625,
+  "val_loss": 0.9587723286259792,
+  "val_top5": 0.9283611509318043,
+  "patience": 0,
+  "patience_max": 5,
+  "best_val_loss": 0.9550050944059373,
+  "finished": true,
+  "seed": 3
+}

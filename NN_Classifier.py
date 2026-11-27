@@ -1,3 +1,4 @@
+import argparse
 import json
 import time
 from datetime import datetime
@@ -174,9 +175,9 @@ if __name__ == "__main__":
 
     # ---------------------------    Dynamic Config    ---------------------------
 
-    epochs = 100
+    epochs = 200
     lr = 1e-3  # -3 ~ -5
-    patience_max = 10  # 3-10
+    patience_max = 5  # 3-10
 
     batch_size = 1024
     batch_size_val = 1024
@@ -186,10 +187,11 @@ if __name__ == "__main__":
     # Fixed when a model is created (existing models always ignore these)
 
     image_size = 48  # [128, 96, 64, 48, 32, 24]
-    n1 = 512  # layer size
-    n2 = 256
+    n1 = 4096  # layer size
+    n2 = 2048
 
-    dropout_p = 0.2  # 0 = off
+    dropout_p = 0.3  # 0 = off
+    seed = 1  # random seed: same seed + same config = same run
 
     use_class_set = None  # use a smaller set for quick test
     """
@@ -197,6 +199,20 @@ if __name__ == "__main__":
     class_set = range(1000, 1200)                  // only train on class 1000..1199
     class_set = list(range(0, 200)) + [205, 210]
     """
+
+    # ---------------------------    command line    ---------------------------
+    # optional overrides, for running many configs from a script, eg:
+    #   python3 NN_Classifier.py --n1 1024 --n2 512 --seed 2
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--n1", type=int)
+    parser.add_argument("--n2", type=int)
+    parser.add_argument("--seed", type=int)
+    parser.add_argument("--epochs", type=int)
+    args = parser.parse_args()
+    n1 = args.n1 if args.n1 is not None else n1
+    n2 = args.n2 if args.n2 is not None else n2
+    seed = args.seed if args.seed is not None else seed
+    epochs = args.epochs if args.epochs is not None else epochs
 
     # ---------------------------    Tensorboard    ---------------------------
     # tensorboard --logdir runs
@@ -212,7 +228,7 @@ if __name__ == "__main__":
         class_ids = resolve_class_set(use_class_set, label_n)
         n_class = label_n if class_ids is None else len(class_ids)
         run_dir = Path(
-            f"runs/{image_size}_{run_tag(class_ids, label_n)}_"
+            f"runs/{image_size}_{run_tag(class_ids, label_n)}_{n1}-{n2}_s{seed}_"
             f"{datetime.now().strftime('%Y%m%d_%H%M%S')}"
         )
         run_dir.mkdir(parents=True, exist_ok=True)
@@ -221,6 +237,7 @@ if __name__ == "__main__":
         step = 0
         best_val_loss = None
         n_input = image_size * image_size
+        torch.manual_seed(seed)  # seeds CPU + GPU: weights, shuffling, dropout
         model = NN_Classifier(
             n_class=n_class,
             n_input=n_input,
@@ -248,6 +265,8 @@ if __name__ == "__main__":
                 f"checkpoint n_class={n_class} does not match class_set ({got})"
             )
         dropout_p = saved.get("dropout_p", dropout_p)
+        seed = saved.get("seed", seed)
+        torch.manual_seed(seed + saved["epoch"])  # new but repeatable stream
         next_epoch = saved["epoch"]
         step = saved["step"]
         patience = saved.get("patience", patience_max)
@@ -299,7 +318,7 @@ if __name__ == "__main__":
     print(f'(to stop after this epoch, create a "STOP" file in: {run_dir})\n')
 
     def checkpoint_args():
-        return model_checkpoint(
+        checkpoint = model_checkpoint(
             model,
             optimizer,
             n_class,
@@ -322,6 +341,8 @@ if __name__ == "__main__":
             best_val_loss,
             finished,
         )
+        checkpoint["seed"] = seed
+        return checkpoint
 
     def write_progress(write_model):
         save_run(run_dir, model_path, checkpoint_args(), write_model)
